@@ -6,6 +6,7 @@ import ru.gold.ordance.course.web.api.authorization.AuthorizationRequest;
 public final class Validate {
     private final static GetValidate GET = new GetValidate();
     private final static DeleteValidate DELETE = new DeleteValidate();
+    private final static SaveValidate SAVE = new SaveValidate();
     private final static UpdateValidate UPDATE = new UpdateValidate();
     private final static AuthorizationValidate AUTH = new AuthorizationValidate();
 
@@ -15,7 +16,7 @@ public final class Validate {
         } else if (rq instanceof DeleteRequest) {
             DELETE.validate((DeleteRequest) rq);
         } else if (rq instanceof SaveRequest) {
-
+            SAVE.validate((SaveRequest) rq);
         } else if (rq instanceof UpdateRequest) {
             UPDATE.validate((UpdateRequest) rq);
         } else if (rq instanceof AuthorizationRequest) {

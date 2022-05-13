@@ -78,9 +78,9 @@ public class ClientServiceTest {
 
     @Test
     public void findByEmail_notFound() {
-        String fakeLogin = randomString();
+        String fakeEmail = randomString();
 
-        Optional<Client> found = service.findByEmail(fakeLogin);
+        Optional<Client> found = service.findByEmail(fakeEmail);
 
         assertTrue(found.isEmpty());
     }
