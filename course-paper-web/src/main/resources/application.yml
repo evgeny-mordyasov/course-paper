@@ -1,0 +1,13 @@
+server:
+  port: 8090
+
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+
+jwt:
+  token:
+    secret: ru.gold.ordance
+    expirationMs: 1200000
