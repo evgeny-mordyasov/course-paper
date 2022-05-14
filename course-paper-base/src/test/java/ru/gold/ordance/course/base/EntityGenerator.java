@@ -2,6 +2,7 @@ package ru.gold.ordance.course.base;
 
 import ru.gold.ordance.course.base.entity.Classification;
 import ru.gold.ordance.course.base.entity.Client;
+import ru.gold.ordance.course.base.entity.Language;
 import ru.gold.ordance.course.base.entity.Role;
 
 import static ru.gold.ordance.course.common.utils.TestUtils.randomString;
@@ -52,6 +53,25 @@ public final class EntityGenerator {
 
     public static Classification createClassification(String name) {
         return Classification.builder()
+                .withName(name)
+                .build();
+    }
+
+    public static Language createLanguage() {
+        return Language.builder()
+                .withName(randomString())
+                .build();
+    }
+
+    public static Language createLanguage(Long id) {
+        return Language.builder()
+                .withId(id)
+                .withName(randomString())
+                .build();
+    }
+
+    public static Language createLanguage(String name) {
+        return Language.builder()
                 .withName(name)
                 .build();
     }

@@ -14,8 +14,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import ru.gold.ordance.course.web.Application;
 import ru.gold.ordance.course.web.api.StatusCode;
-import ru.gold.ordance.course.web.api.classification.ClassificationSaveRequest;
-import ru.gold.ordance.course.web.api.classification.ClassificationUpdateRequest;
+import ru.gold.ordance.course.web.api.language.LanguageSaveRequest;
+import ru.gold.ordance.course.web.api.language.LanguageUpdateRequest;
 
 import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -31,8 +31,8 @@ import static ru.gold.ordance.course.web.rest.utils.RequestUtils.toJSON;
 @AutoConfigureTestDatabase
 @WebAppConfiguration
 @ActiveProfiles("test")
-public class ClassificationRestControllerValidateTest {
-    private final static String ENDPOINT = "/api/v1/classifications/";
+public class LanguageRestControllerValidateTest {
+    private final static String ENDPOINT = "/api/v1/languages/";
     private final static String INVALID_RQ = StatusCode.INVALID_RQ.name();
 
     @Autowired
@@ -75,7 +75,7 @@ public class ClassificationRestControllerValidateTest {
     public void save_nameIsNull_invalidRq() throws Exception {
         final String errorMessage = "The name is null.";
 
-        ClassificationSaveRequest rq = new ClassificationSaveRequest(null);
+        LanguageSaveRequest rq = new LanguageSaveRequest(null);
 
         mockMvc.perform(post(ENDPOINT)
                 .content(toJSON(rq))
@@ -90,7 +90,7 @@ public class ClassificationRestControllerValidateTest {
         final String name = "";
         final String errorMessage = "The name is empty.";
 
-        ClassificationSaveRequest rq = new ClassificationSaveRequest(name);
+        LanguageSaveRequest rq = new LanguageSaveRequest(name);
 
         mockMvc.perform(post(ENDPOINT)
                 .content(toJSON(rq))
@@ -104,7 +104,7 @@ public class ClassificationRestControllerValidateTest {
     public void update_entityIdIsNull_invalidRq() throws Exception {
         final String errorMessage = "The entityId is null.";
 
-        ClassificationUpdateRequest rq = ClassificationUpdateRequest.builder()
+        LanguageUpdateRequest rq = LanguageUpdateRequest.builder()
                 .entityId(null)
                 .name(randomString())
                 .build();
@@ -122,7 +122,7 @@ public class ClassificationRestControllerValidateTest {
         final Long entityId = -generateId();
         final String errorMessage = "The entityId is not positive.";
 
-        ClassificationUpdateRequest rq = ClassificationUpdateRequest.builder()
+        LanguageUpdateRequest rq = LanguageUpdateRequest.builder()
                 .entityId(entityId)
                 .name(randomString())
                 .build();
@@ -139,7 +139,7 @@ public class ClassificationRestControllerValidateTest {
     public void update_nameIsNull_invalidRq() throws Exception {
         final String errorMessage = "The name is null.";
 
-        ClassificationUpdateRequest rq = ClassificationUpdateRequest.builder()
+        LanguageUpdateRequest rq = LanguageUpdateRequest.builder()
                 .entityId(generateId())
                 .name(null)
                 .build();
@@ -157,7 +157,7 @@ public class ClassificationRestControllerValidateTest {
         final String name = "";
         final String errorMessage = "The name is empty.";
 
-        ClassificationUpdateRequest rq = ClassificationUpdateRequest.builder()
+        LanguageUpdateRequest rq = LanguageUpdateRequest.builder()
                 .entityId(generateId())
                 .name(name)
                 .build();

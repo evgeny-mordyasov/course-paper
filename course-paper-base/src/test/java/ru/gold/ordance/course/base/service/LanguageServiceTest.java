@@ -1,0 +1,145 @@
+package ru.gold.ordance.course.base.service;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.dao.DataIntegrityViolationException;
+import ru.gold.ordance.course.base.entity.Language;
+import ru.gold.ordance.course.base.exception.NotFoundException;
+import ru.gold.ordance.course.base.persistence.LanguageRepository;
+
+import java.util.List;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static ru.gold.ordance.course.base.EntityGenerator.createLanguage;
+import static ru.gold.ordance.course.common.utils.TestUtils.generateId;
+import static ru.gold.ordance.course.common.utils.TestUtils.randomString;
+
+@DataJpaTest(showSql = false)
+public class LanguageServiceTest {
+    @Autowired
+    private LanguageService service;
+
+    @Autowired
+    private LanguageRepository repository;
+
+    @Test
+    public void findAll_noOneHasBeenFound() {
+        int noOneHasBeenFound = 0;
+
+        List<Language> found = service.findAll();
+
+        assertEquals(noOneHasBeenFound, found.size());
+    }
+
+    @Test
+    public void findAll_foundOne() {
+        int foundOne = 1;
+        repository.save(createLanguage());
+
+        List<Language> found = service.findAll();
+
+        assertEquals(foundOne, found.size());
+    }
+
+    @Test
+    public void findAll_foundALot() {
+        int foundALot = 2;
+        repository.save(createLanguage());
+        repository.save(createLanguage());
+
+        List<Language> found = service.findAll();
+
+        assertEquals(foundALot, found.size());
+    }
+
+    @Test
+    public void findById_notFound() {
+        long fakeId = generateId();
+
+        Optional<Language> found = service.findById(fakeId);
+
+        assertTrue(found.isEmpty());
+    }
+
+    @Test
+    public void findById_found() {
+        Language saved = repository.save(createLanguage());
+
+        Optional<Language> found = service.findById(saved.getId());
+
+        assertTrue(found.isPresent());
+    }
+
+    @Test
+    public void findByName_notFound() {
+        String fakeName = randomString();
+
+        Optional<Language> found = service.findByName(fakeName);
+
+        assertTrue(found.isEmpty());
+    }
+
+    @Test
+    public void findByName_found() {
+        Language saved = repository.save(createLanguage());
+
+        Optional<Language> found = service.findByName(saved.getName());
+
+        assertTrue(found.isPresent());
+    }
+
+    @Test
+    public void save() {
+        Language saved = createLanguage();
+        service.save(saved);
+
+        Optional<Language> found = repository.findByName(saved.getName());
+
+        assertTrue(found.isPresent());
+        assertEquals(saved.getName(), found.get().getName());
+    }
+
+    @Test
+    public void save_nameAlreadyExists() {
+        final String name = randomString();
+
+        repository.save(createLanguage(name));
+
+        assertThrows(DataIntegrityViolationException.class, () -> service.save(createLanguage(name)));
+    }
+
+    @Test
+    public void update() {
+        Language saved = createLanguage();
+        Long entityId = repository.save(saved).getId();
+        Language newObj = createLanguage(entityId);
+
+        service.update(newObj);
+        Optional<Language> found = repository.findById(entityId);
+
+        assertTrue(found.isPresent());
+        assertEquals(newObj.getId(), found.get().getId());
+        assertEquals(newObj.getName(), found.get().getName());
+    }
+
+    @Test
+    public void update_classificationDoesExistById() {
+        Long fakeId = generateId();
+        Language language = createLanguage(fakeId);
+
+        assertThrows(NotFoundException.class, () -> service.update(language));
+    }
+
+    @Test
+    public void deleteById_classificationExists() {
+        Long entityId = repository.save(createLanguage()).getId();
+
+        service.deleteById(entityId);
+
+        Optional<Language> found = repository.findById(entityId);
+
+        assertFalse(found.isPresent());
+    }
+}

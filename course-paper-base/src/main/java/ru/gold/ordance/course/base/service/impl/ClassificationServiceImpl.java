@@ -53,7 +53,7 @@ public class ClassificationServiceImpl implements ClassificationService {
 
     @Override
     public Optional<Classification> findByName(@NotNull String name) {
-        LOGGER.info("The search by email classification has started.");
+        LOGGER.info("The search by name classification has started.");
 
         Optional<Classification> classification = repository.findByName(name);
 

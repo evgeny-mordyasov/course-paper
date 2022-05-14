@@ -3,6 +3,7 @@ package ru.gold.ordance.course.web.validate;
 import ru.gold.ordance.course.web.api.UpdateRequest;
 import ru.gold.ordance.course.web.api.classification.ClassificationUpdateRequest;
 import ru.gold.ordance.course.web.api.client.ClientUpdateRequest;
+import ru.gold.ordance.course.web.api.language.LanguageUpdateRequest;
 
 import static ru.gold.ordance.course.web.validate.ValidateHelper.errorEntityId;
 import static ru.gold.ordance.course.web.validate.ValidateHelper.errorString;
@@ -14,6 +15,8 @@ public class UpdateValidate implements RequestValidate<UpdateRequest> {
             validateRequest((ClientUpdateRequest) rq);
         } else if (rq instanceof ClassificationUpdateRequest) {
             validateRequest((ClassificationUpdateRequest) rq);
+        } else if (rq instanceof LanguageUpdateRequest) {
+            validateRequest((LanguageUpdateRequest) rq);
         } else {
             throw new IllegalArgumentException("The transmitted rq is not supported by the current method.");
         }
@@ -28,6 +31,11 @@ public class UpdateValidate implements RequestValidate<UpdateRequest> {
     }
 
     private void validateRequest(ClassificationUpdateRequest rq) {
+        errorEntityId(rq.getEntityId());
+        errorString(rq.getName(), "name");
+    }
+
+    private void validateRequest(LanguageUpdateRequest rq) {
         errorEntityId(rq.getEntityId());
         errorString(rq.getName(), "name");
     }
