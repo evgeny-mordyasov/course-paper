@@ -17,3 +17,17 @@ jwt:
   token:
     secret: ru.gold.ordance
     expirationMs: 1200000
+
+
+persistence:
+  dialect: POSTGRES
+
+  postgres:
+    url: jdbc:postgresql://localhost:5432/cs
+    username: postgres
+    password: postgres
+
+  h2:
+    url: jdbc:h2:mem:cs
+    username: h2
+    password:

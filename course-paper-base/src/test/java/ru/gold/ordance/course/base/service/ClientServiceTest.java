@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.test.context.ActiveProfiles;
 import ru.gold.ordance.course.base.entity.Client;
 import ru.gold.ordance.course.base.persistence.ClientRepository;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -17,6 +18,7 @@ import static ru.gold.ordance.course.common.utils.TestUtils.generateId;
 import static ru.gold.ordance.course.common.utils.TestUtils.randomString;
 
 @DataJpaTest(showSql = false)
+@ActiveProfiles("test")
 public class ClientServiceTest {
     @Autowired
     private ClientService service;

@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.ActiveProfiles;
 import ru.gold.ordance.course.base.entity.Classification;
 import ru.gold.ordance.course.base.entity.Document;
 import ru.gold.ordance.course.base.persistence.ClassificationRepository;
@@ -19,6 +20,7 @@ import static ru.gold.ordance.course.common.utils.TestUtils.generateId;
 import static ru.gold.ordance.course.common.utils.TestUtils.randomString;
 
 @DataJpaTest(showSql = false)
+@ActiveProfiles("test")
 public class DocumentServiceTest {
     @Autowired
     private DocumentService service;

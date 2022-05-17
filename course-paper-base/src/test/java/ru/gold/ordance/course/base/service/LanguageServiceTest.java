@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.test.context.ActiveProfiles;
 import ru.gold.ordance.course.base.entity.Language;
 import ru.gold.ordance.course.base.persistence.LanguageRepository;
 
@@ -16,6 +17,7 @@ import static ru.gold.ordance.course.common.utils.TestUtils.generateId;
 import static ru.gold.ordance.course.common.utils.TestUtils.randomString;
 
 @DataJpaTest(showSql = false)
+@ActiveProfiles("test")
 public class LanguageServiceTest {
     @Autowired
     private LanguageService service;
