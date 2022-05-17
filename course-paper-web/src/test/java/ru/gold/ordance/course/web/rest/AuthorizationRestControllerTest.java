@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -40,6 +41,7 @@ import static ru.gold.ordance.course.web.rest.utils.RequestUtils.*;
 @Transactional
 @WebAppConfiguration
 @ActiveProfiles("test")
+@PropertySource("classpath:application-test.properties")
 public class AuthorizationRestControllerTest {
     private final static String ENDPOINT = "/api/v1/authorizations/";
     private final static String SUCCESS = StatusCode.SUCCESS.name();

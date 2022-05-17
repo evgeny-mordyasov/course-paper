@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -39,10 +40,10 @@ import static ru.gold.ordance.course.web.rest.utils.RequestUtils.toJSON;
 @Transactional
 @WebAppConfiguration
 @ActiveProfiles("test")
+@PropertySource("classpath:application-test.properties")
 public class ClientRestControllerTest {
     private final static String ENDPOINT = "/api/v1/clients/";
     private final static String SUCCESS = StatusCode.SUCCESS.name();
-    private final static String INVALID_RQ = StatusCode.INVALID_RQ.name();
 
     @Autowired
     private WebApplicationContext webApplicationContext;
@@ -305,27 +306,6 @@ public class ClientRestControllerTest {
         assertEquals(surname, rs.getList().get(0).getSurname());
         assertEquals(name, rs.getList().get(0).getName());
         assertEquals(patronymic, rs.getList().get(0).getPatronymic());
-    }
-
-    @Test
-    public void update_clientDoesNotExistByCurrentId() throws Exception {
-        final Long currentId = 999L;
-        final String errorMessage = "The client by id not found.";
-
-        ClientUpdateRequest rq = ClientUpdateRequest.builder()
-                .entityId(currentId)
-                .surname(randomString())
-                .name(randomString())
-                .patronymic(randomString())
-                .password(randomString())
-                .build();
-
-        mockMvc.perform(put(ENDPOINT)
-                        .content(toJSON(rq))
-                        .contentType(JSON))
-                .andExpect(content().contentType(JSON))
-                .andExpect(jsonPath("$.status.code", is(INVALID_RQ)))
-                .andExpect(jsonPath("$.status.description", is(errorMessage)));
     }
 
     @Test

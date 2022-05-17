@@ -18,4 +18,8 @@ public final class TestUtils {
     public static String randomString() {
         return UUID.randomUUID().toString();
     }
+
+    public static String randomFullFileName() {
+        return String.format("%s.%s", randomString(), randomString());
+    }
 }

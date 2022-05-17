@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.dao.DataIntegrityViolationException;
 import ru.gold.ordance.course.base.entity.Language;
-import ru.gold.ordance.course.base.exception.NotFoundException;
 import ru.gold.ordance.course.base.persistence.LanguageRepository;
 
 import java.util.List;
@@ -92,10 +91,9 @@ public class LanguageServiceTest {
 
     @Test
     public void save() {
-        Language saved = createLanguage();
-        service.save(saved);
+        Language saved = service.save(createLanguage());
 
-        Optional<Language> found = repository.findByName(saved.getName());
+        Optional<Language> found = repository.findById(saved.getId());
 
         assertTrue(found.isPresent());
         assertEquals(saved.getName(), found.get().getName());
@@ -122,14 +120,6 @@ public class LanguageServiceTest {
         assertTrue(found.isPresent());
         assertEquals(newObj.getId(), found.get().getId());
         assertEquals(newObj.getName(), found.get().getName());
-    }
-
-    @Test
-    public void update_classificationDoesExistById() {
-        Long fakeId = generateId();
-        Language language = createLanguage(fakeId);
-
-        assertThrows(NotFoundException.class, () -> service.update(language));
     }
 
     @Test

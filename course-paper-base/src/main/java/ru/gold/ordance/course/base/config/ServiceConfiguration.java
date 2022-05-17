@@ -14,7 +14,9 @@ import javax.sql.DataSource;
 @Configuration
 @EnableJpaRepositories("ru.gold.ordance.course.base.persistence")
 @EntityScan("ru.gold.ordance.course.base.entity")
-@ComponentScan(value = {"ru.gold.ordance.course.base.service", "ru.gold.ordance.course.base.persistence"})
+@ComponentScan(value = {"ru.gold.ordance.course.base.service",
+        "ru.gold.ordance.course.base.persistence",
+        "ru.gold.ordance.course.base.utils"})
 public class ServiceConfiguration {
 
     @Bean

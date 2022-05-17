@@ -1,9 +1,6 @@
 package ru.gold.ordance.course.base;
 
-import ru.gold.ordance.course.base.entity.Classification;
-import ru.gold.ordance.course.base.entity.Client;
-import ru.gold.ordance.course.base.entity.Language;
-import ru.gold.ordance.course.base.entity.Role;
+import ru.gold.ordance.course.base.entity.*;
 
 import static ru.gold.ordance.course.common.utils.TestUtils.randomString;
 
@@ -73,6 +70,53 @@ public final class EntityGenerator {
     public static Language createLanguage(String name) {
         return Language.builder()
                 .withName(name)
+                .build();
+    }
+
+    public static Document createDocument(Classification classification) {
+        return Document.builder()
+                .withName(randomString())
+                .withClassification(classification)
+                .build();
+    }
+
+    public static Document createDocument(Classification classification, Long id) {
+        return Document.builder()
+                .withId(id)
+                .withName(randomString())
+                .withClassification(classification)
+                .build();
+    }
+
+    public static Document createDocument(Classification classification, String name) {
+        return Document.builder()
+                .withName(name)
+                .withClassification(classification)
+                .build();
+    }
+
+    public static LnkDocumentLanguage createLnk(Document doc, Language lang) {
+        return LnkDocumentLanguage.builder()
+                .withDocument(doc)
+                .withLanguage(lang)
+                .withUrn(randomString())
+                .build();
+    }
+
+    public static LnkDocumentLanguage createLnk(Document doc, Language lang, Long id) {
+        return LnkDocumentLanguage.builder()
+                .withId(id)
+                .withDocument(doc)
+                .withLanguage(lang)
+                .withUrn(randomString())
+                .build();
+    }
+
+    public static LnkDocumentLanguage createLnk(Document doc, Language lang, String urn) {
+        return LnkDocumentLanguage.builder()
+                .withDocument(doc)
+                .withLanguage(lang)
+                .withUrn(urn)
                 .build();
     }
 }

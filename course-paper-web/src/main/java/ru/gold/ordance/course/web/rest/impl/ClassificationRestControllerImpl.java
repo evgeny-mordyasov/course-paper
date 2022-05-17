@@ -2,14 +2,16 @@ package ru.gold.ordance.course.web.rest.impl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import ru.gold.ordance.course.web.api.Request;
 import ru.gold.ordance.course.web.api.Status;
 import ru.gold.ordance.course.web.api.classification.*;
 import ru.gold.ordance.course.web.rest.ClassificationRestController;
 import ru.gold.ordance.course.web.service.classification.ClassificationWebService;
+import ru.gold.ordance.course.web.validate.Validator;
 
 import static ru.gold.ordance.course.web.rest.utils.RequestUtils.*;
-import static ru.gold.ordance.course.web.validate.Validate.validate;
 
 @RestController
 @RequestMapping("/api/v1/classifications")
@@ -17,6 +19,8 @@ public class ClassificationRestControllerImpl implements ClassificationRestContr
     private static final Logger LOGGER = LoggerFactory.getLogger(ClassificationRestControllerImpl.class);
 
     private final ClassificationWebService service;
+
+    private Validator validator;
 
     public ClassificationRestControllerImpl(ClassificationWebService service) {
         this.service = service;
@@ -145,5 +149,14 @@ public class ClassificationRestControllerImpl implements ClassificationRestContr
 
             return rs;
         }
+    }
+
+    @Autowired
+    public void setValidator(Validator validator) {
+        this.validator = validator;
+    }
+
+    private void validate(Request rq) {
+        validator.validate(rq);
     }
 }

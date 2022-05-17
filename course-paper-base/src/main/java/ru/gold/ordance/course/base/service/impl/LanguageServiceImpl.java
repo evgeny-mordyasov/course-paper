@@ -10,6 +10,7 @@ import ru.gold.ordance.course.base.entity.Language;
 import ru.gold.ordance.course.base.exception.NotFoundException;
 import ru.gold.ordance.course.base.persistence.LanguageRepository;
 import ru.gold.ordance.course.base.service.LanguageService;
+import ru.gold.ordance.course.base.utils.StorageHelper;
 
 import java.util.List;
 import java.util.Optional;
@@ -67,23 +68,19 @@ public class LanguageServiceImpl implements LanguageService {
     }
 
     @Override
-    public void save(@NotNull Language language) {
+    public Language save(@NotNull Language language) {
         LOGGER.info("The save language has started.");
 
-        repository.saveAndFlush(language);
+        Language saved = repository.saveAndFlush(language);
 
         LOGGER.info("The save language has finished.");
+
+        return saved;
     }
 
     @Override
     public void update(@NotNull Language language) {
         LOGGER.info("The update language has started.");
-
-        Optional<Language> found = repository.findById(language.getId());
-        if (found.isEmpty()) {
-            LOGGER.info("The language by id not found. id = {}", language.getId());
-            throw new NotFoundException("The language by id not found.");
-        }
 
         repository.saveAndFlush(language);
 

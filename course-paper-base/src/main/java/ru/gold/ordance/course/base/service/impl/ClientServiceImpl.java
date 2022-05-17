@@ -72,7 +72,7 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public void save(@NotNull Client client) {
+    public Client save(@NotNull Client client) {
         LOGGER.info("The save client has started.");
 
         Client clientWithHashPassword = client.toBuilder()
@@ -80,26 +80,25 @@ public class ClientServiceImpl implements ClientService {
                 .withRole(Role.USER)
                 .withIsActive(true)
                 .build();
-        repository.saveAndFlush(clientWithHashPassword);
+        Client saved = repository.saveAndFlush(clientWithHashPassword);
 
         LOGGER.info("The save client has finished.");
+
+        return saved;
     }
 
     @Override
+    @SuppressWarnings("all")
     public void update(@NotNull Client client) {
         LOGGER.info("The update client has started.");
 
-        Optional<Client> found = repository.findById(client.getId());
-        if (found.isEmpty()) {
-            LOGGER.info("The client by id not found. id = {}", client.getId());
-            throw new NotFoundException("The client by id not found.");
-        }
+        Client found = repository.findById(client.getId()).get();
 
         Client.ClientBuilder updatedClient = client.toBuilder()
-                .withEmail(found.get().getEmail())
-                .withRole(found.get().getRole())
-                .withIsActive(found.get().isActive());
-        if (!encoder.matches(client.getPassword(), found.get().getPassword())) {
+                .withEmail(found.getEmail())
+                .withRole(found.getRole())
+                .withIsActive(found.isActive());
+        if (!encoder.matches(client.getPassword(), found.getPassword())) {
             updatedClient.withPassword(encoder.encode(client.getPassword()));
         }
 
@@ -119,7 +118,7 @@ public class ClientServiceImpl implements ClientService {
                     .toBuilder()
                     .withIsActive(false)
                     .build();
-            repository.save(deletedClient);
+            repository.saveAndFlush(deletedClient);
 
             LOGGER.info("The client was deleted. entityId = {}", id);
         } else {

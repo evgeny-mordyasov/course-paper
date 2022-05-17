@@ -15,9 +15,12 @@ public class LanguageSaveResponse implements Response {
 
     private final Status status;
 
-    public static LanguageSaveResponse success() {
+    private final Long entityId;
+
+    public static LanguageSaveResponse success(Long entityId) {
         return LanguageSaveResponse.builder()
                 .status(new Status().withCode(StatusCode.SUCCESS))
+                .entityId(entityId)
                 .build();
     }
 

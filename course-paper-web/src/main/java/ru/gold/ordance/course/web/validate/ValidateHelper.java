@@ -36,4 +36,10 @@ final class ValidateHelper {
     public static void errorEntityId(Long entityId) {
         errorObjectId(entityId, "entityId");
     }
+
+    public static void errorTrue(boolean condition, String message) {
+        if (condition) {
+            error(message);
+        }
+    }
 }

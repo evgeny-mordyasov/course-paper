@@ -53,9 +53,9 @@ public class ClassificationWebServiceImpl implements ClassificationWebService {
 
     @Override
     public ClassificationSaveResponse save(ClassificationSaveRequest rq) {
-        service.save(mapper.toClassification(rq));
+        Long entityId = service.save(mapper.toClassification(rq)).getId();
 
-        return ClassificationSaveResponse.success();
+        return ClassificationSaveResponse.success(entityId);
     }
 
     @Override

@@ -2,6 +2,7 @@ package ru.gold.ordance.course.web.rest.utils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.tomcat.util.http.fileupload.impl.FileSizeLimitExceededException;
 import org.slf4j.Logger;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
@@ -61,7 +62,9 @@ public final class RequestUtils {
         String errorMessage;
         StatusCode statusCode;
 
-        if (e instanceof ValidateException || e instanceof NotFoundException) {
+        if (e instanceof ValidateException
+                || e instanceof NotFoundException
+                || e instanceof FileSizeLimitExceededException) {
             errorMessage = e.getMessage();
             statusCode = StatusCode.INVALID_RQ;
         } else if (e instanceof DataIntegrityViolationException) {
@@ -74,7 +77,7 @@ public final class RequestUtils {
             errorMessage = BANNED_MESSAGE;
             statusCode = StatusCode.BANNED;
         } else {
-            errorMessage = e.getMessage();
+            errorMessage = e.toString();
             statusCode = StatusCode.CALL_ERROR;
         }
 

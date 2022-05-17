@@ -67,23 +67,19 @@ public class ClassificationServiceImpl implements ClassificationService {
     }
 
     @Override
-    public void save(@NotNull Classification classification) {
+    public Classification save(@NotNull Classification classification) {
         LOGGER.info("The save classification has started.");
 
-        repository.saveAndFlush(classification);
+        Classification saved = repository.saveAndFlush(classification);
 
         LOGGER.info("The save classification has finished.");
+
+        return saved;
     }
 
     @Override
     public void update(@NotNull Classification classification) {
         LOGGER.info("The update classification has started.");
-
-        Optional<Classification> found = repository.findById(classification.getId());
-        if (found.isEmpty()) {
-            LOGGER.info("The classification by id not found. id = {}", classification.getId());
-            throw new NotFoundException("The classification by id not found.");
-        }
 
         repository.saveAndFlush(classification);
 

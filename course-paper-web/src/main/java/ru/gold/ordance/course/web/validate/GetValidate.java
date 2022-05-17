@@ -1,7 +1,9 @@
 package ru.gold.ordance.course.web.validate;
 
+import org.springframework.stereotype.Component;
 import ru.gold.ordance.course.web.api.GetByIdRequest;
 import ru.gold.ordance.course.web.api.GetRequest;
+import ru.gold.ordance.course.web.api.Request;
 import ru.gold.ordance.course.web.api.classification.ClassificationGetByNameRequest;
 import ru.gold.ordance.course.web.api.client.ClientGetByEmailRequest;
 import ru.gold.ordance.course.web.api.language.LanguageGetByNameRequest;
@@ -9,6 +11,7 @@ import ru.gold.ordance.course.web.api.language.LanguageGetByNameRequest;
 import static ru.gold.ordance.course.web.validate.ValidateHelper.errorEntityId;
 import static ru.gold.ordance.course.web.validate.ValidateHelper.errorString;
 
+@Component
 public class GetValidate implements RequestValidate<GetRequest> {
     @Override
     public void validate(GetRequest rq) {

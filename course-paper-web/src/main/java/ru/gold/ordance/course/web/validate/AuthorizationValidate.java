@@ -1,5 +1,7 @@
 package ru.gold.ordance.course.web.validate;
 
+import org.springframework.stereotype.Component;
+import ru.gold.ordance.course.web.api.Request;
 import ru.gold.ordance.course.web.api.authorization.AuthorizationRequest;
 import ru.gold.ordance.course.web.api.authorization.AuthorizationSignInRequest;
 import ru.gold.ordance.course.web.api.authorization.AuthorizationSignUpRequest;
@@ -7,6 +9,7 @@ import ru.gold.ordance.course.web.api.authorization.AuthorizationTokenLifeReques
 
 import static ru.gold.ordance.course.web.validate.ValidateHelper.errorString;
 
+@Component
 public class AuthorizationValidate implements RequestValidate<AuthorizationRequest> {
     @Override
     public void validate(AuthorizationRequest rq) {

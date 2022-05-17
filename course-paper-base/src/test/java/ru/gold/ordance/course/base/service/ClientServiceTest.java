@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import ru.gold.ordance.course.base.entity.Client;
-import ru.gold.ordance.course.base.exception.NotFoundException;
 import ru.gold.ordance.course.base.persistence.ClientRepository;
 import org.springframework.dao.DataIntegrityViolationException;
 
@@ -96,10 +95,9 @@ public class ClientServiceTest {
 
     @Test
     public void save() {
-        Client saved = createClient();
-        service.save(saved);
+        Client saved = service.save(createClient());
 
-        Optional<Client> found = repository.findByEmail(saved.getEmail());
+        Optional<Client> found = repository.findById(saved.getId());
 
         assertTrue(found.isPresent());
         assertEquals(saved.getSurname(), found.get().getSurname());
@@ -135,14 +133,6 @@ public class ClientServiceTest {
         assertEquals(saved.getEmail(), found.get().getEmail());
         assertEquals(saved.getRole(), found.get().getRole());
         assertEquals(saved.isActive(), found.get().isActive());
-    }
-
-    @Test
-    public void update_clientDoesExistById() {
-        Long fakeId = generateId();
-        Client client = createClient(fakeId);
-
-        assertThrows(NotFoundException.class, () -> service.update(client));
     }
 
     @Test

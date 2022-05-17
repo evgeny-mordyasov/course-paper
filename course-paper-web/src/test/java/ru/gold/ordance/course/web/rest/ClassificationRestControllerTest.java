@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -26,8 +27,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static ru.gold.ordance.course.common.utils.TestUtils.randomString;
-import static ru.gold.ordance.course.web.rest.utils.RequestUtils.JSON;
-import static ru.gold.ordance.course.web.rest.utils.RequestUtils.toJSON;
+import static ru.gold.ordance.course.web.rest.utils.RequestUtils.*;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = { Application.class })
@@ -35,10 +35,11 @@ import static ru.gold.ordance.course.web.rest.utils.RequestUtils.toJSON;
 @Transactional
 @WebAppConfiguration
 @ActiveProfiles("test")
+@PropertySource("classpath:application-test.properties")
 public class ClassificationRestControllerTest {
     private final static String ENDPOINT = "/api/v1/classifications/";
     private final static String SUCCESS = StatusCode.SUCCESS.name();
-    private final static String INVALID_RQ = StatusCode.INVALID_RQ.name();
+    private final static String VIOLATES_CONSTRAINT = StatusCode.VIOLATES_CONSTRAINT.name();
 
     @Autowired
     private WebApplicationContext webApplicationContext;
@@ -197,12 +198,29 @@ public class ClassificationRestControllerTest {
                 .contentType(JSON))
                 .andExpect(content().contentType(JSON))
                 .andExpect(jsonPath("$.status.code", is(SUCCESS)))
-                .andExpect(jsonPath("$.status.description", nullValue()));
+                .andExpect(jsonPath("$.status.description", nullValue()))
+                .andExpect(jsonPath("$.entityId", notNullValue()));
 
         ClassificationGetResponse rs = service.findByName(new ClassificationGetByNameRequest(name));
 
         assertEquals(1, rs.getList().size());
         assertEquals(name, rs.getList().get(0).getName());
+    }
+
+    @Test
+    public void save_nameAlreadyExists() throws Exception {
+        final String name = randomString();
+        ClassificationSaveRequest rq = new ClassificationSaveRequest(name);
+
+        service.save(rq);
+
+        mockMvc.perform(post(ENDPOINT)
+                .content(toJSON(rq))
+                .contentType(JSON))
+                .andExpect(content().contentType(JSON))
+                .andExpect(jsonPath("$.status.code", is(VIOLATES_CONSTRAINT)))
+                .andExpect(jsonPath("$.status.description", is(CONSTRAINT_MESSAGE)))
+                .andExpect(jsonPath("$.entityId", nullValue()));
     }
 
     @Test
@@ -229,24 +247,6 @@ public class ClassificationRestControllerTest {
 
         assertEquals(1, rs.getList().size());
         assertEquals(name, rs.getList().get(0).getName());
-    }
-
-    @Test
-    public void update_clientDoesNotExistByCurrentId() throws Exception {
-        final Long currentId = 999L;
-        final String errorMessage = "The classification by id not found.";
-
-        ClassificationUpdateRequest rq = ClassificationUpdateRequest.builder()
-                .entityId(currentId)
-                .name(randomString())
-                .build();
-
-        mockMvc.perform(put(ENDPOINT)
-                .content(toJSON(rq))
-                .contentType(JSON))
-                .andExpect(content().contentType(JSON))
-                .andExpect(jsonPath("$.status.code", is(INVALID_RQ)))
-                .andExpect(jsonPath("$.status.description", is(errorMessage)));
     }
 
     @Test

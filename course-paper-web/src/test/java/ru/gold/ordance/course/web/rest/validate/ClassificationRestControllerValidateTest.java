@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -31,6 +32,7 @@ import static ru.gold.ordance.course.web.rest.utils.RequestUtils.toJSON;
 @AutoConfigureTestDatabase
 @WebAppConfiguration
 @ActiveProfiles("test")
+@PropertySource("classpath:application-test.properties")
 public class ClassificationRestControllerValidateTest {
     private final static String ENDPOINT = "/api/v1/classifications/";
     private final static String INVALID_RQ = StatusCode.INVALID_RQ.name();
@@ -168,6 +170,24 @@ public class ClassificationRestControllerValidateTest {
                 .andExpect(content().contentType(JSON))
                 .andExpect(jsonPath("$.status.code", is(INVALID_RQ)))
                 .andExpect(jsonPath("$.status.description", equalTo(errorMessage)));
+    }
+
+    @Test
+    public void update_clientDoesNotExistByCurrentId() throws Exception {
+        final Long currentId = 999L;
+        final String errorMessage = "The entity by id not found.";
+
+        ClassificationUpdateRequest rq = ClassificationUpdateRequest.builder()
+                .entityId(currentId)
+                .name(randomString())
+                .build();
+
+        mockMvc.perform(put(ENDPOINT)
+                .content(toJSON(rq))
+                .contentType(JSON))
+                .andExpect(content().contentType(JSON))
+                .andExpect(jsonPath("$.status.code", is(INVALID_RQ)))
+                .andExpect(jsonPath("$.status.description", is(errorMessage)));
     }
 
     @Test
