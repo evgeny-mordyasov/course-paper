@@ -41,7 +41,7 @@ public class ClientServiceTest {
     @Test
     public void findAll_foundOne() {
         int foundOne = 1;
-        repository.save(createClient());
+        repository.saveAndFlush(createClient());
 
         List<Client> found = service.findAll();
 
@@ -51,8 +51,8 @@ public class ClientServiceTest {
     @Test
     public void findAll_foundALot() {
         int foundALot = 2;
-        repository.save(createClient());
-        repository.save(createClient());
+        repository.saveAndFlush(createClient());
+        repository.saveAndFlush(createClient());
 
         List<Client> found = service.findAll();
 
@@ -70,7 +70,7 @@ public class ClientServiceTest {
 
     @Test
     public void findById_found() {
-        Client saved = repository.save(createClient());
+        Client saved = repository.saveAndFlush(createClient());
 
         Optional<Client> found = service.findById(saved.getId());
 
@@ -88,7 +88,7 @@ public class ClientServiceTest {
 
     @Test
     public void findByEmail_found() {
-        Client saved = repository.save(createClient());
+        Client saved = repository.saveAndFlush(createClient());
 
         Optional<Client> found = service.findByEmail(saved.getEmail());
 
@@ -112,7 +112,7 @@ public class ClientServiceTest {
     public void save_emailAlreadyExists() {
         final String email = randomString();
 
-        repository.save(createClient(email));
+        repository.saveAndFlush(createClient(email));
 
         assertThrows(DataIntegrityViolationException.class, () -> service.save(createClient(email)));
     }
@@ -120,7 +120,7 @@ public class ClientServiceTest {
     @Test
     public void update() {
         Client saved = createClient();
-        Long entityId = repository.save(saved).getId();
+        Long entityId = repository.saveAndFlush(saved).getId();
         Client newObj = createClient(entityId);
 
         service.update(newObj);
@@ -139,7 +139,7 @@ public class ClientServiceTest {
 
     @Test
     public void deleteById_clientExists() {
-        Long entityId = repository.save(createClient()).getId();
+        Long entityId = repository.saveAndFlush(createClient()).getId();
 
         service.deleteById(entityId);
 

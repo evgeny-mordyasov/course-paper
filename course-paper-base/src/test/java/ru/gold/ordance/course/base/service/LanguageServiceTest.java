@@ -37,7 +37,7 @@ public class LanguageServiceTest {
     @Test
     public void findAll_foundOne() {
         int foundOne = 1;
-        repository.save(createLanguage());
+        repository.saveAndFlush(createLanguage());
 
         List<Language> found = service.findAll();
 
@@ -47,8 +47,8 @@ public class LanguageServiceTest {
     @Test
     public void findAll_foundALot() {
         int foundALot = 2;
-        repository.save(createLanguage());
-        repository.save(createLanguage());
+        repository.saveAndFlush(createLanguage());
+        repository.saveAndFlush(createLanguage());
 
         List<Language> found = service.findAll();
 
@@ -66,7 +66,7 @@ public class LanguageServiceTest {
 
     @Test
     public void findById_found() {
-        Language saved = repository.save(createLanguage());
+        Language saved = repository.saveAndFlush(createLanguage());
 
         Optional<Language> found = service.findById(saved.getId());
 
@@ -84,7 +84,7 @@ public class LanguageServiceTest {
 
     @Test
     public void findByName_found() {
-        Language saved = repository.save(createLanguage());
+        Language saved = repository.saveAndFlush(createLanguage());
 
         Optional<Language> found = service.findByName(saved.getName());
 
@@ -105,7 +105,7 @@ public class LanguageServiceTest {
     public void save_nameAlreadyExists() {
         final String name = randomString();
 
-        repository.save(createLanguage(name));
+        repository.saveAndFlush(createLanguage(name));
 
         assertThrows(DataIntegrityViolationException.class, () -> service.save(createLanguage(name)));
     }
@@ -113,7 +113,7 @@ public class LanguageServiceTest {
     @Test
     public void update() {
         Language saved = createLanguage();
-        Long entityId = repository.save(saved).getId();
+        Long entityId = repository.saveAndFlush(saved).getId();
         Language newObj = createLanguage(entityId);
 
         service.update(newObj);
@@ -126,7 +126,7 @@ public class LanguageServiceTest {
 
     @Test
     public void deleteById_classificationExists() {
-        Long entityId = repository.save(createLanguage()).getId();
+        Long entityId = repository.saveAndFlush(createLanguage()).getId();
 
         service.deleteById(entityId);
 

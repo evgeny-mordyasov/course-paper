@@ -37,7 +37,7 @@ public class ClassificationServiceTest {
     @Test
     public void findAll_foundOne() {
         int foundOne = 1;
-        repository.save(createClassification());
+        repository.saveAndFlush(createClassification());
 
         List<Classification> found = service.findAll();
 
@@ -47,8 +47,8 @@ public class ClassificationServiceTest {
     @Test
     public void findAll_foundALot() {
         int foundALot = 2;
-        repository.save(createClassification());
-        repository.save(createClassification());
+        repository.saveAndFlush(createClassification());
+        repository.saveAndFlush(createClassification());
 
         List<Classification> found = service.findAll();
 
@@ -66,7 +66,7 @@ public class ClassificationServiceTest {
 
     @Test
     public void findById_found() {
-        Classification saved = repository.save(createClassification());
+        Classification saved = repository.saveAndFlush(createClassification());
 
         Optional<Classification> found = service.findById(saved.getId());
 
@@ -84,7 +84,7 @@ public class ClassificationServiceTest {
 
     @Test
     public void findByName_found() {
-        Classification saved = repository.save(createClassification());
+        Classification saved = repository.saveAndFlush(createClassification());
 
         Optional<Classification> found = service.findByName(saved.getName());
 
@@ -105,7 +105,7 @@ public class ClassificationServiceTest {
     public void save_nameAlreadyExists() {
         final String name = randomString();
 
-        repository.save(createClassification(name));
+        repository.saveAndFlush(createClassification(name));
 
         assertThrows(DataIntegrityViolationException.class, () -> service.save(createClassification(name)));
     }
@@ -113,7 +113,7 @@ public class ClassificationServiceTest {
     @Test
     public void update() {
         Classification saved = createClassification();
-        Long entityId = repository.save(saved).getId();
+        Long entityId = repository.saveAndFlush(saved).getId();
         Classification newObj = createClassification(entityId);
 
         service.update(newObj);
@@ -126,7 +126,7 @@ public class ClassificationServiceTest {
 
     @Test
     public void deleteById_classificationExists() {
-        Long entityId = repository.save(createClassification()).getId();
+        Long entityId = repository.saveAndFlush(createClassification()).getId();
 
         service.deleteById(entityId);
 

@@ -35,7 +35,7 @@ public class DocumentServiceTest {
 
     @BeforeEach
     public void setUp() {
-        classification = classificationRepository.save(createClassification());
+        classification = classificationRepository.saveAndFlush(createClassification());
     }
 
     @Test
@@ -50,7 +50,7 @@ public class DocumentServiceTest {
     @Test
     public void findAll_foundOne() {
         int foundOne = 1;
-        repository.save(createDocument(classification));
+        repository.saveAndFlush(createDocument(classification));
 
         List<Document> found = service.findAll();
 
@@ -60,8 +60,8 @@ public class DocumentServiceTest {
     @Test
     public void findAll_foundALot() {
         int foundALot = 2;
-        repository.save(createDocument(classification));
-        repository.save(createDocument(classification));
+        repository.saveAndFlush(createDocument(classification));
+        repository.saveAndFlush(createDocument(classification));
 
         List<Document> found = service.findAll();
 
@@ -79,7 +79,7 @@ public class DocumentServiceTest {
 
     @Test
     public void findById_found() {
-        Document saved = repository.save(createDocument(classification));
+        Document saved = repository.saveAndFlush(createDocument(classification));
 
         Optional<Document> found = service.findById(saved.getId());
 
@@ -100,7 +100,7 @@ public class DocumentServiceTest {
     public void findByName_foundOne() {
         int foundOne = 1;
 
-        Document saved = repository.save(createDocument(classification));
+        Document saved = repository.saveAndFlush(createDocument(classification));
 
         List<Document> found = service.findByName(saved.getName());
 
@@ -112,8 +112,8 @@ public class DocumentServiceTest {
         String name = randomString();
         int foundALot = 2;
 
-        repository.save(createDocument(classification, name));
-        repository.save(createDocument(classification, name));
+        repository.saveAndFlush(createDocument(classification, name));
+        repository.saveAndFlush(createDocument(classification, name));
 
         List<Document> found = service.findAll();
 
@@ -133,7 +133,7 @@ public class DocumentServiceTest {
 
     @Test
     public void update() {
-        Document saved = repository.save(createDocument(classification));
+        Document saved = repository.saveAndFlush(createDocument(classification));
         Document newObj = createDocument(classification, saved.getId());
 
         service.update(newObj);
@@ -147,7 +147,7 @@ public class DocumentServiceTest {
 
     @Test
     public void deleteById_classificationExists() {
-        Long entityId = repository.save(createDocument(classification)).getId();
+        Long entityId = repository.saveAndFlush(createDocument(classification)).getId();
 
         service.deleteById(entityId);
 

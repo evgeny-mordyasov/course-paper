@@ -4,7 +4,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.MediaType;
@@ -15,6 +14,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 import ru.gold.ordance.course.base.entity.Classification;
 import ru.gold.ordance.course.base.entity.Language;
@@ -34,6 +34,7 @@ import static ru.gold.ordance.course.web.rest.utils.RequestUtils.JSON;
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = { Application.class })
 @AutoConfigureTestDatabase
+@Transactional
 @WebAppConfiguration
 @ActiveProfiles("test")
 @PropertySource("classpath:application-test.properties")
@@ -56,9 +57,6 @@ public class FileRestControllerValidateTest {
     public void setUp() {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.webApplicationContext).build();
     }
-
-    @Value("${server.port}")
-    String a;
 
     @Test
     public void save_classificationIdIsNotPositive_invalidRq() throws Exception {

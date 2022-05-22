@@ -73,11 +73,11 @@ public class FileRestControllerTest {
     public void setUp() {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.webApplicationContext).build();
 
-        language = languageRepository.save(Language.builder()
+        language = languageRepository.saveAndFlush(Language.builder()
                 .withName(randomString())
                 .build());
 
-        classification = classificationRepository.save(Classification.builder()
+        classification = classificationRepository.saveAndFlush(Classification.builder()
                 .withName(randomString())
                 .build());
     }

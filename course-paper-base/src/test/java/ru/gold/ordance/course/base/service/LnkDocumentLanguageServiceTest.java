@@ -47,10 +47,10 @@ public class LnkDocumentLanguageServiceTest {
 
     @BeforeEach
     public void setUp() {
-        Classification classification = classificationRepository.save(createClassification());
-        document = documentRepository.save(createDocument(classification));
+        Classification classification = classificationRepository.saveAndFlush(createClassification());
+        document = documentRepository.saveAndFlush(createDocument(classification));
 
-        language = languageRepository.save(createLanguage());
+        language = languageRepository.saveAndFlush(createLanguage());
     }
 
     @Test
@@ -65,7 +65,7 @@ public class LnkDocumentLanguageServiceTest {
     @Test
     public void findAll_foundOne() {
         int foundOne = 1;
-        repository.save(createLnk(document, language));
+        repository.saveAndFlush(createLnk(document, language));
 
         List<LnkDocumentLanguage> found = service.findAll();
 
@@ -75,8 +75,8 @@ public class LnkDocumentLanguageServiceTest {
     @Test
     public void findAll_foundALot() {
         int foundALot = 2;
-        repository.save(createLnk(document, language));
-        repository.save(createLnk(document, language));
+        repository.saveAndFlush(createLnk(document, language));
+        repository.saveAndFlush(createLnk(document, language));
 
         List<LnkDocumentLanguage> found = service.findAll();
 
@@ -94,7 +94,7 @@ public class LnkDocumentLanguageServiceTest {
 
     @Test
     public void findById_found() {
-        LnkDocumentLanguage saved = repository.save(createLnk(document, language));
+        LnkDocumentLanguage saved = repository.saveAndFlush(createLnk(document, language));
 
         Optional<LnkDocumentLanguage> found = service.findById(saved.getId());
 
@@ -103,7 +103,7 @@ public class LnkDocumentLanguageServiceTest {
 
     @Test
     public void save() {
-        LnkDocumentLanguage saved = repository.save(createLnk(document, language));
+        LnkDocumentLanguage saved = repository.saveAndFlush(createLnk(document, language));
 
         Optional<LnkDocumentLanguage> found = repository.findById(saved.getId());
 
@@ -117,7 +117,7 @@ public class LnkDocumentLanguageServiceTest {
     public void save_urnAlreadyExists() {
         final String urn = randomString();
 
-        repository.save(createLnk(document, language, urn));
+        repository.saveAndFlush(createLnk(document, language, urn));
 
         assertThrows(DataIntegrityViolationException.class, () -> service.save(createLnk(document, language, urn)));
     }
@@ -125,7 +125,7 @@ public class LnkDocumentLanguageServiceTest {
     @Test
     public void update() {
         LnkDocumentLanguage saved = createLnk(document, language);
-        Long entityId = repository.save(saved).getId();
+        Long entityId = repository.saveAndFlush(saved).getId();
         LnkDocumentLanguage newObj = createLnk(document, language, entityId);
 
         service.update(newObj);
@@ -140,7 +140,7 @@ public class LnkDocumentLanguageServiceTest {
 
     @Test
     public void deleteById_classificationExists() {
-        Long entityId = repository.save(createLnk(document, language)).getId();
+        Long entityId = repository.saveAndFlush(createLnk(document, language)).getId();
 
         service.deleteById(entityId);
 
