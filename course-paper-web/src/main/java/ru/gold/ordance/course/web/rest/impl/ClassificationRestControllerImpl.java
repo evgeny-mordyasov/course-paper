@@ -2,14 +2,11 @@ package ru.gold.ordance.course.web.rest.impl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import ru.gold.ordance.course.web.api.Request;
 import ru.gold.ordance.course.web.api.Status;
 import ru.gold.ordance.course.web.api.classification.*;
 import ru.gold.ordance.course.web.rest.ClassificationRestController;
 import ru.gold.ordance.course.web.service.classification.ClassificationWebService;
-import ru.gold.ordance.course.web.validate.Validator;
 
 import static ru.gold.ordance.course.web.rest.utils.RequestUtils.*;
 
@@ -19,8 +16,6 @@ public class ClassificationRestControllerImpl implements ClassificationRestContr
     private static final Logger LOGGER = LoggerFactory.getLogger(ClassificationRestControllerImpl.class);
 
     private final ClassificationWebService service;
-
-    private Validator validator;
 
     public ClassificationRestControllerImpl(ClassificationWebService service) {
         this.service = service;
@@ -53,7 +48,7 @@ public class ClassificationRestControllerImpl implements ClassificationRestContr
         try {
             LOGGER.info("Get by id request received: {}", rq);
 
-            validate(rq);
+            rq.validate();
             ClassificationGetResponse rs = service.findById(rq);
             handleResponse(LOGGER, rs, rq, null);
 
@@ -75,7 +70,7 @@ public class ClassificationRestControllerImpl implements ClassificationRestContr
         try {
             LOGGER.info("Get by name request received: {}", rq);
 
-            validate(rq);
+            rq.validate();
             ClassificationGetResponse rs = service.findByName(rq);
             handleResponse(LOGGER, rs, rq, null);
 
@@ -95,7 +90,7 @@ public class ClassificationRestControllerImpl implements ClassificationRestContr
         try {
             LOGGER.info("Save request received: {}", rq);
 
-            validate(rq);
+            rq.validate();
             ClassificationSaveResponse rs = service.save(rq);
             handleResponse(LOGGER, rs, rq, null);
 
@@ -115,7 +110,7 @@ public class ClassificationRestControllerImpl implements ClassificationRestContr
         try {
             LOGGER.info("Update request received: {}", rq);
 
-            validate(rq);
+            rq.validate();
             ClassificationUpdateResponse rs = service.update(rq);
             handleResponse(LOGGER, rs, rq, null);
 
@@ -137,7 +132,7 @@ public class ClassificationRestControllerImpl implements ClassificationRestContr
         try {
             LOGGER.info("Delete by id request received: {}", rq);
 
-            validate(rq);
+            rq.validate();
             ClassificationDeleteByIdResponse rs = service.deleteById(rq);
             handleResponse(LOGGER, rs, rq, null);
 
@@ -149,14 +144,5 @@ public class ClassificationRestControllerImpl implements ClassificationRestContr
 
             return rs;
         }
-    }
-
-    @Autowired
-    public void setValidator(Validator validator) {
-        this.validator = validator;
-    }
-
-    private void validate(Request rq) {
-        validator.validate(rq);
     }
 }

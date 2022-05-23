@@ -1,7 +1,10 @@
 package ru.gold.ordance.course.web.api.client;
 
 import lombok.*;
+import ru.gold.ordance.course.base.entity.Client;
 import ru.gold.ordance.course.web.api.UpdateRequest;
+
+import static ru.gold.ordance.course.web.utils.ValidatorUtils.*;
 
 @Builder
 @AllArgsConstructor
@@ -20,4 +23,13 @@ public class ClientUpdateRequest implements UpdateRequest {
     private final String patronymic;
 
     private final String password;
+
+    @Override
+    public void validate() {
+        errorString(getSurname(), "surname");
+        errorString(getName(), "name");
+        errorString(getPatronymic(), "patronymic");
+        errorString(getPassword(), "password");
+        errorObjectId(Client.class, getEntityId(), "entityId");
+    }
 }

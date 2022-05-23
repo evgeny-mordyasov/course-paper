@@ -43,10 +43,4 @@ public class Client implements AbstractEntity {
     private final Role role;
 
     private final boolean isActive;
-
-    public static Client create(Long id) {
-        return Client.builder()
-                .withId(id)
-                .build();
-    }
 }

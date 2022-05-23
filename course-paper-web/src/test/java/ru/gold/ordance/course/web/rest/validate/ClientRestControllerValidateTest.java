@@ -281,7 +281,7 @@ public class ClientRestControllerValidateTest {
     @Test
     public void update_clientDoesNotExistByCurrentId() throws Exception {
         final Long currentId = 999L;
-        final String errorMessage = "The entity by id not found.";
+        final String errorMessage = "The entityId was not found in the database.";
 
         ClientUpdateRequest rq = ClientUpdateRequest.builder()
                 .entityId(currentId)

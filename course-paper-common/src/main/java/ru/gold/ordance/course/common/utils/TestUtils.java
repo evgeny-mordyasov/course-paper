@@ -22,4 +22,8 @@ public final class TestUtils {
     public static String randomFullFileName() {
         return String.format("%s.%s", randomString(), randomString());
     }
+
+    public static boolean not(boolean condition) {
+        return !condition;
+    }
 }

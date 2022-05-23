@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import ru.gold.ordance.course.base.entity.Classification;
-import ru.gold.ordance.course.base.exception.NotFoundException;
 import ru.gold.ordance.course.base.persistence.ClassificationRepository;
 import ru.gold.ordance.course.base.service.ClassificationService;
 

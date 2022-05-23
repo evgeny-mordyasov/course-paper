@@ -28,10 +28,4 @@ public class Classification implements AbstractEntity {
     private final Long id;
 
     private final String name;
-
-    public static Classification create(Long id) {
-       return Classification.builder()
-               .withId(id)
-               .build();
-    }
 }

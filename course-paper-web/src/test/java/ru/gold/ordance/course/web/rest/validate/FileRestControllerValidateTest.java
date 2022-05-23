@@ -60,7 +60,7 @@ public class FileRestControllerValidateTest {
 
     @Test
     public void save_classificationIdIsNotPositive_invalidRq() throws Exception {
-        final String languageId = "1";
+        final String languageId =  saveLanguage();
         final String classificationId = "-1";
         final String errorMessage = "The classificationId is not positive.";
 
@@ -75,13 +75,9 @@ public class FileRestControllerValidateTest {
 
     @Test
     public void save_classificationIdNotFoundInDatabase_invalidRq() throws Exception {
-        final String languageId = "1";
+        final String languageId = saveLanguage();
         final String classificationId = "999";
-        final String errorMessage = "The entity by id not found.";
-
-        languageRepository.saveAndFlush(Language.builder()
-                .withName(randomString())
-                .build());
+        final String errorMessage = "The classificationId was not found in the database.";
 
         mockMvc.perform(multipart(ENDPOINT)
                 .file(createFile())
@@ -95,7 +91,7 @@ public class FileRestControllerValidateTest {
     @Test
     public void save_languageIdIsNotPositive_invalidRq() throws Exception {
         final String languageId = "-1";
-        final String classificationId = "1";
+        final String classificationId = saveClassification();
         final String errorMessage = "The languageId is not positive.";
 
         mockMvc.perform(multipart(ENDPOINT)
@@ -110,12 +106,8 @@ public class FileRestControllerValidateTest {
     @Test
     public void save_languageIdNotFoundInDatabase_invalidRq() throws Exception {
         final String languageId = "999";
-        final String classificationId = "1";
-        final String errorMessage = "The entity by id not found.";
-
-        classificationRepository.saveAndFlush(Classification.builder()
-                .withName(randomString())
-                .build());
+        final String classificationId = saveClassification();
+        final String errorMessage = "The languageId was not found in the database.";
 
         mockMvc.perform(multipart(ENDPOINT)
                 .file(createFile())
@@ -181,5 +173,19 @@ public class FileRestControllerValidateTest {
                 MediaType.TEXT_PLAIN_VALUE,
                 randomString().getBytes()
         );
+    }
+
+    private String saveLanguage() {
+        return String.valueOf(languageRepository.saveAndFlush(Language.builder()
+                .withName(randomString())
+                .build())
+                .getId());
+    }
+
+    private String saveClassification() {
+        return String.valueOf(classificationRepository.saveAndFlush(Classification.builder()
+                .withName(randomString())
+                .build())
+                .getId());
     }
 }

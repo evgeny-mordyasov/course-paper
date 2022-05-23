@@ -1,7 +1,10 @@
 package ru.gold.ordance.course.web.api.language;
 
 import lombok.*;
+import ru.gold.ordance.course.base.entity.Language;
 import ru.gold.ordance.course.web.api.UpdateRequest;
+
+import static ru.gold.ordance.course.web.utils.ValidatorUtils.*;
 
 @Builder
 @AllArgsConstructor
@@ -14,4 +17,10 @@ public class LanguageUpdateRequest implements UpdateRequest {
     private final Long entityId;
 
     private final String name;
+
+    @Override
+    public void validate() {
+        errorString(getName(), "name");
+        errorObjectId(Language.class, getEntityId(), "entityId");
+    }
 }

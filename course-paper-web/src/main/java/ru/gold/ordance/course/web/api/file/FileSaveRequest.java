@@ -2,7 +2,11 @@ package ru.gold.ordance.course.web.api.file;
 
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
+import ru.gold.ordance.course.base.entity.Classification;
+import ru.gold.ordance.course.base.entity.Language;
 import ru.gold.ordance.course.web.api.SaveRequest;
+
+import static ru.gold.ordance.course.web.utils.ValidatorUtils.*;
 
 @Builder(toBuilder = true)
 @AllArgsConstructor
@@ -17,4 +21,12 @@ public class FileSaveRequest implements SaveRequest {
     private final Long classificationId;
 
     private final Long languageId;
+
+    @Override
+    public void validate() {
+        errorTrue(getFile().isEmpty(), "The file is missing.");
+        errorString(getFile().getOriginalFilename(), "fileName");
+        errorObjectId(Classification.class, getClassificationId(), "classificationId");
+        errorObjectId(Language.class, getLanguageId(), "languageId");
+    }
 }

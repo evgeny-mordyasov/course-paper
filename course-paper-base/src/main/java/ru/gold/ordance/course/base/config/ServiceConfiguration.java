@@ -9,7 +9,9 @@ import org.springframework.security.crypto.scrypt.SCryptPasswordEncoder;
 import ru.gold.ordance.course.base.persistence.config.PersistenceConfiguration;
 
 @Configuration
-@ComponentScan(value = {"ru.gold.ordance.course.base.service"})
+@ComponentScan(value = {
+        "ru.gold.ordance.course.base.service",
+        "ru.gold.ordance.course.base.spring"})
 @Import(PersistenceConfiguration.class)
 public class ServiceConfiguration {
 

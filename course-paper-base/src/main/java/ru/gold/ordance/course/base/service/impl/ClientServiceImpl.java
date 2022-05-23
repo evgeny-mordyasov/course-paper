@@ -9,12 +9,13 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import ru.gold.ordance.course.base.entity.Client;
 import ru.gold.ordance.course.base.entity.Role;
-import ru.gold.ordance.course.base.exception.NotFoundException;
 import ru.gold.ordance.course.base.persistence.ClientRepository;
 import ru.gold.ordance.course.base.service.ClientService;
 
 import java.util.List;
 import java.util.Optional;
+
+import static ru.gold.ordance.course.common.utils.TestUtils.not;
 
 @Service
 @Transactional(isolation = Isolation.READ_COMMITTED)
@@ -98,7 +99,7 @@ public class ClientServiceImpl implements ClientService {
                 .withEmail(found.getEmail())
                 .withRole(found.getRole())
                 .withIsActive(found.isActive());
-        if (!encoder.matches(client.getPassword(), found.getPassword())) {
+        if (not(encoder.matches(client.getPassword(), found.getPassword()))) {
             updatedClient.withPassword(encoder.encode(client.getPassword()));
         }
 

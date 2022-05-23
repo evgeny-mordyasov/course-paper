@@ -2,6 +2,8 @@ package ru.gold.ordance.course.web.api.authorization;
 
 import lombok.*;
 
+import static ru.gold.ordance.course.web.utils.ValidatorUtils.errorString;
+
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(force = true)
@@ -19,4 +21,13 @@ public class AuthorizationSignUpRequest implements AuthorizationRequest {
     private final String email;
 
     private final String password;
+
+    @Override
+    public void validate() {
+        errorString(getSurname(), "surname");
+        errorString(getName(), "name");
+        errorString(getPatronymic(), "patronymic");
+        errorString(getEmail(), "email");
+        errorString(getPassword(), "password");
+    }
 }

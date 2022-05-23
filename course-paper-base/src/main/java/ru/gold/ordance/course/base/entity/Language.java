@@ -28,10 +28,4 @@ public class Language implements AbstractEntity {
     private final Long id;
 
     private final String name;
-
-    public static Language create(Long id) {
-        return Language.builder()
-                .withId(id)
-                .build();
-    }
 }

@@ -175,7 +175,7 @@ public class ClassificationRestControllerValidateTest {
     @Test
     public void update_clientDoesNotExistByCurrentId() throws Exception {
         final Long currentId = 999L;
-        final String errorMessage = "The entity by id not found.";
+        final String errorMessage = "The entityId was not found in the database.";
 
         ClassificationUpdateRequest rq = ClassificationUpdateRequest.builder()
                 .entityId(currentId)

@@ -1,12 +1,15 @@
-package ru.gold.ordance.course.web.validate;
+package ru.gold.ordance.course.web.utils;
 
+import ru.gold.ordance.course.base.entity.AbstractEntity;
 import ru.gold.ordance.course.web.exception.ValidateException;
 
 import static java.util.Objects.isNull;
 import static org.apache.logging.log4j.util.Strings.isBlank;
+import static ru.gold.ordance.course.base.spring.StaticContextAccessor.getStorageHelper;
+import static ru.gold.ordance.course.common.utils.TestUtils.not;
 
-final class ValidateHelper {
-    private ValidateHelper() {
+public final class ValidatorUtils {
+    private ValidatorUtils() {
     }
 
     public static void error(String message) {
@@ -23,7 +26,11 @@ final class ValidateHelper {
         }
     }
 
-    public static void errorObjectId(Long objectId, String fieldName) {
+    public static void errorEntityId(Long entityId) {
+        errorId(entityId, "entityId");
+    }
+
+    private static void errorId(Long objectId, String fieldName) {
         if (isNull(objectId)) {
             error("The " + fieldName + " is null.");
         }
@@ -33,8 +40,12 @@ final class ValidateHelper {
         }
     }
 
-    public static void errorEntityId(Long entityId) {
-        errorObjectId(entityId, "entityId");
+    public static void errorObjectId(Class<?> clazz, Long objectId, String fieldName) {
+       errorId(objectId, fieldName);
+
+        if (not(getStorageHelper().existsById(clazz, objectId))) {
+            error("The " + fieldName + " was not found in the database.");
+        }
     }
 
     public static void errorTrue(boolean condition, String message) {

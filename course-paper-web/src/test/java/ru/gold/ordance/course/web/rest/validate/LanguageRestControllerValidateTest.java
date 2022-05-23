@@ -175,7 +175,7 @@ public class LanguageRestControllerValidateTest {
     @Test
     public void update_languageDoesNotExistByCurrentId() throws Exception {
         final Long currentId = 999L;
-        final String errorMessage = "The entity by id not found.";
+        final String errorMessage = "The entityId was not found in the database.";
 
         LanguageUpdateRequest rq = LanguageUpdateRequest.builder()
                 .entityId(currentId)
