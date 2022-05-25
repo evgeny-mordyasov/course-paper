@@ -28,14 +28,4 @@ public class ClassificationGetResponse implements Response {
                 .total(list.size())
                 .build();
     }
-
-    public static ClassificationGetResponse error(StatusCode code, String description) {
-        if (code == StatusCode.SUCCESS) {
-            throw new IllegalArgumentException("The transmitted code not should equal SUCCESS.");
-        }
-
-        return ClassificationGetResponse.builder()
-                .status(new Status().withCode(code).withDescription(description))
-                .build();
-    }
 }

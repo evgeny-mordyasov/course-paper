@@ -23,14 +23,4 @@ public class LanguageSaveResponse implements Response {
                 .entityId(entityId)
                 .build();
     }
-
-    public static LanguageSaveResponse error(StatusCode code, String description) {
-        if (code == StatusCode.SUCCESS) {
-            throw new IllegalArgumentException("The transmitted code not should equal SUCCESS.");
-        }
-
-        return LanguageSaveResponse.builder()
-                .status(new Status().withCode(code).withDescription(description))
-                .build();
-    }
 }

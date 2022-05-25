@@ -23,14 +23,4 @@ public class AuthorizationTokenLifeResponse implements Response {
                 .isValid(isValid)
                 .build();
     }
-
-    public static AuthorizationTokenLifeResponse error(StatusCode code, String description) {
-        if (code == StatusCode.SUCCESS) {
-            throw new IllegalArgumentException("The transmitted code not should equal SUCCESS.");
-        }
-
-        return AuthorizationTokenLifeResponse.builder()
-                .status(new Status().withCode(code).withDescription(description))
-                .build();
-    }
 }

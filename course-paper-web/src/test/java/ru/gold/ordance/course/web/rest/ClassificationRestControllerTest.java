@@ -219,8 +219,7 @@ public class ClassificationRestControllerTest {
                 .contentType(JSON))
                 .andExpect(content().contentType(JSON))
                 .andExpect(jsonPath("$.status.code", is(VIOLATES_CONSTRAINT)))
-                .andExpect(jsonPath("$.status.description", is(CONSTRAINT_MESSAGE)))
-                .andExpect(jsonPath("$.entityId", nullValue()));
+                .andExpect(jsonPath("$.status.description", is(StatusCode.VIOLATES_CONSTRAINT.getErrorMessage())));
     }
 
     @Test

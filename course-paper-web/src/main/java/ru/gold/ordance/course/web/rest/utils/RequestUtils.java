@@ -2,12 +2,14 @@ package ru.gold.ordance.course.web.rest.utils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.logging.log4j.util.Strings;
 import org.apache.tomcat.util.http.fileupload.impl.FileSizeLimitExceededException;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.MediaType;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.authentication.LockedException;
-import ru.gold.ordance.course.base.exception.NotFoundException;
 import ru.gold.ordance.course.web.api.Request;
 import ru.gold.ordance.course.web.api.Response;
 import ru.gold.ordance.course.web.api.Status;
@@ -15,75 +17,64 @@ import ru.gold.ordance.course.web.api.StatusCode;
 import ru.gold.ordance.course.web.exception.ValidateException;
 
 public final class RequestUtils {
-    public static final String JSON = "application/json";
+    private static final Logger LOGGER = LoggerFactory.getLogger(RequestUtils.class);
 
-    public static final String CONSTRAINT_MESSAGE = "Request violates the database constraint.";
-
-    public static final String UNAUTHORIZED_MESSAGE = "Request contains incorrect data.";
-
-    public static final String BANNED_MESSAGE = "The user was banned.";
+    public static final String JSON = MediaType.APPLICATION_JSON_VALUE;
 
     private final static ObjectMapper mapper = new ObjectMapper();
 
     private RequestUtils() {
     }
 
-    public static void handleResponse(Logger LOGGER, Response rs, Request rq, Exception e) {
-        Status status = rs.getStatus();
+    public static void loggingSuccessResponse(Response rs) {
+        LOGGER.info(rs.getErrorMessage() + " response: {}", rs);
+    }
 
-        if (status.getCode() == StatusCode.SUCCESS) {
-            LOGGER.info("Request completed. request: {}, response: {}", rq, rs);
-            return;
-        }
+    public static void loggingSuccessResponse(Response rs, Request rq) {
+        LOGGER.info(rs.getErrorMessage() + " response: {}, request: {}", rs, rq);
+    }
 
-        if (status.getCode() == StatusCode.INVALID_RQ) {
-            LOGGER.info("Request validation failed. request: {}, response: {}", rq, rs);
-            return;
-        }
+    public static void loggingErrorResponse(Response rs, Exception e) {
+        loggingErrorResponseCommon(rs, null, e);
+    }
 
-        if (status.getCode() == StatusCode.VIOLATES_CONSTRAINT) {
-            LOGGER.error(CONSTRAINT_MESSAGE + " request: {}, response: {}", rq, rs);
-            return;
-        }
+    public static void loggingErrorResponse(Response rs, Request rq, Exception e) {
+        loggingErrorResponseCommon(rs, rq, e);
+    }
 
-        if (status.getCode() == StatusCode.UNAUTHORIZED) {
-            LOGGER.error(UNAUTHORIZED_MESSAGE + " request: {}, response: {}", rq, rs);
-            return;
-        }
-
-        if (status.getCode() == StatusCode.BANNED) {
-            LOGGER.error(BANNED_MESSAGE + " request: {}, response: {}", rq, rs);
-        } else {
-            LOGGER.error("Request failed. request: {}, response: {}", rq, rs, e);
-        }
+    private static void loggingErrorResponseCommon(Response rs, Request rq, Exception e) {
+        LOGGER.info(rs.getErrorMessage() + " response: {}, request: {}", rs, rq,
+                rs.getCode() == StatusCode.CALL_ERROR ? e : Strings.EMPTY);
     }
 
     public static Status toStatus(Exception e) {
-        String errorMessage;
-        StatusCode statusCode;
+        if (e instanceof ValidateException || e instanceof FileSizeLimitExceededException) {
+            return new Status()
+                    .withCode(StatusCode.INVALID_RQ)
+                    .withDescription(e.getMessage());
+        }
 
-        if (e instanceof ValidateException
-                || e instanceof NotFoundException
-                || e instanceof FileSizeLimitExceededException) {
-            errorMessage = e.getMessage();
-            statusCode = StatusCode.INVALID_RQ;
-        } else if (e instanceof DataIntegrityViolationException) {
-            errorMessage = CONSTRAINT_MESSAGE;
-            statusCode = StatusCode.VIOLATES_CONSTRAINT;
-        } else if (e instanceof InternalAuthenticationServiceException) {
-            errorMessage = UNAUTHORIZED_MESSAGE;
-            statusCode = StatusCode.UNAUTHORIZED;
-        } else if (e instanceof LockedException) {
-            errorMessage = BANNED_MESSAGE;
-            statusCode = StatusCode.BANNED;
-        } else {
-            errorMessage = e.toString();
-            statusCode = StatusCode.CALL_ERROR;
+        if (e instanceof DataIntegrityViolationException) {
+            return new Status()
+                    .withCode(StatusCode.VIOLATES_CONSTRAINT)
+                    .withDescription(StatusCode.VIOLATES_CONSTRAINT.getErrorMessage());
+        }
+
+        if (e instanceof InternalAuthenticationServiceException) {
+            return new Status()
+                    .withCode(StatusCode.UNAUTHORIZED)
+                    .withDescription(StatusCode.UNAUTHORIZED.getErrorMessage());
+        }
+
+        if (e instanceof LockedException) {
+            return new Status()
+                    .withCode(StatusCode.BANNED)
+                    .withDescription(StatusCode.BANNED.getErrorMessage());
         }
 
         return new Status()
-                .withCode(statusCode)
-                .withDescription(errorMessage);
+                .withCode(StatusCode.CALL_ERROR)
+                .withDescription(e.toString());
     }
 
     public static String toJSON(Object obj) throws JsonProcessingException {

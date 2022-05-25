@@ -20,14 +20,4 @@ public class ClientDeleteByIdResponse implements Response {
                 .status(new Status().withCode(StatusCode.SUCCESS))
                 .build();
     }
-
-    public static ClientDeleteByIdResponse error(StatusCode code, String description) {
-        if (code == StatusCode.SUCCESS) {
-            throw new IllegalArgumentException("The transmitted code not should equal SUCCESS.");
-        }
-
-        return ClientDeleteByIdResponse.builder()
-                .status(new Status().withCode(code).withDescription(description))
-                .build();
-    }
 }

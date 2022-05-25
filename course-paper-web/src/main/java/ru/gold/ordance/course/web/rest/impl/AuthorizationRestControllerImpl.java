@@ -3,11 +3,12 @@ package ru.gold.ordance.course.web.rest.impl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
-import ru.gold.ordance.course.web.api.Status;
+import ru.gold.ordance.course.web.api.Response;
 import ru.gold.ordance.course.web.api.authorization.*;
 import ru.gold.ordance.course.web.rest.AuthorizationRestController;
 import ru.gold.ordance.course.web.service.authorization.AuthorizationWebService;
 
+import static ru.gold.ordance.course.web.api.BaseErrorResponse.createFrom;
 import static ru.gold.ordance.course.web.rest.utils.RequestUtils.*;
 
 @RestController
@@ -23,19 +24,18 @@ public class AuthorizationRestControllerImpl implements AuthorizationRestControl
 
     @Override
     @PostMapping(value = "/sign-up", consumes = JSON, produces = JSON)
-    public AuthorizationSignUpResponse signUp(@RequestBody AuthorizationSignUpRequest rq) {
+    public Response signUp(@RequestBody AuthorizationSignUpRequest rq) {
         try {
             LOGGER.info("Sign up request received: {}", rq);
 
             rq.validate();
-            AuthorizationSignUpResponse rs = service.signUp(rq);
-            handleResponse(LOGGER, rs, rq, null);
+            Response rs = service.signUp(rq);
+            loggingSuccessResponse(rs, rq);
 
             return rs;
         } catch (Exception e) {
-            Status status = toStatus(e);
-            AuthorizationSignUpResponse rs = AuthorizationSignUpResponse.error(status.getCode(), status.getDescription());
-            handleResponse(LOGGER, rs, null, e);
+            Response rs = createFrom(e);
+            loggingErrorResponse(rs, rq, e);
 
             return rs;
         }
@@ -43,19 +43,18 @@ public class AuthorizationRestControllerImpl implements AuthorizationRestControl
 
     @Override
     @PostMapping(value = "/sign-in", consumes = JSON, produces = JSON)
-    public AuthorizationSignInResponse signIn(@RequestBody AuthorizationSignInRequest rq) {
+    public Response signIn(@RequestBody AuthorizationSignInRequest rq) {
         try {
             LOGGER.info("Sign in request received: {}", rq);
 
             rq.validate();
-            AuthorizationSignInResponse rs = service.signIn(rq);
-            handleResponse(LOGGER, rs, rq, null);
+            Response rs = service.signIn(rq);
+            loggingSuccessResponse(rs, rq);
 
             return rs;
         } catch (Exception e) {
-            Status status = toStatus(e);
-            AuthorizationSignInResponse rs = AuthorizationSignInResponse.error(status.getCode(), status.getDescription());
-            handleResponse(LOGGER, rs, null, e);
+            Response rs = createFrom(e);
+            loggingErrorResponse(rs, rq, e);
 
             return rs;
         }
@@ -63,19 +62,18 @@ public class AuthorizationRestControllerImpl implements AuthorizationRestControl
 
     @Override
     @PostMapping(value = "/token", consumes = JSON, produces = JSON)
-    public AuthorizationTokenLifeResponse tokenLife(@RequestBody AuthorizationTokenLifeRequest rq) {
+    public Response tokenLife(@RequestBody AuthorizationTokenLifeRequest rq) {
         try {
             LOGGER.info("Token life request received: {}", rq);
 
             rq.validate();
-            AuthorizationTokenLifeResponse rs = service.tokenLife(rq);
-            handleResponse(LOGGER, rs, null, null);
+            Response rs = service.tokenLife(rq);
+            loggingSuccessResponse(rs, rq);
 
             return rs;
         } catch (Exception e) {
-            Status status = toStatus(e);
-            AuthorizationTokenLifeResponse rs = AuthorizationTokenLifeResponse.error(status.getCode(), status.getDescription());
-            handleResponse(LOGGER, rs, null, e);
+            Response rs = createFrom(e);
+            loggingErrorResponse(rs, rq, e);
 
             return rs;
         }

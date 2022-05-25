@@ -28,14 +28,4 @@ public class LanguageGetResponse implements Response {
                 .total(list.size())
                 .build();
     }
-
-    public static LanguageGetResponse error(StatusCode code, String description) {
-        if (code == StatusCode.SUCCESS) {
-            throw new IllegalArgumentException("The transmitted code not should equal SUCCESS.");
-        }
-
-        return LanguageGetResponse.builder()
-                .status(new Status().withCode(code).withDescription(description))
-                .build();
-    }
 }

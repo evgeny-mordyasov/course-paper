@@ -36,7 +36,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static ru.gold.ordance.course.common.utils.TestUtils.randomFullFileName;
 import static ru.gold.ordance.course.common.utils.TestUtils.randomString;
-import static ru.gold.ordance.course.web.rest.utils.RequestUtils.CONSTRAINT_MESSAGE;
 import static ru.gold.ordance.course.web.rest.utils.RequestUtils.JSON;
 
 @ExtendWith(SpringExtension.class)
@@ -189,6 +188,6 @@ public class FileRestControllerTest {
                 .param("classificationId", String.valueOf(classification.getId())))
                 .andExpect(content().contentType(JSON))
                 .andExpect(jsonPath("$.status.code", is(VIOLATES_CONSTRAINT)))
-                .andExpect(jsonPath("$.status.description", is(CONSTRAINT_MESSAGE)));
+                .andExpect(jsonPath("$.status.description", is(StatusCode.VIOLATES_CONSTRAINT.getErrorMessage())));
     }
 }

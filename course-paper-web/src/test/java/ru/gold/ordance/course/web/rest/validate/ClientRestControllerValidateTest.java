@@ -18,7 +18,6 @@ import ru.gold.ordance.course.web.api.StatusCode;
 import ru.gold.ordance.course.web.api.client.ClientUpdateRequest;
 
 import static org.hamcrest.Matchers.*;
-import static org.hamcrest.Matchers.nullValue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -55,9 +54,7 @@ public class ClientRestControllerValidateTest {
         mockMvc.perform(get(ENDPOINT + entityId))
                 .andExpect(content().contentType(JSON))
                 .andExpect(jsonPath("$.status.code", is(INVALID_RQ)))
-                .andExpect(jsonPath("$.status.description", equalTo(errorMessage)))
-                .andExpect(jsonPath("$.list", nullValue()))
-                .andExpect(jsonPath("$.total", nullValue()));
+                .andExpect(jsonPath("$.status.description", equalTo(errorMessage)));
     }
 
     @Test
@@ -68,9 +65,7 @@ public class ClientRestControllerValidateTest {
         mockMvc.perform(get(ENDPOINT + "email/" + email))
                 .andExpect(content().contentType(JSON))
                 .andExpect(jsonPath("$.status.code", is(INVALID_RQ)))
-                .andExpect(jsonPath("$.status.description", equalTo(errorMessage)))
-                .andExpect(jsonPath("$.list", nullValue()))
-                .andExpect(jsonPath("$.total", nullValue()));
+                .andExpect(jsonPath("$.status.description", equalTo(errorMessage)));
     }
 
     @Test

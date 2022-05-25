@@ -19,7 +19,6 @@ import ru.gold.ordance.course.web.api.authorization.AuthorizationSignUpRequest;
 import ru.gold.ordance.course.web.api.authorization.AuthorizationTokenLifeRequest;
 
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.nullValue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -49,7 +48,6 @@ public class AuthorizationRestControllerValidateTest {
     @Test
     public void tokenLife_tokenIsNull() throws Exception {
         final String errorMessage = "The token is null.";
-        final boolean valid = false;
 
         AuthorizationTokenLifeRequest rq = new AuthorizationTokenLifeRequest(null);
 
@@ -58,15 +56,13 @@ public class AuthorizationRestControllerValidateTest {
                         .contentType(JSON))
                 .andExpect(content().contentType(JSON))
                 .andExpect(jsonPath("$.status.code", is(INVALID_RQ)))
-                .andExpect(jsonPath("$.status.description", is(errorMessage)))
-                .andExpect(jsonPath("$.valid", is(valid)));
+                .andExpect(jsonPath("$.status.description", is(errorMessage)));
     }
 
     @Test
     public void tokenLife_tokenIsEmpty() throws Exception {
         final String token = "";
         final String errorMessage = "The token is empty.";
-        final boolean valid = false;
 
         AuthorizationTokenLifeRequest rq = new AuthorizationTokenLifeRequest(token);
 
@@ -75,8 +71,7 @@ public class AuthorizationRestControllerValidateTest {
                         .contentType(JSON))
                 .andExpect(content().contentType(JSON))
                 .andExpect(jsonPath("$.status.code", is(INVALID_RQ)))
-                .andExpect(jsonPath("$.status.description", is(errorMessage)))
-                .andExpect(jsonPath("$.valid", is(valid)));
+                .andExpect(jsonPath("$.status.description", is(errorMessage)));
     }
 
     @Test
@@ -91,9 +86,7 @@ public class AuthorizationRestControllerValidateTest {
                         .contentType(JSON))
                 .andExpect(content().contentType(JSON))
                 .andExpect(jsonPath("$.status.code", is(INVALID_RQ)))
-                .andExpect(jsonPath("$.status.description", is(errorMessage)))
-                .andExpect(jsonPath("$.role", nullValue()))
-                .andExpect(jsonPath("$.token", nullValue()));
+                .andExpect(jsonPath("$.status.description", is(errorMessage)));
     }
 
     @Test
@@ -109,9 +102,7 @@ public class AuthorizationRestControllerValidateTest {
                         .contentType(JSON))
                 .andExpect(content().contentType(JSON))
                 .andExpect(jsonPath("$.status.code", is(INVALID_RQ)))
-                .andExpect(jsonPath("$.status.description", is(errorMessage)))
-                .andExpect(jsonPath("$.role", nullValue()))
-                .andExpect(jsonPath("$.token", nullValue()));
+                .andExpect(jsonPath("$.status.description", is(errorMessage)));
     }
 
     @Test
@@ -126,9 +117,7 @@ public class AuthorizationRestControllerValidateTest {
                         .contentType(JSON))
                 .andExpect(content().contentType(JSON))
                 .andExpect(jsonPath("$.status.code", is(INVALID_RQ)))
-                .andExpect(jsonPath("$.status.description", is(errorMessage)))
-                .andExpect(jsonPath("$.role", nullValue()))
-                .andExpect(jsonPath("$.token", nullValue()));
+                .andExpect(jsonPath("$.status.description", is(errorMessage)));
     }
 
     @Test
@@ -144,9 +133,7 @@ public class AuthorizationRestControllerValidateTest {
                         .contentType(JSON))
                 .andExpect(content().contentType(JSON))
                 .andExpect(jsonPath("$.status.code", is(INVALID_RQ)))
-                .andExpect(jsonPath("$.status.description", is(errorMessage)))
-                .andExpect(jsonPath("$.role", nullValue()))
-                .andExpect(jsonPath("$.token", nullValue()));
+                .andExpect(jsonPath("$.status.description", is(errorMessage)));
     }
 
     @Test

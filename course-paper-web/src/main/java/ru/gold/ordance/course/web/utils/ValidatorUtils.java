@@ -1,6 +1,5 @@
 package ru.gold.ordance.course.web.utils;
 
-import ru.gold.ordance.course.base.entity.AbstractEntity;
 import ru.gold.ordance.course.web.exception.ValidateException;
 
 import static java.util.Objects.isNull;

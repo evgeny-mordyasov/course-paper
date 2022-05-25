@@ -145,7 +145,7 @@ public class AuthorizationRestControllerTest {
                         .contentType(JSON))
                 .andExpect(content().contentType(JSON))
                 .andExpect(jsonPath("$.status.code", is(UNAUTHORIZED)))
-                .andExpect(jsonPath("$.status.description", is(UNAUTHORIZED_MESSAGE)));
+                .andExpect(jsonPath("$.status.description", is(StatusCode.UNAUTHORIZED.getErrorMessage())));
     }
 
     @Test
@@ -172,7 +172,7 @@ public class AuthorizationRestControllerTest {
                         .contentType(JSON))
                 .andExpect(content().contentType(JSON))
                 .andExpect(jsonPath("$.status.code", is(BANNED)))
-                .andExpect(jsonPath("$.status.description", is(BANNED_MESSAGE)));
+                .andExpect(jsonPath("$.status.description", is(StatusCode.BANNED.getErrorMessage())));
     }
 
     @Test
@@ -228,6 +228,6 @@ public class AuthorizationRestControllerTest {
                         .contentType(JSON))
                 .andExpect(content().contentType(JSON))
                 .andExpect(jsonPath("$.status.code", is(VIOLATES_CONSTRAINT)))
-                .andExpect(jsonPath("$.status.description", is(CONSTRAINT_MESSAGE)));
+                .andExpect(jsonPath("$.status.description", is(StatusCode.VIOLATES_CONSTRAINT.getErrorMessage())));
     }
 }

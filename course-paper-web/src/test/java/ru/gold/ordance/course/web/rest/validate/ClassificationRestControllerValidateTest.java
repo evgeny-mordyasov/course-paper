@@ -55,9 +55,7 @@ public class ClassificationRestControllerValidateTest {
         mockMvc.perform(get(ENDPOINT + entityId))
                 .andExpect(content().contentType(JSON))
                 .andExpect(jsonPath("$.status.code", is(INVALID_RQ)))
-                .andExpect(jsonPath("$.status.description", equalTo(errorMessage)))
-                .andExpect(jsonPath("$.list", nullValue()))
-                .andExpect(jsonPath("$.total", nullValue()));
+                .andExpect(jsonPath("$.status.description", equalTo(errorMessage)));
     }
 
     @Test
@@ -68,9 +66,7 @@ public class ClassificationRestControllerValidateTest {
         mockMvc.perform(get(ENDPOINT + "name/" + name))
                 .andExpect(content().contentType(JSON))
                 .andExpect(jsonPath("$.status.code", is(INVALID_RQ)))
-                .andExpect(jsonPath("$.status.description", equalTo(errorMessage)))
-                .andExpect(jsonPath("$.list", nullValue()))
-                .andExpect(jsonPath("$.total", nullValue()));
+                .andExpect(jsonPath("$.status.description", equalTo(errorMessage)));
     }
 
     @Test

@@ -28,14 +28,4 @@ public class FileGetResponse implements Response {
                 .total(list.size())
                 .build();
     }
-
-    public static FileGetResponse error(StatusCode code, String description) {
-        if (code == StatusCode.SUCCESS) {
-            throw new IllegalArgumentException("The transmitted code not should equal SUCCESS.");
-        }
-
-        return FileGetResponse.builder()
-                .status(new Status().withCode(code).withDescription(description))
-                .build();
-    }
 }

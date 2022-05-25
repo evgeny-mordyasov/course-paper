@@ -26,14 +26,4 @@ public class AuthorizationSignInResponse implements Response {
                 .token(token)
                 .build();
     }
-
-    public static AuthorizationSignInResponse error(StatusCode code, String description) {
-        if (code == StatusCode.SUCCESS) {
-            throw new IllegalArgumentException("The transmitted code not should equal SUCCESS.");
-        }
-
-        return AuthorizationSignInResponse.builder()
-                .status(new Status().withCode(code).withDescription(description))
-                .build();
-    }
 }
