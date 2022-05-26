@@ -41,11 +41,8 @@ public class LanguageServiceImpl implements LanguageService {
 
         Optional<Language> language = repository.findById(id);
 
-        if (language.isEmpty()) {
-            LOGGER.info("The language not found. entityId = {}", id);
-        } else {
-            LOGGER.info("The language was found. language = {}", language.get());
-        }
+        LOGGER.info("The language {}",
+                (language.isEmpty() ? "not found. entityId = " + id : "was found. language = " + language.get()));
 
         return language;
     }
@@ -56,11 +53,8 @@ public class LanguageServiceImpl implements LanguageService {
 
         Optional<Language> language = repository.findByName(name);
 
-        if (language.isEmpty()) {
-            LOGGER.info("The language not found. name = {}", name);
-        } else {
-            LOGGER.info("The language was found. language = {}", language.get());
-        }
+        LOGGER.info("The language {}",
+                (language.isEmpty() ? "not found. name = " + name : "was found. language = " + language.get()));
 
         return language;
     }
@@ -90,12 +84,8 @@ public class LanguageServiceImpl implements LanguageService {
         LOGGER.info("The delete language has started.");
 
         Optional<Language> found = repository.findById(id);
+        found.ifPresent(l -> repository.deleteById(l.getId()));
 
-        if (found.isPresent()) {
-            repository.deleteById(id);
-            LOGGER.info("The language was deleted. entityId = {}", id);
-        } else {
-            LOGGER.info("The language by id does not exist. entityId = {}", id);
-        }
+        LOGGER.info("The language " + (found.isPresent() ? "was deleted" : "by id does not exist") + ". entityId = {}", id);
     }
 }

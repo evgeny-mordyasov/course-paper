@@ -41,11 +41,8 @@ public class ClassificationServiceImpl implements ClassificationService {
 
         Optional<Classification> classification = repository.findById(id);
 
-        if (classification.isEmpty()) {
-            LOGGER.info("The classification not found. entityId = {}", id);
-        } else {
-            LOGGER.info("The classification was found. classification = {}", classification.get());
-        }
+        LOGGER.info("The classification {}",
+                (classification.isEmpty() ? "not found. entityId = " + id : "was found. classification = " + classification.get()));
 
         return classification;
     }
@@ -56,11 +53,8 @@ public class ClassificationServiceImpl implements ClassificationService {
 
         Optional<Classification> classification = repository.findByName(name);
 
-        if (classification.isEmpty()) {
-            LOGGER.info("The classification not found. name = {}", name);
-        } else {
-            LOGGER.info("The classification was found. classification = {}", classification.get());
-        }
+        LOGGER.info("The classification {}",
+                (classification.isEmpty() ? "not found. name = " + name : "was found. classification = " + classification.get()));
 
         return classification;
     }
@@ -90,12 +84,8 @@ public class ClassificationServiceImpl implements ClassificationService {
         LOGGER.info("The delete classification has started.");
 
         Optional<Classification> found = repository.findById(id);
+        found.ifPresent(c -> repository.deleteById(c.getId()));
 
-        if (found.isPresent()) {
-            repository.deleteById(id);
-            LOGGER.info("The classification was deleted. entityId = {}", id);
-        } else {
-            LOGGER.info("The classification by id does not exist. entityId = {}", id);
-        }
+        LOGGER.info("The classification " + (found.isPresent() ? "was deleted" : "by id does not exist") + ". entityId = {}", id);
     }
 }

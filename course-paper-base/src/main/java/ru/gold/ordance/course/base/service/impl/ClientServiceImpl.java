@@ -48,11 +48,8 @@ public class ClientServiceImpl implements ClientService {
 
         Optional<Client> client = repository.findById(id);
 
-        if (client.isEmpty()) {
-            LOGGER.info("The client not found. entityId = {}", id);
-        } else {
-            LOGGER.info("The client was found. client = {}", client.get());
-        }
+        LOGGER.info("The client {}",
+                (client.isEmpty() ? "not found. entityId = " + id : "was found. client = " + client.get()));
 
         return client;
     }
@@ -63,11 +60,8 @@ public class ClientServiceImpl implements ClientService {
 
         Optional<Client> client = repository.findByEmail(email);
 
-        if (client.isEmpty()) {
-            LOGGER.info("The client not found. email = {}", email);
-        } else {
-            LOGGER.info("The client was found. client = {}", client.get());
-        }
+        LOGGER.info("The client {}",
+                (client.isEmpty() ? "not found. email = " + email : "was found. client = " + client.get()));
 
         return client;
     }
@@ -81,6 +75,7 @@ public class ClientServiceImpl implements ClientService {
                 .withRole(Role.USER)
                 .withIsActive(true)
                 .build();
+
         Client saved = repository.saveAndFlush(clientWithHashPassword);
 
         LOGGER.info("The save client has finished.");
@@ -89,21 +84,20 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    @SuppressWarnings("all")
     public void update(@NotNull Client client) {
         LOGGER.info("The update client has started.");
 
-        Client found = repository.findById(client.getId()).get();
+        Optional<Client> found = repository.findById(client.getId());
+        found.ifPresent(f -> {
+            Client.ClientBuilder updatedClient = client.toBuilder()
+                    .withEmail(f.getEmail())
+                    .withRole(f.getRole())
+                    .withIsActive(f.isActive());
 
-        Client.ClientBuilder updatedClient = client.toBuilder()
-                .withEmail(found.getEmail())
-                .withRole(found.getRole())
-                .withIsActive(found.isActive());
-        if (not(encoder.matches(client.getPassword(), found.getPassword()))) {
-            updatedClient.withPassword(encoder.encode(client.getPassword()));
-        }
+            updatePasswordIfChanged(client, f, updatedClient);
 
-        repository.saveAndFlush(updatedClient.build());
+            repository.saveAndFlush(updatedClient.build());
+        });
 
         LOGGER.info("The update client has finished.");
     }
@@ -113,17 +107,20 @@ public class ClientServiceImpl implements ClientService {
         LOGGER.info("The delete client has started.");
 
         Optional<Client> found = repository.findById(id);
-
-        if (found.isPresent()) {
-            Client deletedClient = found.get()
-                    .toBuilder()
+        found.ifPresent(c -> {
+            Client deletedClient = c.toBuilder()
                     .withIsActive(false)
                     .build();
-            repository.saveAndFlush(deletedClient);
 
-            LOGGER.info("The client was deleted. entityId = {}", id);
-        } else {
-            LOGGER.info("The client by id does not exist. entityId = {}", id);
+            repository.saveAndFlush(deletedClient);
+        });
+
+        LOGGER.info("The client " + (found.isPresent() ? "was deleted" : "by id does not exist") + ". entityId = {}", id);
+    }
+
+    private void updatePasswordIfChanged(Client newClient, Client fromDatabase, Client.ClientBuilder result) {
+        if (not(encoder.matches(newClient.getPassword(), fromDatabase.getPassword()))) {
+            result.withPassword(encoder.encode(newClient.getPassword()));
         }
     }
 }

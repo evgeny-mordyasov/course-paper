@@ -41,11 +41,8 @@ public class LnkDocumentLanguageServiceImpl implements LnkDocumentLanguageServic
 
         Optional<LnkDocumentLanguage> lnk = repository.findById(id);
 
-        if (lnk.isEmpty()) {
-            LOGGER.info("The lnk-dl not found. entityId = {}", id);
-        } else {
-            LOGGER.info("The lnk-dl was found. lnk-dl = {}", lnk.get());
-        }
+        LOGGER.info("The lnk-dl {}",
+                (lnk.isEmpty() ? "not found. entityId = " + id : "was found. classification = " + lnk.get()));
 
         return lnk;
     }
@@ -75,12 +72,8 @@ public class LnkDocumentLanguageServiceImpl implements LnkDocumentLanguageServic
         LOGGER.info("The delete lnk-dl has started.");
 
         Optional<LnkDocumentLanguage> found = repository.findById(id);
+        found.ifPresent(lnk -> repository.deleteById(lnk.getId()));
 
-        if (found.isPresent()) {
-            repository.deleteById(id);
-            LOGGER.info("The lnk-dl was deleted. entityId = {}", id);
-        } else {
-            LOGGER.info("The lnk-dl by id does not exist. entityId = {}", id);
-        }
+        LOGGER.info("The lnk-dl " + (found.isPresent() ? "was deleted" : "by id does not exist") + ". entityId = {}", id);
     }
 }

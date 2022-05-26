@@ -41,11 +41,8 @@ public class DocumentServiceImpl implements DocumentService {
 
         Optional<Document> document = repository.findById(id);
 
-        if (document.isEmpty()) {
-            LOGGER.info("The document not found. entityId = {}", id);
-        } else {
-            LOGGER.info("The document was found. document = {}", document.get());
-        }
+        LOGGER.info("The document {}",
+                (document.isEmpty() ? "not found. entityId = " + id : "was found. document = " + document.get()));
 
         return document;
     }
@@ -86,12 +83,8 @@ public class DocumentServiceImpl implements DocumentService {
         LOGGER.info("The delete document has started.");
 
         Optional<Document> found = repository.findById(id);
+        found.ifPresent(d -> repository.deleteById(d.getId()));
 
-        if (found.isPresent()) {
-            repository.deleteById(id);
-            LOGGER.info("The document was deleted. entityId = {}", id);
-        } else {
-            LOGGER.info("The document by id does not exist. entityId = {}", id);
-        }
+        LOGGER.info("The document " + (found.isPresent() ? "was deleted" : "by id does not exist") + ". entityId = {}", id);
     }
 }
