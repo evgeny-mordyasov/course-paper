@@ -1,7 +1,5 @@
 package ru.gold.ordance.course.web.rest.impl;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 import ru.gold.ordance.course.web.api.Response;
 import ru.gold.ordance.course.web.api.language.*;
@@ -14,8 +12,6 @@ import static ru.gold.ordance.course.web.rest.utils.RequestUtils.*;
 @RestController
 @RequestMapping("/api/v1/languages")
 public class LanguageRestControllerImpl implements LanguageRestController {
-    private static final Logger LOGGER = LoggerFactory.getLogger(LanguageRestControllerImpl.class);
-
     private final LanguageWebService service;
 
     public LanguageRestControllerImpl(LanguageWebService service) {
@@ -26,17 +22,9 @@ public class LanguageRestControllerImpl implements LanguageRestController {
     @GetMapping(produces = JSON)
     public Response findAll() {
         try {
-            LOGGER.info("Get all received.");
-
-            Response rs = service.findAll();
-            loggingSuccessResponse(rs);
-
-            return rs;
+            return service.findAll();
         } catch (Exception e) {
-            Response rs = createFrom(e);
-            loggingErrorResponse(rs, e);
-
-            return rs;
+            return createFrom(e);
         }
     }
 
@@ -46,18 +34,9 @@ public class LanguageRestControllerImpl implements LanguageRestController {
         LanguageGetByIdRequest rq = new LanguageGetByIdRequest(entityId);
 
         try {
-            LOGGER.info("Get by id request received: {}", rq);
-
-            rq.validate();
-            Response rs = service.findById(rq);
-            loggingSuccessResponse(rs, rq);
-
-            return rs;
+            return service.findById(rq);
         } catch (Exception e) {
-            Response rs = createFrom(e);
-            loggingErrorResponse(rs, rq, e);
-
-            return rs;
+            return createFrom(e);
         }
     }
 
@@ -67,18 +46,9 @@ public class LanguageRestControllerImpl implements LanguageRestController {
         LanguageGetByNameRequest rq = new LanguageGetByNameRequest(name);
 
         try {
-            LOGGER.info("Get by name request received: {}", rq);
-
-            rq.validate();
-            Response rs = service.findByName(rq);
-            loggingSuccessResponse(rs, rq);
-
-            return rs;
+            return service.findByName(rq);
         } catch (Exception e) {
-            Response rs = createFrom(e);
-            loggingErrorResponse(rs, rq, e);
-
-            return rs;
+            return createFrom(e);
         }
     }
 
@@ -86,18 +56,9 @@ public class LanguageRestControllerImpl implements LanguageRestController {
     @PostMapping(consumes = JSON, produces = JSON)
     public Response save(@RequestBody LanguageSaveRequest rq) {
         try {
-            LOGGER.info("Save request received: {}", rq);
-
-            rq.validate();
-            Response rs = service.save(rq);
-            loggingSuccessResponse(rs, rq);
-
-            return rs;
+            return service.save(rq);
         } catch (Exception e) {
-            Response rs = createFrom(e);
-            loggingErrorResponse(rs, rq, e);
-
-            return rs;
+            return createFrom(e);
         }
     }
 
@@ -105,18 +66,9 @@ public class LanguageRestControllerImpl implements LanguageRestController {
     @PutMapping(consumes = JSON, produces = JSON)
     public Response update(@RequestBody LanguageUpdateRequest rq) {
         try {
-            LOGGER.info("Update request received: {}", rq);
-
-            rq.validate();
-            Response rs = service.update(rq);
-            loggingSuccessResponse(rs, rq);
-
-            return rs;
+            return service.update(rq);
         } catch (Exception e) {
-            Response rs = createFrom(e);
-            loggingErrorResponse(rs, rq, e);
-
-            return rs;
+            return createFrom(e);
         }
     }
 
@@ -126,18 +78,9 @@ public class LanguageRestControllerImpl implements LanguageRestController {
         LanguageDeleteByIdRequest rq = new LanguageDeleteByIdRequest(entityId);
 
         try {
-            LOGGER.info("Delete by id request received: {}", rq);
-
-            rq.validate();
-            Response rs = service.deleteById(rq);
-            loggingSuccessResponse(rs, rq);
-
-            return rs;
+            return service.deleteById(rq);
         } catch (Exception e) {
-            Response rs = createFrom(e);
-            loggingErrorResponse(rs, rq, e);
-
-            return rs;
+            return createFrom(e);
         }
     }
 }

@@ -1,7 +1,5 @@
 package ru.gold.ordance.course.web.rest.impl;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.gold.ordance.course.web.api.Response;
@@ -15,8 +13,6 @@ import static ru.gold.ordance.course.web.rest.utils.RequestUtils.*;
 @RestController
 @RequestMapping("/api/v1/files")
 public class FileRestControllerImpl implements FileRestController {
-    private static final Logger LOGGER = LoggerFactory.getLogger(FileRestControllerImpl.class);
-
     private final FileWebService service;
 
     public FileRestControllerImpl(FileWebService service) {
@@ -27,17 +23,9 @@ public class FileRestControllerImpl implements FileRestController {
     @GetMapping(produces = JSON)
     public Response findAll() {
         try {
-            LOGGER.info("Get all received.");
-
-            Response rs = service.findAll();
-            loggingSuccessResponse(rs);
-
-            return rs;
+            return service.findAll();
         } catch (Exception e) {
-            Response rs = createFrom(e);
-            loggingErrorResponse(rs, e);
-
-            return rs;
+            return createFrom(e);
         }
     }
 
@@ -53,18 +41,9 @@ public class FileRestControllerImpl implements FileRestController {
                 .build();
 
         try {
-            LOGGER.info("Save request received: {}", rq);
-
-            rq.validate();
-            Response rs = service.save(rq);
-            loggingSuccessResponse(rs, rq);
-
-            return rs;
+            return service.save(rq);
         } catch (Exception e) {
-            Response rs = createFrom(e);
-            loggingErrorResponse(rs, rq, e);
-
-            return rs;
+            return createFrom(e);
         }
     }
 }

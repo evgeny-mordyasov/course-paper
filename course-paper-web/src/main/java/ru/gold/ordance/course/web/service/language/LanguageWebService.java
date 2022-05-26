@@ -1,8 +1,9 @@
 package ru.gold.ordance.course.web.service.language;
 
 import ru.gold.ordance.course.web.api.language.*;
+import ru.gold.ordance.course.web.service.WebService;
 
-public interface LanguageWebService {
+public interface LanguageWebService extends WebService {
     LanguageGetResponse findAll();
     LanguageGetResponse findById(LanguageGetByIdRequest rq);
     LanguageGetResponse findByName(LanguageGetByNameRequest rq);
