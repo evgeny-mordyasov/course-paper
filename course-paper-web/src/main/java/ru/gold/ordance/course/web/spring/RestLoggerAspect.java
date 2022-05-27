@@ -7,7 +7,7 @@ import ru.gold.ordance.course.web.api.Request;
 import ru.gold.ordance.course.web.api.Response;
 
 import static ru.gold.ordance.course.web.api.BaseErrorResponse.createFrom;
-import static ru.gold.ordance.course.web.utils.LoggerUtils.*;
+import static ru.gold.ordance.course.web.utils.WebLoggerUtils.*;
 
 @Component
 @Aspect

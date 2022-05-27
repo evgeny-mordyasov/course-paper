@@ -7,20 +7,20 @@ import ru.gold.ordance.course.web.api.Request;
 import ru.gold.ordance.course.web.api.Response;
 import ru.gold.ordance.course.web.api.StatusCode;
 
-import static ru.gold.ordance.course.common.utils.StringUtils.getRequestName;
+import static ru.gold.ordance.course.common.utils.StringUtils.getRequestTextFor;
 
-public final class LoggerUtils {
-    private static final Logger LOGGER = LoggerFactory.getLogger(LoggerUtils.class);
+public final class WebLoggerUtils {
+    private static final Logger LOGGER = LoggerFactory.getLogger(WebLoggerUtils.class);
 
-    private LoggerUtils() {
+    private WebLoggerUtils() {
     }
 
     public static void loggingReceivedRequest(Request rq, String methodName) {
-        LOGGER.info(getRequestName(methodName) + " request received: {}", rq);
+        LOGGER.info(getRequestTextFor(methodName) + " request received: {}", rq);
     }
 
     public static void loggingReceivedRequest(String methodName) {
-        LOGGER.info(getRequestName(methodName) + " request received.");
+        LOGGER.info(getRequestTextFor(methodName) + " request received.");
     }
 
     public static void loggingSuccessResponse(Response rs) {

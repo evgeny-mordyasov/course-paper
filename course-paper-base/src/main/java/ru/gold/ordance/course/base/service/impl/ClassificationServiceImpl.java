@@ -26,66 +26,32 @@ public class ClassificationServiceImpl implements ClassificationService {
 
     @Override
     public List<Classification> findAll() {
-        LOGGER.info("The search for all classification has started.");
-
-        List<Classification> classifications = repository.findAll();
-
-        LOGGER.info("Size of list: {}", classifications.size());
-
-        return classifications;
+        return repository.findAll();
     }
 
     @Override
     public Optional<Classification> findById(@NotNull Long id) {
-        LOGGER.info("The search by id classification has started.");
-
-        Optional<Classification> classification = repository.findById(id);
-
-        LOGGER.info("The classification {}",
-                (classification.isEmpty() ? "not found. entityId = " + id : "was found. classification = " + classification.get()));
-
-        return classification;
+        return repository.findById(id);
     }
 
     @Override
     public Optional<Classification> findByName(@NotNull String name) {
-        LOGGER.info("The search by name classification has started.");
-
-        Optional<Classification> classification = repository.findByName(name);
-
-        LOGGER.info("The classification {}",
-                (classification.isEmpty() ? "not found. name = " + name : "was found. classification = " + classification.get()));
-
-        return classification;
+        return repository.findByName(name);
     }
 
     @Override
     public Classification save(@NotNull Classification classification) {
-        LOGGER.info("The save classification has started.");
-
-        Classification saved = repository.saveAndFlush(classification);
-
-        LOGGER.info("The save classification has finished.");
-
-        return saved;
+        return repository.saveAndFlush(classification);
     }
 
     @Override
     public void update(@NotNull Classification classification) {
-        LOGGER.info("The update classification has started.");
-
         repository.saveAndFlush(classification);
-
-        LOGGER.info("The update classification has finished.");
     }
 
     @Override
     public void deleteById(Long id) {
-        LOGGER.info("The delete classification has started.");
-
         Optional<Classification> found = repository.findById(id);
         found.ifPresent(c -> repository.deleteById(c.getId()));
-
-        LOGGER.info("The classification " + (found.isPresent() ? "was deleted" : "by id does not exist") + ". entityId = {}", id);
     }
 }

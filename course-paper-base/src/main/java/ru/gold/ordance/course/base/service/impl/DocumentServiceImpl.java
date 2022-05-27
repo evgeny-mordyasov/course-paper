@@ -26,65 +26,32 @@ public class DocumentServiceImpl implements DocumentService {
 
     @Override
     public List<Document> findAll() {
-        LOGGER.info("The search for all document has started.");
-
-        List<Document> documents = repository.findAll();
-
-        LOGGER.info("Size of list: {}", documents.size());
-
-        return documents;
+        return repository.findAll();
     }
 
     @Override
     public Optional<Document> findById(@NotNull Long id) {
-        LOGGER.info("The search by id document has started.");
-
-        Optional<Document> document = repository.findById(id);
-
-        LOGGER.info("The document {}",
-                (document.isEmpty() ? "not found. entityId = " + id : "was found. document = " + document.get()));
-
-        return document;
+        return repository.findById(id);
     }
 
     @Override
     public List<Document> findByName(@NotNull String name) {
-        LOGGER.info("The search for documents by name has started.");
-
-        List<Document> documents = repository.findAllByName(name);
-
-        LOGGER.info("Size of list: {}", documents.size());
-
-        return documents;
+        return repository.findAllByName(name);
     }
 
     @Override
     public Document save(@NotNull Document document) {
-        LOGGER.info("The save document has started.");
-
-        Document saved = repository.saveAndFlush(document);
-
-        LOGGER.info("The save document has finished.");
-
-        return saved;
+        return repository.saveAndFlush(document);
     }
 
     @Override
     public void update(@NotNull Document document) {
-        LOGGER.info("The update document has started.");
-
         repository.saveAndFlush(document);
-
-        LOGGER.info("The update document has finished.");
     }
 
     @Override
     public void deleteById(Long id) {
-        LOGGER.info("The delete document has started.");
-
         Optional<Document> found = repository.findById(id);
         found.ifPresent(d -> repository.deleteById(d.getId()));
-
-        LOGGER.info("The document " + (found.isPresent() ? "was deleted" : "by id does not exist") + ". entityId = {}", id);
     }
 }

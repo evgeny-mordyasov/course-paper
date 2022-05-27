@@ -33,60 +33,32 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public List<Client> findAll() {
-        LOGGER.info("The search for all clients has started.");
-
-        List<Client> clients = repository.findAll();
-
-        LOGGER.info("Size of list: {}", clients.size());
-
-        return clients;
+        return repository.findAll();
     }
 
     @Override
     public Optional<Client> findById(@NotNull Long id) {
-        LOGGER.info("The search by id client has started.");
-
-        Optional<Client> client = repository.findById(id);
-
-        LOGGER.info("The client {}",
-                (client.isEmpty() ? "not found. entityId = " + id : "was found. client = " + client.get()));
-
-        return client;
+        return repository.findById(id);
     }
 
     @Override
     public Optional<Client> findByEmail(@NotNull String email) {
-        LOGGER.info("The search by email client has started.");
-
-        Optional<Client> client = repository.findByEmail(email);
-
-        LOGGER.info("The client {}",
-                (client.isEmpty() ? "not found. email = " + email : "was found. client = " + client.get()));
-
-        return client;
+        return repository.findByEmail(email);
     }
 
     @Override
     public Client save(@NotNull Client client) {
-        LOGGER.info("The save client has started.");
-
         Client clientWithHashPassword = client.toBuilder()
                 .withPassword(encoder.encode(client.getPassword()))
                 .withRole(Role.USER)
                 .withIsActive(true)
                 .build();
 
-        Client saved = repository.saveAndFlush(clientWithHashPassword);
-
-        LOGGER.info("The save client has finished.");
-
-        return saved;
+        return repository.saveAndFlush(clientWithHashPassword);
     }
 
     @Override
     public void update(@NotNull Client client) {
-        LOGGER.info("The update client has started.");
-
         Optional<Client> found = repository.findById(client.getId());
         found.ifPresent(f -> {
             Client.ClientBuilder updatedClient = client.toBuilder()
@@ -98,14 +70,10 @@ public class ClientServiceImpl implements ClientService {
 
             repository.saveAndFlush(updatedClient.build());
         });
-
-        LOGGER.info("The update client has finished.");
     }
 
     @Override
     public void deleteById(@NotNull Long id) {
-        LOGGER.info("The delete client has started.");
-
         Optional<Client> found = repository.findById(id);
         found.ifPresent(c -> {
             Client deletedClient = c.toBuilder()
@@ -114,8 +82,6 @@ public class ClientServiceImpl implements ClientService {
 
             repository.saveAndFlush(deletedClient);
         });
-
-        LOGGER.info("The client " + (found.isPresent() ? "was deleted" : "by id does not exist") + ". entityId = {}", id);
     }
 
     private void updatePasswordIfChanged(Client newClient, Client fromDatabase, Client.ClientBuilder result) {

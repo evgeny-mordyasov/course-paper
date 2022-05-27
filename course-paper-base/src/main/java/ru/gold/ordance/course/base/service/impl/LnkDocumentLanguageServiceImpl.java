@@ -26,54 +26,27 @@ public class LnkDocumentLanguageServiceImpl implements LnkDocumentLanguageServic
 
     @Override
     public List<LnkDocumentLanguage> findAll() {
-        LOGGER.info("The search for all lnk-dl has started.");
-
-        List<LnkDocumentLanguage> documents = repository.findAll();
-
-        LOGGER.info("Size of list: {}", documents.size());
-
-        return documents;
+        return repository.findAll();
     }
 
     @Override
     public Optional<LnkDocumentLanguage> findById(@NotNull Long id) {
-        LOGGER.info("The search by id lnk-dl has started.");
-
-        Optional<LnkDocumentLanguage> lnk = repository.findById(id);
-
-        LOGGER.info("The lnk-dl {}",
-                (lnk.isEmpty() ? "not found. entityId = " + id : "was found. classification = " + lnk.get()));
-
-        return lnk;
+        return repository.findById(id);
     }
 
     @Override
     public LnkDocumentLanguage save(@NotNull LnkDocumentLanguage lnk) {
-        LOGGER.info("The save lnk-dl has started.");
-
-        LnkDocumentLanguage saved = repository.saveAndFlush(lnk);
-
-        LOGGER.info("The save lnk has finished.");
-
-        return saved;
+        return repository.saveAndFlush(lnk);
     }
 
     @Override
     public void update(@NotNull LnkDocumentLanguage lnk) {
-        LOGGER.info("The update lnk-dl has started.");
-
         repository.saveAndFlush(lnk);
-
-        LOGGER.info("The update lnk-dl has finished.");
     }
 
     @Override
     public void deleteById(Long id) {
-        LOGGER.info("The delete lnk-dl has started.");
-
         Optional<LnkDocumentLanguage> found = repository.findById(id);
         found.ifPresent(lnk -> repository.deleteById(lnk.getId()));
-
-        LOGGER.info("The lnk-dl " + (found.isPresent() ? "was deleted" : "by id does not exist") + ". entityId = {}", id);
     }
 }
