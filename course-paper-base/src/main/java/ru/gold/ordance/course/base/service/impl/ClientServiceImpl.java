@@ -1,8 +1,6 @@
 package ru.gold.ordance.course.base.service.impl;
 
 import com.sun.istack.NotNull;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -20,8 +18,6 @@ import static ru.gold.ordance.course.common.utils.TestUtils.not;
 @Service
 @Transactional(isolation = Isolation.READ_COMMITTED)
 public class ClientServiceImpl implements ClientService {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ClientServiceImpl.class);
-
     private final ClientRepository repository;
 
     private final PasswordEncoder encoder;
@@ -59,34 +55,35 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public void update(@NotNull Client client) {
-        Optional<Client> found = repository.findById(client.getId());
-        found.ifPresent(f -> {
-            Client.ClientBuilder updatedClient = client.toBuilder()
-                    .withEmail(f.getEmail())
-                    .withRole(f.getRole())
-                    .withIsActive(f.isActive());
+        Client clientFromDb = repository.getById(client.getId());
 
-            updatePasswordIfChanged(client, f, updatedClient);
+        Client updatedClient = clientFromDb.toBuilder()
+                .withSurname(client.getSurname())
+                .withName(client.getName())
+                .withPatronymic(client.getPatronymic())
+                .withPassword(getNewPasswordIfChanged(client, clientFromDb))
+                .build();
 
-            repository.saveAndFlush(updatedClient.build());
-        });
+        repository.saveAndFlush(updatedClient);
+    }
+
+    private String getNewPasswordIfChanged(Client newClient, Client fromDatabase) {
+        if (not(encoder.matches(newClient.getPassword(), fromDatabase.getPassword()))) {
+            return encoder.encode(newClient.getPassword());
+        }
+
+        return fromDatabase.getPassword();
     }
 
     @Override
     public void deleteById(@NotNull Long id) {
         Optional<Client> found = repository.findById(id);
-        found.ifPresent(c -> {
-            Client deletedClient = c.toBuilder()
+        found.ifPresent(client -> {
+            Client deletedClient = client.toBuilder()
                     .withIsActive(false)
                     .build();
 
             repository.saveAndFlush(deletedClient);
         });
-    }
-
-    private void updatePasswordIfChanged(Client newClient, Client fromDatabase, Client.ClientBuilder result) {
-        if (not(encoder.matches(newClient.getPassword(), fromDatabase.getPassword()))) {
-            result.withPassword(encoder.encode(newClient.getPassword()));
-        }
     }
 }

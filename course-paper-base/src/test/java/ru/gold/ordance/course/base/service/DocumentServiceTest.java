@@ -115,7 +115,7 @@ public class DocumentServiceTest {
         repository.saveAndFlush(createDocument(classification, name));
         repository.saveAndFlush(createDocument(classification, name));
 
-        List<Document> found = service.findAll();
+        List<Document> found = service.findByName(name);
 
         assertEquals(foundALot, found.size());
     }

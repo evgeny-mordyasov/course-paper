@@ -1,8 +1,6 @@
 package ru.gold.ordance.course.base.service.impl;
 
 import com.sun.istack.NotNull;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,8 +14,6 @@ import java.util.Optional;
 @Service
 @Transactional(isolation = Isolation.READ_COMMITTED)
 public class LnkDocumentLanguageServiceImpl implements LnkDocumentLanguageService {
-    private static final Logger LOGGER = LoggerFactory.getLogger(LnkDocumentLanguageServiceImpl.class);
-
     private final LnkDocumentLanguageRepository repository;
 
     public LnkDocumentLanguageServiceImpl(LnkDocumentLanguageRepository repository) {
