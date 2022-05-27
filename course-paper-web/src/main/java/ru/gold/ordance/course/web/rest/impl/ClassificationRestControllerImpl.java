@@ -31,10 +31,8 @@ public class ClassificationRestControllerImpl implements ClassificationRestContr
     @Override
     @GetMapping(value = "/{entityId}", produces = JSON)
     public Response findById(@PathVariable Long entityId) {
-        ClassificationGetByIdRequest rq = new ClassificationGetByIdRequest(entityId);
-
         try {
-            return service.findById(rq);
+            return service.findById(new ClassificationGetByIdRequest(entityId));
         } catch (Exception e) {
             return createFrom(e);
         }
@@ -43,10 +41,8 @@ public class ClassificationRestControllerImpl implements ClassificationRestContr
     @Override
     @GetMapping(value = "/name/{name}", produces = JSON)
     public Response findByName(@PathVariable String name) {
-        ClassificationGetByNameRequest rq = new ClassificationGetByNameRequest(name);
-
         try {
-            return service.findByName(rq);
+            return service.findByName(new ClassificationGetByNameRequest(name));
         } catch (Exception e) {
             return createFrom(e);
         }
@@ -75,10 +71,8 @@ public class ClassificationRestControllerImpl implements ClassificationRestContr
     @Override
     @DeleteMapping(value = "/{entityId}", produces = JSON)
     public Response deleteById(@PathVariable Long entityId) {
-        ClassificationDeleteByIdRequest rq = new ClassificationDeleteByIdRequest(entityId);
-
         try {
-            return service.deleteById(rq);
+            return service.deleteById(new ClassificationDeleteByIdRequest(entityId));
         } catch (Exception e) {
             return createFrom(e);
         }

@@ -31,10 +31,8 @@ public class LanguageRestControllerImpl implements LanguageRestController {
     @Override
     @GetMapping(value = "/{entityId}", produces = JSON)
     public Response findById(@PathVariable Long entityId) {
-        LanguageGetByIdRequest rq = new LanguageGetByIdRequest(entityId);
-
         try {
-            return service.findById(rq);
+            return service.findById(new LanguageGetByIdRequest(entityId));
         } catch (Exception e) {
             return createFrom(e);
         }
@@ -43,10 +41,8 @@ public class LanguageRestControllerImpl implements LanguageRestController {
     @Override
     @GetMapping(value = "/name/{name}", produces = JSON)
     public Response findByName(@PathVariable String name) {
-        LanguageGetByNameRequest rq = new LanguageGetByNameRequest(name);
-
         try {
-            return service.findByName(rq);
+            return service.findByName(new LanguageGetByNameRequest(name));
         } catch (Exception e) {
             return createFrom(e);
         }
@@ -75,10 +71,8 @@ public class LanguageRestControllerImpl implements LanguageRestController {
     @Override
     @DeleteMapping(value = "/{entityId}", produces = JSON)
     public Response deleteById(@PathVariable Long entityId) {
-        LanguageDeleteByIdRequest rq = new LanguageDeleteByIdRequest(entityId);
-
         try {
-            return service.deleteById(rq);
+            return service.deleteById(new LanguageDeleteByIdRequest(entityId));
         } catch (Exception e) {
             return createFrom(e);
         }
