@@ -15,14 +15,11 @@ public class AuthorizationSignInResponse implements Response {
 
     private final Status status;
 
-    private final String role;
-
     private final String token;
 
-    public static AuthorizationSignInResponse success(String token, String role) {
+    public static AuthorizationSignInResponse success(String token) {
         return AuthorizationSignInResponse.builder()
                 .status(new Status().withCode(StatusCode.SUCCESS))
-                .role(role)
                 .token(token)
                 .build();
     }

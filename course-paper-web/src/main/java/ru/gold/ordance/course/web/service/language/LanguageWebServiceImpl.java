@@ -24,31 +24,26 @@ public class LanguageWebServiceImpl implements LanguageWebService {
 
     @Override
     public LanguageGetResponse findAll() {
-        List<Language> list = service.findAll();
+        List<Language> allLanguages = service.findAll();
 
-        if (list.isEmpty()) {
-            return LanguageGetResponse.success(Collections.emptyList());
-        } else {
-            List<WebLanguage> webClients = list.stream()
-                    .map(mapper::fromLanguage)
-                    .collect(Collectors.toList());
-
-            return LanguageGetResponse.success(webClients);
-        }
+        return LanguageGetResponse.success(
+                allLanguages.stream()
+                        .map(mapper::fromLanguage)
+                        .collect(Collectors.toList()));
     }
 
     @Override
     public LanguageGetResponse findById(LanguageGetByIdRequest rq) {
-        Optional<Language> found = service.findById(rq.getEntityId());
+        Optional<Language> foundLanguage = service.findById(rq.getEntityId());
 
-        return search(found);
+        return search(foundLanguage);
     }
 
     @Override
     public LanguageGetResponse findByName(LanguageGetByNameRequest rq) {
-        Optional<Language> found = service.findByName(rq.getName());
+        Optional<Language> foundLanguage = service.findByName(rq.getName());
 
-        return search(found);
+        return search(foundLanguage);
     }
 
     @Override
@@ -72,11 +67,9 @@ public class LanguageWebServiceImpl implements LanguageWebService {
         return LanguageDeleteByIdResponse.success();
     }
 
-    private LanguageGetResponse search(Optional<Language> found) {
-        if (found.isEmpty()) {
-            return LanguageGetResponse.success(Collections.emptyList());
-        } else {
-            return LanguageGetResponse.success(Collections.singletonList(mapper.fromLanguage(found.get())));
-        }
+    private LanguageGetResponse search(Optional<Language> language) {
+        return LanguageGetResponse.success(language.isEmpty()
+                ? Collections.emptyList()
+                : Collections.singletonList(mapper.fromLanguage(language.get())));
     }
 }

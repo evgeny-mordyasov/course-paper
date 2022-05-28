@@ -4,7 +4,7 @@ import ru.gold.ordance.course.web.exception.ValidateException;
 
 import static java.util.Objects.isNull;
 import static org.apache.logging.log4j.util.Strings.isBlank;
-import static ru.gold.ordance.course.base.spring.StaticContextAccessor.getStorageHelper;
+import static ru.gold.ordance.course.base.spring.StaticContextAccessor.getPersistenceHelper;
 import static ru.gold.ordance.course.common.utils.TestUtils.not;
 
 public final class ValidatorUtils {
@@ -42,7 +42,7 @@ public final class ValidatorUtils {
     public static void errorObjectId(Class<?> clazz, Long objectId, String fieldName) {
        errorId(objectId, fieldName);
 
-        if (not(getStorageHelper().existsById(clazz, objectId))) {
+        if (not(getPersistenceHelper().existsById(clazz, objectId))) {
             error("The " + fieldName + " was not found in the database.");
         }
     }

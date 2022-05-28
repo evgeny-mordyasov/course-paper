@@ -1,12 +1,12 @@
 package ru.gold.ordance.course.web.api;
 
 public enum StatusCode {
-    SUCCESS("Request completed."),
-    INVALID_RQ("Request validation failed."),
-    VIOLATES_CONSTRAINT("Request violates the database constraint."),
-    UNAUTHORIZED("Request contains incorrect data."),
+    SUCCESS("The request completed."),
+    INVALID_RQ("The request validation failed."),
+    VIOLATES_CONSTRAINT("The request violates the database constraint."),
+    UNAUTHORIZED("The request contains invalid user data."),
     BANNED("The user was banned."),
-    CALL_ERROR("Request failed.");
+    CALL_ERROR("The request failed.");
 
     private final String errorMessage;
 

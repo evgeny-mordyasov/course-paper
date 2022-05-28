@@ -196,7 +196,11 @@ public class AuthorizationRestControllerTest {
                         .contentType(JSON))
                 .andExpect(content().contentType(JSON))
                 .andExpect(jsonPath("$.status.code", is(SUCCESS)))
-                .andExpect(jsonPath("$.status.description", nullValue()));
+                .andExpect(jsonPath("$.status.description", nullValue()))
+                .andExpect(jsonPath("$.client.surname", is(surname)))
+                .andExpect(jsonPath("$.client.name", is(name)))
+                .andExpect(jsonPath("$.client.patronymic", is(patronymic)))
+                .andExpect(jsonPath("$.client.email", is(email)));
     }
 
     @Test

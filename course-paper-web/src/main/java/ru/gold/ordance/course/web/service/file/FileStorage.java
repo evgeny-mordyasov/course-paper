@@ -3,9 +3,7 @@ package ru.gold.ordance.course.web.service.file;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
-import ru.gold.ordance.course.base.entity.Classification;
-import ru.gold.ordance.course.base.entity.Language;
-import ru.gold.ordance.course.base.utils.StorageHelper;
+import ru.gold.ordance.course.base.utils.PersistenceHelper;
 import ru.gold.ordance.course.web.api.file.FileSaveRequest;
 
 import java.io.File;
@@ -15,26 +13,38 @@ import java.nio.file.Path;
 
 @Component
 public final class FileStorage {
-    private final StorageHelper storage;
+    private final PersistenceHelper persistence;
 
-    private final String path;
+    private final String storagePath;
 
-    public FileStorage(StorageHelper storage,
-                       @Value("${spring.servlet.multipart.location}") String path) {
-        this.storage = storage;
-        this.path = path;
+    public FileStorage(PersistenceHelper persistence,
+                       @Value("${spring.servlet.multipart.location}") String storagePath) {
+        this.persistence = persistence;
+        this.storagePath = storagePath;
     }
 
-    public String getUrn(FileSaveRequest rq) {
-        final String classificationName = storage.findById(Classification.class, rq.getClassificationId()).getName();
-        final String languageName = storage.findById(Language.class, rq.getLanguageId()).getName();
-
-
-        return String.format("/%s/%s/%s", classificationName, languageName, rq.getFile().getOriginalFilename());
+    public String getURN(FileSaveRequest rq) {
+        return formURN(
+                persistence.getClassificationNameById(rq.getClassificationId()),
+                persistence.getLanguageNameById(rq.getLanguageId()),
+                rq.getFile().getOriginalFilename());
     }
 
-    public void moveFileTo(MultipartFile file, String urn) throws IOException {
-        Files.createDirectories(Path.of(String.format("%s/%s", path, urn.substring(0, urn.lastIndexOf("/")))));
-        file.transferTo(new File(path + urn));
+    private String formURN(String classificationName, String languageName, String fullFileName) {
+        return String.format("/%s/%s/%s", classificationName, languageName, fullFileName);
+    }
+
+    public void moveFileTo(String URN, MultipartFile file) throws IOException {
+        creatingDirectoriesFor(URN);
+        file.transferTo(new File(storagePath + URN));
+    }
+
+    private void creatingDirectoriesFor(String URN) throws IOException {
+        Path fullPath = Path.of(storagePath + urnWithoutFileName(URN));
+        Files.createDirectories(fullPath);
+    }
+
+    private String urnWithoutFileName(String URN) {
+        return URN.substring(0, URN.lastIndexOf("/"));
     }
 }

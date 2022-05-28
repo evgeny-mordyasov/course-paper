@@ -2,6 +2,7 @@ package ru.gold.ordance.course.web.service.mapper.impl;
 
 import org.springframework.stereotype.Component;
 import ru.gold.ordance.course.base.entity.Client;
+import ru.gold.ordance.course.web.api.authorization.AuthorizationSignUpRequest;
 import ru.gold.ordance.course.web.api.client.ClientUpdateRequest;
 import ru.gold.ordance.course.web.api.client.WebClient;
 import ru.gold.ordance.course.web.service.mapper.ClientMapper;
@@ -15,6 +16,17 @@ public class ClientMapperImpl implements ClientMapper {
                 .withSurname(rq.getSurname())
                 .withName(rq.getName())
                 .withPatronymic(rq.getPatronymic())
+                .withPassword(rq.getPassword())
+                .build();
+    }
+
+    @Override
+    public Client toClient(AuthorizationSignUpRequest rq) {
+        return Client.builder()
+                .withSurname(rq.getSurname())
+                .withName(rq.getName())
+                .withPatronymic(rq.getPatronymic())
+                .withEmail(rq.getEmail())
                 .withPassword(rq.getPassword())
                 .build();
     }

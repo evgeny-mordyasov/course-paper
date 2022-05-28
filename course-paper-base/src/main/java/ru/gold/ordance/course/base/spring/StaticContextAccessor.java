@@ -2,7 +2,7 @@ package ru.gold.ordance.course.base.spring;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
-import ru.gold.ordance.course.base.utils.StorageHelper;
+import ru.gold.ordance.course.base.utils.PersistenceHelper;
 
 @Component
 public class StaticContextAccessor {
@@ -20,7 +20,7 @@ public class StaticContextAccessor {
         return context.getBean(clazz);
     }
 
-    public static StorageHelper getStorageHelper() {
-        return getBean(StorageHelper.class);
+    public static PersistenceHelper getPersistenceHelper() {
+        return getBean(PersistenceHelper.class);
     }
 }

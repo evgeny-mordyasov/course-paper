@@ -24,31 +24,26 @@ public class ClassificationWebServiceImpl implements ClassificationWebService {
 
     @Override
     public ClassificationGetResponse findAll() {
-        List<Classification> list = service.findAll();
+        List<Classification> allClassifications = service.findAll();
 
-        if (list.isEmpty()) {
-            return ClassificationGetResponse.success(Collections.emptyList());
-        } else {
-            List<WebClassification> webClients = list.stream()
+        return ClassificationGetResponse.success(
+                allClassifications.stream()
                     .map(mapper::fromClassification)
-                    .collect(Collectors.toList());
-
-            return ClassificationGetResponse.success(webClients);
-        }
+                    .collect(Collectors.toList()));
     }
 
     @Override
     public ClassificationGetResponse findById(ClassificationGetByIdRequest rq) {
-        Optional<Classification> found = service.findById(rq.getEntityId());
+        Optional<Classification> foundClassification = service.findById(rq.getEntityId());
 
-        return search(found);
+        return search(foundClassification);
     }
 
     @Override
     public ClassificationGetResponse findByName(ClassificationGetByNameRequest rq) {
-        Optional<Classification> found = service.findByName(rq.getName());
+        Optional<Classification> foundClassification = service.findByName(rq.getName());
 
-        return search(found);
+        return search(foundClassification);
     }
 
     @Override
@@ -72,11 +67,9 @@ public class ClassificationWebServiceImpl implements ClassificationWebService {
         return ClassificationDeleteByIdResponse.success();
     }
 
-    private ClassificationGetResponse search(Optional<Classification> found) {
-        if (found.isEmpty()) {
-            return ClassificationGetResponse.success(Collections.emptyList());
-        } else {
-            return ClassificationGetResponse.success(Collections.singletonList(mapper.fromClassification(found.get())));
-        }
+    private ClassificationGetResponse search(Optional<Classification> classification) {
+        return ClassificationGetResponse.success(classification.isEmpty()
+                ? Collections.emptyList()
+                : Collections.singletonList(mapper.fromClassification(classification.get())));
     }
 }

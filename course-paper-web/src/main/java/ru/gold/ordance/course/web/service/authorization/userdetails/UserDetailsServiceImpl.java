@@ -22,15 +22,14 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Optional<Client> client = service.findByEmail(email);
+        Optional<Client> foundClient = service.findByEmail(email);
+        Client client = foundClient.orElseThrow(() -> new UsernameNotFoundException("The user by email not found."));
 
-        return client.map(value ->
-                new UserDetailsImpl(
-                        value.getId(),
-                        value.getEmail(),
-                        value.getPassword(),
-                        value.isActive(),
-                        Collections.singleton(new SimpleGrantedAuthority(value.getRole().name()))))
-                .orElse(null);
+        return new UserDetailsImpl(
+                client.getId(),
+                client.getEmail(),
+                client.getPassword(),
+                client.isActive(),
+                Collections.singleton(new SimpleGrantedAuthority(client.getRole().name())));
     }
 }

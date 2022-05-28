@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.tomcat.util.http.fileupload.impl.FileSizeLimitExceededException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.MediaType;
-import org.springframework.security.authentication.InternalAuthenticationServiceException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.LockedException;
 import ru.gold.ordance.course.web.api.Status;
 import ru.gold.ordance.course.web.api.StatusCode;
@@ -32,7 +32,7 @@ public final class RequestUtils {
                     .withDescription(StatusCode.VIOLATES_CONSTRAINT.getErrorMessage());
         }
 
-        if (e instanceof InternalAuthenticationServiceException) {
+        if (e instanceof BadCredentialsException) {
             return new Status()
                     .withCode(StatusCode.UNAUTHORIZED)
                     .withDescription(StatusCode.UNAUTHORIZED.getErrorMessage());

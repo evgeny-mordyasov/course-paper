@@ -24,31 +24,26 @@ public class ClientWebServiceImpl implements ClientWebService {
 
     @Override
     public ClientGetResponse findAll() {
-        List<Client> list = service.findAll();
+        List<Client> allClients = service.findAll();
 
-        if (list.isEmpty()) {
-            return ClientGetResponse.success(Collections.emptyList());
-        } else {
-            List<WebClient> webClients = list.stream()
-                    .map(mapper::fromClient)
-                    .collect(Collectors.toList());
-
-            return ClientGetResponse.success(webClients);
-        }
+        return ClientGetResponse.success(
+                allClients.stream()
+                        .map(mapper::fromClient)
+                        .collect(Collectors.toList()));
     }
 
     @Override
     public ClientGetResponse findById(ClientGetByIdRequest rq) {
-        Optional<Client> found = service.findById(rq.getEntityId());
+        Optional<Client> foundClient = service.findById(rq.getEntityId());
 
-        return search(found);
+        return search(foundClient);
     }
 
     @Override
     public ClientGetResponse findByEmail(ClientGetByEmailRequest rq) {
-        Optional<Client> found = service.findByEmail(rq.getEmail());
+        Optional<Client> foundClient = service.findByEmail(rq.getEmail());
 
-        return search(found);
+        return search(foundClient);
     }
 
     @Override
@@ -65,11 +60,9 @@ public class ClientWebServiceImpl implements ClientWebService {
         return ClientDeleteByIdResponse.success();
     }
 
-    private ClientGetResponse search(Optional<Client> found) {
-        if (found.isEmpty()) {
-            return ClientGetResponse.success(Collections.emptyList());
-        } else {
-            return ClientGetResponse.success(Collections.singletonList(mapper.fromClient(found.get())));
-        }
+    private ClientGetResponse search(Optional<Client> client) {
+        return ClientGetResponse.success(client.isEmpty()
+                ? Collections.emptyList()
+                : Collections.singletonList(mapper.fromClient(client.get())));
     }
 }

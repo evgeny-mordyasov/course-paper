@@ -1,6 +1,7 @@
 package ru.gold.ordance.course.web.service.file;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.gold.ordance.course.base.entity.Document;
 import ru.gold.ordance.course.base.entity.Language;
 import ru.gold.ordance.course.base.entity.LnkDocumentLanguage;
@@ -9,11 +10,9 @@ import ru.gold.ordance.course.base.service.LnkDocumentLanguageService;
 import ru.gold.ordance.course.web.api.file.FileGetResponse;
 import ru.gold.ordance.course.web.api.file.FileSaveRequest;
 import ru.gold.ordance.course.web.api.file.FileSaveResponse;
-import ru.gold.ordance.course.web.api.file.WebFile;
 import ru.gold.ordance.course.web.service.mapper.FileMapper;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -39,35 +38,27 @@ public class FileWebServiceImpl implements FileWebService {
 
     @Override
     public FileGetResponse findAll() {
-        List<LnkDocumentLanguage> list = lnkService.findAll();
+        List<LnkDocumentLanguage> allFiles = lnkService.findAll();
 
-        if (list.isEmpty()) {
-            return FileGetResponse.success(Collections.emptyList());
-        } else {
-            List<WebFile> webFiles = list.stream()
-                    .map(mapper::toWebFile)
-                    .collect(Collectors.toList());
-
-            return FileGetResponse.success(webFiles);
-        }
+        return FileGetResponse.success(
+                allFiles.stream()
+                        .map(mapper::toWebFile)
+                        .collect(Collectors.toList()));
     }
 
     @Override
-    @SuppressWarnings("all")
+    @Transactional
     public FileSaveResponse save(FileSaveRequest rq) throws IOException {
-        String urn = fileStorage.getUrn(rq);
-        fileStorage.moveFileTo(rq.getFile(), urn);
+        String URN = fileStorage.getURN(rq);
 
-        Document savedDocument = documentService.save(mapper.toDocument(rq));
-
-        lnkService.save(LnkDocumentLanguage.builder()
-                .withDocument(savedDocument)
-                .withLanguage(Language.builder()
-                        .withId(rq.getLanguageId())
-                        .build())
-                .withUrn(urn)
-                .build());
+        saveDocument(rq, URN);
+        fileStorage.moveFileTo(URN, rq.getFile());
 
         return FileSaveResponse.success();
+    }
+
+    private void saveDocument(FileSaveRequest rq, String URN) {
+        Document savedDocument = documentService.save(mapper.toDocument(rq));
+        lnkService.save(mapper.toLnk(savedDocument, rq.getLanguageId(), URN));
     }
 }
