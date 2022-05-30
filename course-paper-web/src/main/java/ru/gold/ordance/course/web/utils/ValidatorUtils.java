@@ -52,4 +52,10 @@ public final class ValidatorUtils {
             error(message);
         }
     }
+
+    public static void errorFalse(boolean condition, String message) {
+        if (!condition) {
+            error(message);
+        }
+    }
 }

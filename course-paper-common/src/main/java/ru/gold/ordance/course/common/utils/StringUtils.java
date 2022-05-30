@@ -48,4 +48,8 @@ public final class StringUtils {
     private static String getTextAfterSubstring(String string, String substring) {
         return string.substring(string.indexOf(substring) + 1);
     }
+
+    public static String getFileExtension(String fullFileName) {
+        return fullFileName.substring(fullFileName.indexOf("."));
+    }
 }

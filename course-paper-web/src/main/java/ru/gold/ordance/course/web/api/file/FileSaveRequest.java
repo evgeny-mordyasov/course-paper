@@ -6,6 +6,8 @@ import ru.gold.ordance.course.base.entity.Classification;
 import ru.gold.ordance.course.base.entity.Language;
 import ru.gold.ordance.course.web.api.SaveRequest;
 
+import static ru.gold.ordance.course.common.utils.StringUtils.getFileExtension;
+import static ru.gold.ordance.course.web.service.file.FileExtension.isFromWhitelist;
 import static ru.gold.ordance.course.web.utils.ValidatorUtils.*;
 
 @Builder(toBuilder = true)
@@ -26,6 +28,7 @@ public class FileSaveRequest implements SaveRequest {
     public void validate() {
         errorTrue(getFile().isEmpty(), "The file is missing.");
         errorString(getFile().getOriginalFilename(), "fileName");
+        errorFalse(isFromWhitelist(getFileExtension(getFile().getOriginalFilename())), "The file extension not supported.");
         errorObjectId(Classification.class, getClassificationId(), "classificationId");
         errorObjectId(Language.class, getLanguageId(), "languageId");
     }

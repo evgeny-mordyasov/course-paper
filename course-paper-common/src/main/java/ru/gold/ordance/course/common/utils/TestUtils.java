@@ -16,7 +16,7 @@ public final class TestUtils {
     }
 
     public static String randomFullFileName() {
-        return String.format("%s.%s", randomString(), randomString());
+        return String.format("%s.%s", randomString(), "txt");
     }
 
     public static boolean not(boolean condition) {

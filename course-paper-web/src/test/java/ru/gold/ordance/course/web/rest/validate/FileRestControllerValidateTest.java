@@ -148,6 +148,21 @@ public class FileRestControllerValidateTest {
                 .andExpect(jsonPath("$.status.description", is(errorMessage)));
     }
 
+    @Test
+    public void save_fileExtensionNotSupported_invalidRq() throws Exception {
+        final String languageId = saveLanguage();
+        final String classificationId = saveClassification();
+        final String errorMessage = "The file extension not supported.";
+
+        mockMvc.perform(multipart(ENDPOINT)
+                .file(createFileWithInvalidExtension())
+                .param("languageId", languageId)
+                .param("classificationId", classificationId))
+                .andExpect(content().contentType(JSON))
+                .andExpect(jsonPath("$.status.code", is(INVALID_RQ)))
+                .andExpect(jsonPath("$.status.description", is(errorMessage)));
+    }
+
     private MockMultipartFile createFile() {
         return new MockMultipartFile(
                 "file",
@@ -170,6 +185,15 @@ public class FileRestControllerValidateTest {
         return new MockMultipartFile(
                 "file",
                 "",
+                MediaType.TEXT_PLAIN_VALUE,
+                randomString().getBytes()
+        );
+    }
+
+    private MockMultipartFile createFileWithInvalidExtension() {
+        return new MockMultipartFile(
+                "file",
+                randomString() + "." + randomString(),
                 MediaType.TEXT_PLAIN_VALUE,
                 randomString().getBytes()
         );
