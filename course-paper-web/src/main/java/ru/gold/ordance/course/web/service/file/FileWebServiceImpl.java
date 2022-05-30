@@ -3,17 +3,15 @@ package ru.gold.ordance.course.web.service.file;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.gold.ordance.course.base.entity.Document;
-import ru.gold.ordance.course.base.entity.Language;
 import ru.gold.ordance.course.base.entity.LnkDocumentLanguage;
 import ru.gold.ordance.course.base.service.DocumentService;
 import ru.gold.ordance.course.base.service.LnkDocumentLanguageService;
-import ru.gold.ordance.course.web.api.file.FileGetResponse;
-import ru.gold.ordance.course.web.api.file.FileSaveRequest;
-import ru.gold.ordance.course.web.api.file.FileSaveResponse;
+import ru.gold.ordance.course.web.api.file.*;
 import ru.gold.ordance.course.web.service.mapper.FileMapper;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -60,5 +58,31 @@ public class FileWebServiceImpl implements FileWebService {
     private void saveDocument(FileSaveRequest rq, String URN) {
         Document savedDocument = documentService.save(mapper.toDocument(rq));
         lnkService.save(mapper.toLnk(savedDocument, rq.getLanguageId(), URN));
+    }
+
+    @Override
+    @Transactional
+    public FileDeleteByUrnResponse deleteByUrn(FileDeleteByUrnRequest rq) throws IOException {
+        Optional<LnkDocumentLanguage> foundLnk = lnkService.findByUrn(rq.getUrn());
+
+        if (foundLnk.isPresent()) {
+            deleteRecordInDatabase(foundLnk.get());
+            fileStorage.deleteFileByUrn(foundLnk.get().getUrn());
+        }
+
+        return FileDeleteByUrnResponse.success();
+    }
+
+    private void deleteRecordInDatabase(LnkDocumentLanguage lnk) {
+        if (isOneRecordByDocumentId(lnk.getDocument().getId())) {
+            documentService.deleteById(lnk.getDocument().getId());
+        } else {
+            lnkService.deleteByUrn(lnk.getUrn());
+        }
+    }
+
+    private boolean isOneRecordByDocumentId(Long documentId) {
+        Long quantityByDocumentId = lnkService.findQuantityByDocumentId(documentId);
+        return quantityByDocumentId == 1;
     }
 }

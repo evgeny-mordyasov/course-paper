@@ -47,7 +47,7 @@ public class DocumentServiceImpl implements DocumentService {
 
     @Override
     public void deleteById(Long id) {
-        Optional<Document> found = repository.findById(id);
-        found.ifPresent(document -> repository.deleteById(document.getId()));
+        repository.findById(id)
+                .ifPresent(document -> repository.deleteById(document.getId()));
     }
 }

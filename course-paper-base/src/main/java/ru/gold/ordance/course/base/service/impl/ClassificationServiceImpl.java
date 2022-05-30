@@ -47,7 +47,7 @@ public class ClassificationServiceImpl implements ClassificationService {
 
     @Override
     public void deleteById(Long id) {
-        Optional<Classification> found = repository.findById(id);
-        found.ifPresent(client -> repository.deleteById(client.getId()));
+        repository.findById(id)
+                .ifPresent(client -> repository.deleteById(client.getId()));
     }
 }

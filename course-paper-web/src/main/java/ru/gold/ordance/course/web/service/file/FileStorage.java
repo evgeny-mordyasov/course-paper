@@ -47,4 +47,8 @@ public final class FileStorage {
     private String urnWithoutFileName(String URN) {
         return URN.substring(0, URN.lastIndexOf("/"));
     }
+
+    public void deleteFileByUrn(String URN) throws IOException {
+        Files.deleteIfExists(Path.of(storagePath + URN));
+    }
 }

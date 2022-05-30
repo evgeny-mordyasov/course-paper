@@ -31,6 +31,16 @@ public class LnkDocumentLanguageServiceImpl implements LnkDocumentLanguageServic
     }
 
     @Override
+    public Optional<LnkDocumentLanguage> findByUrn(@NotNull String URN) {
+        return repository.findLnkDocumentLanguageByUrn(URN);
+    }
+
+    @Override
+    public Long findQuantityByDocumentId(Long documentId) {
+        return repository.countLnkDocumentLanguagesByDocument_Id(documentId);
+    }
+
+    @Override
     public LnkDocumentLanguage save(@NotNull LnkDocumentLanguage lnk) {
         return repository.saveAndFlush(lnk);
     }
@@ -42,7 +52,13 @@ public class LnkDocumentLanguageServiceImpl implements LnkDocumentLanguageServic
 
     @Override
     public void deleteById(Long id) {
-        Optional<LnkDocumentLanguage> found = repository.findById(id);
-        found.ifPresent(lnk -> repository.deleteById(lnk.getId()));
+        repository.findById(id)
+                .ifPresent(lnk -> repository.deleteById(lnk.getId()));
+    }
+
+    @Override
+    public void deleteByUrn(@NotNull String URN) {
+        repository.findLnkDocumentLanguageByUrn(URN)
+                .ifPresent(lnk -> repository.deleteById(lnk.getId()));
     }
 }

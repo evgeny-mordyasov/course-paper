@@ -47,7 +47,7 @@ public class LanguageServiceImpl implements LanguageService {
 
     @Override
     public void deleteById(Long id) {
-        Optional<Language> found = repository.findById(id);
-        found.ifPresent(language -> repository.deleteById(language.getId()));
+       repository.findById(id)
+               .ifPresent(language -> repository.deleteById(language.getId()));
     }
 }

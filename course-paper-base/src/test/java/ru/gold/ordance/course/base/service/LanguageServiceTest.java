@@ -125,7 +125,7 @@ public class LanguageServiceTest {
     }
 
     @Test
-    public void deleteById_classificationExists() {
+    public void deleteById_languageExists() {
         Long entityId = repository.saveAndFlush(createLanguage()).getId();
 
         service.deleteById(entityId);

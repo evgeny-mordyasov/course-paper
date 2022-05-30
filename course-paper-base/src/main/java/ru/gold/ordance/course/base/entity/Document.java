@@ -5,6 +5,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Setter
@@ -30,4 +31,8 @@ public class Document implements AbstractEntity {
 
     @ManyToOne
     private final Classification classification;
+
+    @ToString.Exclude
+    @OneToMany(cascade = { CascadeType.REMOVE }, mappedBy = "document")
+    private Set<LnkDocumentLanguage> lnkDocumentLanguages;
 }

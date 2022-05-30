@@ -18,25 +18,30 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 import ru.gold.ordance.course.base.entity.Classification;
 import ru.gold.ordance.course.base.entity.Language;
+import ru.gold.ordance.course.base.entity.LnkDocumentLanguage;
 import ru.gold.ordance.course.base.persistence.ClassificationRepository;
 import ru.gold.ordance.course.base.persistence.LanguageRepository;
+import ru.gold.ordance.course.base.service.LnkDocumentLanguageService;
 import ru.gold.ordance.course.web.Application;
 import ru.gold.ordance.course.web.api.StatusCode;
+import ru.gold.ordance.course.web.api.file.FileDeleteByUrnRequest;
 import ru.gold.ordance.course.web.api.file.FileGetResponse;
 import ru.gold.ordance.course.web.api.file.FileSaveRequest;
 import ru.gold.ordance.course.web.service.file.FileWebService;
 
 import java.io.IOException;
+import java.util.Optional;
 
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static ru.gold.ordance.course.common.utils.TestUtils.randomFullFileName;
 import static ru.gold.ordance.course.common.utils.TestUtils.randomString;
 import static ru.gold.ordance.course.web.rest.utils.RequestUtils.JSON;
+import static ru.gold.ordance.course.web.rest.utils.RequestUtils.toJSON;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = { Application.class })
@@ -189,5 +194,18 @@ public class FileRestControllerTest {
                 .andExpect(content().contentType(JSON))
                 .andExpect(jsonPath("$.status.code", is(VIOLATES_CONSTRAINT)))
                 .andExpect(jsonPath("$.status.description", is(StatusCode.VIOLATES_CONSTRAINT.getErrorMessage())));
+    }
+
+    @Test
+    public void deleteByUrn_notExist() throws Exception {
+        final String fakeUrn = randomString();
+        FileDeleteByUrnRequest rq = new FileDeleteByUrnRequest(fakeUrn);
+
+        mockMvc.perform(post(ENDPOINT)
+                .content(toJSON(rq))
+                .contentType(JSON))
+                .andExpect(content().contentType(JSON))
+                .andExpect(jsonPath("$.status.code", is(SUCCESS)))
+                .andExpect(jsonPath("$.status.description", nullValue()));
     }
 }

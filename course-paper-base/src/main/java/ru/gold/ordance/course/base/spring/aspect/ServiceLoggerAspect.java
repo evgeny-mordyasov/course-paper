@@ -34,6 +34,11 @@ public class ServiceLoggerAspect {
         loggingSizeOfList(list);
     }
 
+    @AfterReturning(value = "execution(* ru.gold.ordance.course.base.service.*..*(..)) && classesThatAreService()", returning = "value")
+    public void registerServiceMethodWithListResponse(Long value) {
+        loggingLongValue(value);
+    }
+
     @AfterReturning(value = "execution(* ru.gold.ordance.course.base.service.*..*(..)) && classesThatAreService()", returning = "optional")
     public void registerServiceMethodWithOptionalResponse(Optional<?> optional) {
         loggingOptionalValue(optional);

@@ -146,7 +146,7 @@ public class DocumentServiceTest {
     }
 
     @Test
-    public void deleteById_classificationExists() {
+    public void deleteById_documentExists() {
         Long entityId = repository.saveAndFlush(createDocument(classification)).getId();
 
         service.deleteById(entityId);
