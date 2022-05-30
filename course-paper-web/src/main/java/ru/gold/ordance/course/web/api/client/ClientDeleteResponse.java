@@ -1,4 +1,4 @@
-package ru.gold.ordance.course.web.api.classification;
+package ru.gold.ordance.course.web.api.client;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -10,13 +10,13 @@ import ru.gold.ordance.course.web.api.StatusCode;
 @Builder
 @Getter
 @ToString
-public class ClassificationDeleteByIdResponse implements Response {
+public class ClientDeleteResponse implements Response {
     private static final long serialVersionUID = 1L;
 
     private final Status status;
 
-    public static ClassificationDeleteByIdResponse success() {
-        return ClassificationDeleteByIdResponse.builder()
+    public static ClientDeleteResponse success() {
+        return ClientDeleteResponse.builder()
                 .status(new Status().withCode(StatusCode.SUCCESS))
                 .build();
     }

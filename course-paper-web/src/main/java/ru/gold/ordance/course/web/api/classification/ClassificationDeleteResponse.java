@@ -1,4 +1,4 @@
-package ru.gold.ordance.course.web.api.file;
+package ru.gold.ordance.course.web.api.classification;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -10,13 +10,13 @@ import ru.gold.ordance.course.web.api.StatusCode;
 @Builder
 @Getter
 @ToString
-public class FileDeleteByUrnResponse implements Response {
+public class ClassificationDeleteResponse implements Response {
     private static final long serialVersionUID = 1L;
 
     private final Status status;
 
-    public static FileDeleteByUrnResponse success() {
-        return FileDeleteByUrnResponse.builder()
+    public static ClassificationDeleteResponse success() {
+        return ClassificationDeleteResponse.builder()
                 .status(new Status().withCode(StatusCode.SUCCESS))
                 .build();
     }

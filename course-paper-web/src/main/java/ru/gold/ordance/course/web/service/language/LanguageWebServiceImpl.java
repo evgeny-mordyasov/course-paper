@@ -61,10 +61,10 @@ public class LanguageWebServiceImpl implements LanguageWebService {
     }
 
     @Override
-    public LanguageDeleteByIdResponse deleteById(LanguageDeleteByIdRequest rq) {
+    public LanguageDeleteResponse deleteById(LanguageDeleteByIdRequest rq) {
         service.deleteById(rq.getEntityId());
 
-        return LanguageDeleteByIdResponse.success();
+        return LanguageDeleteResponse.success();
     }
 
     private LanguageGetResponse search(Optional<Language> language) {

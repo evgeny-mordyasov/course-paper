@@ -8,5 +8,5 @@ import java.io.IOException;
 public interface FileWebService extends WebService {
     FileGetResponse findAll();
     FileSaveResponse save(FileSaveRequest rq) throws IOException;
-    FileDeleteByUrnResponse deleteByUrn(FileDeleteByUrnRequest rq) throws IOException;
+    FileDeleteResponse deleteByUrn(FileDeleteByUrnRequest rq) throws IOException;
 }

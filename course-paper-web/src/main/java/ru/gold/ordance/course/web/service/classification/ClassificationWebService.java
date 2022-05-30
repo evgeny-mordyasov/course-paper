@@ -9,5 +9,5 @@ public interface ClassificationWebService extends WebService {
     ClassificationGetResponse findByName(ClassificationGetByNameRequest rq);
     ClassificationSaveResponse save(ClassificationSaveRequest rq);
     ClassificationUpdateResponse update(ClassificationUpdateRequest rq);
-    ClassificationDeleteByIdResponse deleteById(ClassificationDeleteByIdRequest rq);
+    ClassificationDeleteResponse deleteById(ClassificationDeleteByIdRequest rq);
 }

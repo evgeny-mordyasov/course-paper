@@ -9,5 +9,5 @@ public interface LanguageWebService extends WebService {
     LanguageGetResponse findByName(LanguageGetByNameRequest rq);
     LanguageSaveResponse save(LanguageSaveRequest rq);
     LanguageUpdateResponse update(LanguageUpdateRequest rq);
-    LanguageDeleteByIdResponse deleteById(LanguageDeleteByIdRequest rq);
+    LanguageDeleteResponse deleteById(LanguageDeleteByIdRequest rq);
 }

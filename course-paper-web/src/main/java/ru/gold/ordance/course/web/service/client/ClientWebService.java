@@ -8,5 +8,5 @@ public interface ClientWebService extends WebService {
     ClientGetResponse findById(ClientGetByIdRequest rq);
     ClientGetResponse findByEmail(ClientGetByEmailRequest rq);
     ClientUpdateResponse update(ClientUpdateRequest rq);
-    ClientDeleteByIdResponse deleteById(ClientDeleteByIdRequest rq);
+    ClientDeleteResponse deleteById(ClientDeleteByIdRequest rq);
 }

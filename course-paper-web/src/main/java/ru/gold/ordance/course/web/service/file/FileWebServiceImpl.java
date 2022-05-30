@@ -62,7 +62,7 @@ public class FileWebServiceImpl implements FileWebService {
 
     @Override
     @Transactional
-    public FileDeleteByUrnResponse deleteByUrn(FileDeleteByUrnRequest rq) throws IOException {
+    public FileDeleteResponse deleteByUrn(FileDeleteByUrnRequest rq) throws IOException {
         Optional<LnkDocumentLanguage> foundLnk = lnkService.findByUrn(rq.getUrn());
 
         if (foundLnk.isPresent()) {
@@ -70,7 +70,7 @@ public class FileWebServiceImpl implements FileWebService {
             fileStorage.deleteFileByUrn(foundLnk.get().getUrn());
         }
 
-        return FileDeleteByUrnResponse.success();
+        return FileDeleteResponse.success();
     }
 
     private void deleteRecordInDatabase(LnkDocumentLanguage lnk) {

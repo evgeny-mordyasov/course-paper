@@ -1,4 +1,4 @@
-package ru.gold.ordance.course.web.api.language;
+package ru.gold.ordance.course.web.api.file;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -10,13 +10,13 @@ import ru.gold.ordance.course.web.api.StatusCode;
 @Builder
 @Getter
 @ToString
-public class LanguageDeleteByIdResponse implements Response {
+public class FileDeleteResponse implements Response {
     private static final long serialVersionUID = 1L;
 
     private final Status status;
 
-    public static LanguageDeleteByIdResponse success() {
-        return LanguageDeleteByIdResponse.builder()
+    public static FileDeleteResponse success() {
+        return FileDeleteResponse.builder()
                 .status(new Status().withCode(StatusCode.SUCCESS))
                 .build();
     }

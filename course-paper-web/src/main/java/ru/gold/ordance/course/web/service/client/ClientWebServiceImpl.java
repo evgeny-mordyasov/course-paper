@@ -54,10 +54,10 @@ public class ClientWebServiceImpl implements ClientWebService {
     }
 
     @Override
-    public ClientDeleteByIdResponse deleteById(ClientDeleteByIdRequest rq) {
+    public ClientDeleteResponse deleteById(ClientDeleteByIdRequest rq) {
         service.deleteById(rq.getEntityId());
 
-        return ClientDeleteByIdResponse.success();
+        return ClientDeleteResponse.success();
     }
 
     private ClientGetResponse search(Optional<Client> client) {

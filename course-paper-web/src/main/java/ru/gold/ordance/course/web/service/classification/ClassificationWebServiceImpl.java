@@ -61,10 +61,10 @@ public class ClassificationWebServiceImpl implements ClassificationWebService {
     }
 
     @Override
-    public ClassificationDeleteByIdResponse deleteById(ClassificationDeleteByIdRequest rq) {
+    public ClassificationDeleteResponse deleteById(ClassificationDeleteByIdRequest rq) {
         service.deleteById(rq.getEntityId());
 
-        return ClassificationDeleteByIdResponse.success();
+        return ClassificationDeleteResponse.success();
     }
 
     private ClassificationGetResponse search(Optional<Classification> classification) {
