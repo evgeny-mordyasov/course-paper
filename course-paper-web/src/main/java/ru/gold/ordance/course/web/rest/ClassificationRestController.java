@@ -4,7 +4,6 @@ import ru.gold.ordance.course.web.api.Response;
 import ru.gold.ordance.course.web.api.classification.*;
 
 public interface ClassificationRestController extends AbstractRestController {
-    Response findAll();
     Response findById(Long entityId);
     Response findByName(String name);
     Response save(ClassificationSaveRequest rq);

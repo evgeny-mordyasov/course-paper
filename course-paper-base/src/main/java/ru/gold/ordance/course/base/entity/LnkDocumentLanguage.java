@@ -15,6 +15,8 @@ import javax.persistence.*;
 @ToString
 @Table(uniqueConstraints = { @UniqueConstraint(columnNames = {"urn"}) })
 public class LnkDocumentLanguage implements AbstractEntity {
+    private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(generator = "lnk_sequence-generator")
     @GenericGenerator(

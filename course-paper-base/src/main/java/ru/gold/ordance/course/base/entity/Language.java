@@ -15,6 +15,8 @@ import javax.persistence.*;
 @ToString
 @Table(uniqueConstraints = { @UniqueConstraint(columnNames = {"name"}) })
 public class Language implements AbstractEntity {
+    private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(generator = "language_sequence-generator")
     @GenericGenerator(

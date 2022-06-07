@@ -15,6 +15,8 @@ import java.util.Set;
 @Builder(toBuilder = true, setterPrefix = "with")
 @ToString
 public class Document implements AbstractEntity {
+    private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(generator = "document_sequence-generator")
     @GenericGenerator(

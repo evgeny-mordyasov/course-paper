@@ -4,7 +4,6 @@ import ru.gold.ordance.course.web.api.Response;
 import ru.gold.ordance.course.web.api.client.*;
 
 public interface ClientRestController extends AbstractRestController {
-    Response findAll();
     Response findById(Long entityId);
     Response findByEmail(String email);
     Response update(ClientUpdateRequest rq);
