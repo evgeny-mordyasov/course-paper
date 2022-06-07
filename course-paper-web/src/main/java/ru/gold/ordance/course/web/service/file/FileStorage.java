@@ -3,7 +3,6 @@ package ru.gold.ordance.course.web.service.file;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
-import ru.gold.ordance.course.base.utils.PersistenceHelper;
 import ru.gold.ordance.course.web.api.file.FileSaveRequest;
 
 import java.io.File;
@@ -11,22 +10,20 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+import static ru.gold.ordance.course.base.spring.StaticContextAccessor.getPersistenceHelper;
+
 @Component
 public final class FileStorage {
-    private final PersistenceHelper persistence;
-
     private final String storagePath;
 
-    public FileStorage(PersistenceHelper persistence,
-                       @Value("${spring.servlet.multipart.location}") String storagePath) {
-        this.persistence = persistence;
+    public FileStorage(@Value("${spring.servlet.multipart.location}") String storagePath) {
         this.storagePath = storagePath;
     }
 
     public String getURN(FileSaveRequest rq) {
         return formURN(
-                persistence.getClassificationNameById(rq.getClassificationId()),
-                persistence.getLanguageNameById(rq.getLanguageId()),
+                getPersistenceHelper().getClassificationNameById(rq.getClassificationId()),
+                getPersistenceHelper().getLanguageNameById(rq.getLanguageId()),
                 rq.getFile().getOriginalFilename());
     }
 

@@ -8,7 +8,7 @@ import ru.gold.ordance.course.base.utils.PersistenceHelper;
 public class StaticContextAccessor {
     private static ApplicationContext context;
 
-    public StaticContextAccessor(ApplicationContext ctx) {
+    private StaticContextAccessor(ApplicationContext ctx) {
         context = ctx;
     }
 
