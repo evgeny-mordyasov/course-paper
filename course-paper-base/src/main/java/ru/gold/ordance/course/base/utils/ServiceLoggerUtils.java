@@ -26,10 +26,10 @@ public class ServiceLoggerUtils {
     public static void loggingSizeOfList(List<?> list) {
         LOGGER.info("Size of list: {}", list.size());
     }
+
     public static void loggingLongValue(Long value) {
         LOGGER.info("Return value: {}", value);
     }
-
 
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
     public static void loggingOptionalValue(Optional<?> optional) {

@@ -49,15 +49,15 @@ public class FileWebServiceImpl implements FileWebService {
     public FileSaveResponse save(FileSaveRequest rq) throws IOException {
         String URN = fileStorage.getURN(rq);
 
-        saveDocument(rq, URN);
+        LnkDocumentLanguage savedDocument = saveDocument(rq, URN);
         fileStorage.moveFileTo(URN, rq.getFile());
 
-        return FileSaveResponse.success();
+        return FileSaveResponse.success(mapper.toWebFile(savedDocument));
     }
 
-    private void saveDocument(FileSaveRequest rq, String URN) {
+    private LnkDocumentLanguage saveDocument(FileSaveRequest rq, String URN) {
         Document savedDocument = documentService.save(mapper.toDocument(rq));
-        lnkService.save(mapper.toLnk(savedDocument, rq.getLanguageId(), URN));
+        return lnkService.save(mapper.toLnk(savedDocument, rq.getLanguageId(), URN));
     }
 
     @Override

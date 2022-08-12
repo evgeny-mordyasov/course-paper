@@ -15,9 +15,12 @@ public class FileSaveResponse implements Response {
 
     private final Status status;
 
-    public static FileSaveResponse success() {
+    private final WebFile file;
+
+    public static FileSaveResponse success(WebFile file) {
         return FileSaveResponse.builder()
                 .status(new Status().withCode(StatusCode.SUCCESS))
+                .file(file)
                 .build();
     }
 }

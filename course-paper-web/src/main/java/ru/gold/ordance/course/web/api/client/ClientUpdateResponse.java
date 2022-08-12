@@ -15,9 +15,12 @@ public class ClientUpdateResponse implements Response {
 
     private final Status status;
 
-    public static ClientUpdateResponse success() {
+    private final WebClient client;
+
+    public static ClientUpdateResponse success(WebClient client) {
         return ClientUpdateResponse.builder()
                 .status(new Status().withCode(StatusCode.SUCCESS))
+                .client(client)
                 .build();
     }
 }

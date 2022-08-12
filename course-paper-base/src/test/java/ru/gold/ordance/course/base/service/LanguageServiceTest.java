@@ -6,6 +6,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.ActiveProfiles;
 import ru.gold.ordance.course.base.entity.Language;
+import ru.gold.ordance.course.base.exception.NotFoundException;
 import ru.gold.ordance.course.base.persistence.LanguageRepository;
 
 import java.util.List;
@@ -116,12 +117,17 @@ public class LanguageServiceTest {
         Long entityId = repository.saveAndFlush(saved).getId();
         Language newObj = createLanguage(entityId);
 
-        service.update(newObj);
-        Optional<Language> found = repository.findById(entityId);
+        Language updatedLanguage = service.update(newObj);
 
-        assertTrue(found.isPresent());
-        assertEquals(newObj.getId(), found.get().getId());
-        assertEquals(newObj.getName(), found.get().getName());
+        assertEquals(newObj.getId(), updatedLanguage.getId());
+        assertEquals(newObj.getName(), updatedLanguage.getName());
+    }
+
+    @Test
+    public void deleteById_notFound() {
+        long fakeId = generateId();
+
+        assertThrows(NotFoundException.class, () -> service.deleteById(fakeId));
     }
 
     @Test

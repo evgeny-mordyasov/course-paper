@@ -48,9 +48,9 @@ public class ClientWebServiceImpl implements ClientWebService {
 
     @Override
     public ClientUpdateResponse update(ClientUpdateRequest rq) {
-        service.update(mapper.toClient(rq));
+        Client updatedClient = service.update(mapper.toClient(rq));
 
-        return ClientUpdateResponse.success();
+        return ClientUpdateResponse.success(mapper.fromClient(updatedClient));
     }
 
     @Override

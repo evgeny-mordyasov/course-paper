@@ -110,8 +110,8 @@ public class FileRestControllerTest {
                 .andExpect(jsonPath("$.status.code", is(SUCCESS)))
                 .andExpect(jsonPath("$.status.description", nullValue()))
                 .andExpect(jsonPath("$.list", hasSize(foundOne)))
-                .andExpect(jsonPath("$.list[0].languageId", equalTo(language.getId().intValue())))
-                .andExpect(jsonPath("$.list[0].classificationId", equalTo(classification.getId().intValue())))
+                .andExpect(jsonPath("$.list[0].language.id", equalTo(language.getId().intValue())))
+                .andExpect(jsonPath("$.list[0].document.classification.id", equalTo(classification.getId().intValue())))
                 .andExpect(jsonPath("$.list[0].urn", is(urn)))
                 .andExpect(jsonPath("$.total", is(foundOne)));
     }
@@ -131,11 +131,11 @@ public class FileRestControllerTest {
                 .andExpect(jsonPath("$.status.code", is(SUCCESS)))
                 .andExpect(jsonPath("$.status.description", nullValue()))
                 .andExpect(jsonPath("$.list", hasSize(foundALot)))
-                .andExpect(jsonPath("$.list[0].languageId", equalTo(language.getId().intValue())))
-                .andExpect(jsonPath("$.list[0].classificationId", equalTo(classification.getId().intValue())))
+                .andExpect(jsonPath("$.list[0].language.id", equalTo(language.getId().intValue())))
+                .andExpect(jsonPath("$.list[0].document.classification.id", equalTo(classification.getId().intValue())))
                 .andExpect(jsonPath("$.list[0].urn", oneOf(firstUrn, secondUrn)))
-                .andExpect(jsonPath("$.list[1].languageId", equalTo(language.getId().intValue())))
-                .andExpect(jsonPath("$.list[1].classificationId", equalTo(classification.getId().intValue())))
+                .andExpect(jsonPath("$.list[1].language.id", equalTo(language.getId().intValue())))
+                .andExpect(jsonPath("$.list[1].document.classification.id", equalTo(classification.getId().intValue())))
                 .andExpect(jsonPath("$.list[1].urn", oneOf(firstUrn, secondUrn)))
                 .andExpect(jsonPath("$.total", is(foundALot)));
     }
@@ -174,12 +174,10 @@ public class FileRestControllerTest {
                 .param("classificationId", String.valueOf(classification.getId())))
                 .andExpect(content().contentType(JSON))
                 .andExpect(jsonPath("$.status.code", is(SUCCESS)))
-                .andExpect(jsonPath("$.status.description", nullValue()));
-
-        FileGetResponse rs = service.findAll();
-
-        assertEquals(1, rs.getList().size());
-        assertEquals(urn, rs.getList().get(0).getUrn());
+                .andExpect(jsonPath("$.status.description", nullValue()))
+                .andExpect(jsonPath("$.file.urn", is(urn)))
+                .andExpect(jsonPath("$.file.language.id", equalTo(language.getId().intValue())))
+                .andExpect(jsonPath("$.file.document.classification.id", equalTo(classification.getId().intValue())));
     }
 
     @Test

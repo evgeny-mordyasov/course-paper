@@ -7,6 +7,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 import ru.gold.ordance.course.base.entity.Classification;
 import ru.gold.ordance.course.base.entity.Document;
+import ru.gold.ordance.course.base.exception.NotFoundException;
 import ru.gold.ordance.course.base.persistence.ClassificationRepository;
 import ru.gold.ordance.course.base.persistence.DocumentRepository;
 
@@ -136,13 +137,18 @@ public class DocumentServiceTest {
         Document saved = repository.saveAndFlush(createDocument(classification));
         Document newObj = createDocument(classification, saved.getId());
 
-        service.update(newObj);
-        Optional<Document> found = repository.findById(saved.getId());
+        Document updatedDocument = service.update(newObj);
 
-        assertTrue(found.isPresent());
-        assertEquals(newObj.getId(), found.get().getId());
-        assertEquals(newObj.getName(), found.get().getName());
-        assertEquals(newObj.getClassification(), found.get().getClassification());
+        assertEquals(newObj.getId(), updatedDocument.getId());
+        assertEquals(newObj.getName(), updatedDocument.getName());
+        assertEquals(newObj.getClassification(), updatedDocument.getClassification());
+    }
+
+    @Test
+    public void deleteById_notFound() {
+        long fakeId = generateId();
+
+        assertThrows(NotFoundException.class, () -> service.deleteById(fakeId));
     }
 
     @Test

@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import ru.gold.ordance.course.base.entity.Client;
 import ru.gold.ordance.course.base.entity.Role;
+import ru.gold.ordance.course.base.exception.NotFoundException;
 import ru.gold.ordance.course.base.persistence.ClientRepository;
 import ru.gold.ordance.course.base.service.ClientService;
 
@@ -54,7 +55,7 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public void update(@NotNull Client client) {
+    public Client update(@NotNull Client client) {
         Client clientFromDb = repository.getById(client.getId());
 
         Client updatedClient = clientFromDb.toBuilder()
@@ -64,7 +65,7 @@ public class ClientServiceImpl implements ClientService {
                 .withPassword(getNewPasswordIfChanged(client, clientFromDb))
                 .build();
 
-        repository.saveAndFlush(updatedClient);
+        return repository.saveAndFlush(updatedClient);
     }
 
     private String getNewPasswordIfChanged(Client newClient, Client fromDatabase) {
@@ -77,13 +78,17 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public void deleteById(@NotNull Long id) {
-        Optional<Client> found = repository.findById(id);
-        found.ifPresent(client -> {
-            Client deletedClient = client.toBuilder()
-                    .withIsActive(false)
-                    .build();
+        Client client = repository.findById(id)
+                .orElseThrow(NotFoundException::new);
 
-            repository.saveAndFlush(deletedClient);
-        });
+        inactive(client);
+    }
+
+    private void inactive(Client client) {
+        Client deletedClient = client.toBuilder()
+                .withIsActive(false)
+                .build();
+
+        repository.saveAndFlush(deletedClient);
     }
 }

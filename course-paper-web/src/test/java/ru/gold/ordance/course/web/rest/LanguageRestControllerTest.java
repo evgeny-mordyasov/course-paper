@@ -199,12 +199,8 @@ public class LanguageRestControllerTest {
                 .andExpect(content().contentType(JSON))
                 .andExpect(jsonPath("$.status.code", is(SUCCESS)))
                 .andExpect(jsonPath("$.status.description", nullValue()))
-                .andExpect(jsonPath("$.entityId", notNullValue()));
-
-        LanguageGetResponse rs = service.findByName(new LanguageGetByNameRequest(name));
-
-        assertEquals(1, rs.getList().size());
-        assertEquals(name, rs.getList().get(0).getName());
+                .andExpect(jsonPath("$.language.entityId", notNullValue()))
+                .andExpect(jsonPath("$.language.name", is(name)));
     }
 
     @Test
@@ -241,12 +237,9 @@ public class LanguageRestControllerTest {
                 .contentType(JSON))
                 .andExpect(content().contentType(JSON))
                 .andExpect(jsonPath("$.status.code", is(SUCCESS)))
-                .andExpect(jsonPath("$.status.description", nullValue()));
-
-        LanguageGetResponse rs = service.findById(new LanguageGetByIdRequest(savedLanguageId));
-
-        assertEquals(1, rs.getList().size());
-        assertEquals(name, rs.getList().get(0).getName());
+                .andExpect(jsonPath("$.status.description", nullValue()))
+                .andExpect(jsonPath("$.language.entityId", equalTo(savedLanguageId.intValue())))
+                .andExpect(jsonPath("$.language.name", is(name)));
     }
 
     @Test

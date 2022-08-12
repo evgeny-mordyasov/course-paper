@@ -9,6 +9,6 @@ public interface AbstractService<ENTITY extends AbstractEntity> {
     List<ENTITY> findAll();
     Optional<ENTITY> findById(Long id);
     ENTITY save(ENTITY entity);
-    void update(ENTITY entity);
+    ENTITY update(ENTITY entity);
     void deleteById(Long id);
 }

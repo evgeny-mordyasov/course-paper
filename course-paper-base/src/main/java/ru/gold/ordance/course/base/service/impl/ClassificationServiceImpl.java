@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import ru.gold.ordance.course.base.entity.Classification;
+import ru.gold.ordance.course.base.exception.NotFoundException;
 import ru.gold.ordance.course.base.persistence.ClassificationRepository;
 import ru.gold.ordance.course.base.service.ClassificationService;
 
@@ -41,13 +42,15 @@ public class ClassificationServiceImpl implements ClassificationService {
     }
 
     @Override
-    public void update(@NotNull Classification classification) {
-        repository.saveAndFlush(classification);
+    public Classification update(@NotNull Classification classification) {
+        return repository.saveAndFlush(classification);
     }
 
     @Override
     public void deleteById(Long id) {
-        repository.findById(id)
-                .ifPresent(client -> repository.deleteById(client.getId()));
+        Classification classification = repository.findById(id)
+                .orElseThrow(NotFoundException::new);
+
+        repository.deleteById(classification.getId());
     }
 }

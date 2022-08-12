@@ -31,9 +31,8 @@ public class FileMapperImpl implements FileMapper {
     @Override
     public WebFile toWebFile(LnkDocumentLanguage lnk) {
         return WebFile.builder()
-                .withDocumentId(lnk.getDocument().getId())
-                .withLanguageId(lnk.getLanguage().getId())
-                .withClassificationId(lnk.getDocument().getClassification().getId())
+                .withDocument(lnk.getDocument())
+                .withLanguage(lnk.getLanguage())
                 .withUrn(lnk.getUrn())
                 .build();
     }

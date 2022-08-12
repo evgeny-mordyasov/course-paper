@@ -297,15 +297,11 @@ public class ClientRestControllerTest {
                         .contentType(JSON))
                 .andExpect(content().contentType(JSON))
                 .andExpect(jsonPath("$.status.code", is(SUCCESS)))
-                .andExpect(jsonPath("$.status.description", nullValue()));
-
-        ClientGetResponse rs = service.findById(new ClientGetByIdRequest(savedClientId));
-
-        assertEquals(1, rs.getList().size());
-        assertEquals(savedClientId, rs.getList().get(0).getEntityId());
-        assertEquals(surname, rs.getList().get(0).getSurname());
-        assertEquals(name, rs.getList().get(0).getName());
-        assertEquals(patronymic, rs.getList().get(0).getPatronymic());
+                .andExpect(jsonPath("$.status.description", nullValue()))
+                .andExpect(jsonPath("$.client.entityId", equalTo(savedClientId.intValue())))
+                .andExpect(jsonPath("$.client.surname", is(surname)))
+                .andExpect(jsonPath("$.client.name", is(name)))
+                .andExpect(jsonPath("$.client.patronymic", is(patronymic)));
     }
 
     @Test

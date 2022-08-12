@@ -10,6 +10,7 @@ import ru.gold.ordance.course.base.entity.Classification;
 import ru.gold.ordance.course.base.entity.Document;
 import ru.gold.ordance.course.base.entity.Language;
 import ru.gold.ordance.course.base.entity.LnkDocumentLanguage;
+import ru.gold.ordance.course.base.exception.NotFoundException;
 import ru.gold.ordance.course.base.persistence.ClassificationRepository;
 import ru.gold.ordance.course.base.persistence.DocumentRepository;
 import ru.gold.ordance.course.base.persistence.LanguageRepository;
@@ -179,14 +180,19 @@ public class LnkDocumentLanguageServiceTest {
         Long entityId = repository.saveAndFlush(saved).getId();
         LnkDocumentLanguage newObj = createLnk(document, language, entityId);
 
-        service.update(newObj);
-        Optional<LnkDocumentLanguage> found = repository.findById(entityId);
+        LnkDocumentLanguage updatedLnk = service.update(newObj);
 
-        assertTrue(found.isPresent());
-        assertEquals(newObj.getId(), found.get().getId());
-        assertEquals(newObj.getDocument(), found.get().getDocument());
-        assertEquals(newObj.getLanguage(), found.get().getLanguage());
-        assertEquals(newObj.getUrn(), found.get().getUrn());
+        assertEquals(newObj.getId(), updatedLnk.getId());
+        assertEquals(newObj.getDocument(), updatedLnk.getDocument());
+        assertEquals(newObj.getLanguage(), updatedLnk.getLanguage());
+        assertEquals(newObj.getUrn(), updatedLnk.getUrn());
+    }
+
+    @Test
+    public void deleteById_notFound() {
+        long fakeId = generateId();
+
+        assertThrows(NotFoundException.class, () -> service.deleteById(fakeId));
     }
 
     @Test
@@ -198,6 +204,13 @@ public class LnkDocumentLanguageServiceTest {
         Optional<LnkDocumentLanguage> found = repository.findById(entityId);
 
         assertFalse(found.isPresent());
+    }
+
+    @Test
+    public void deleteByUrn_notFound() {
+        String fakeUrn = randomString();
+
+        assertThrows(NotFoundException.class, () -> service.deleteByUrn(fakeUrn));
     }
 
     @Test

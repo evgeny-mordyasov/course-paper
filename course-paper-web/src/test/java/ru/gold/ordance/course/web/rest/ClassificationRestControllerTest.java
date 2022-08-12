@@ -199,12 +199,8 @@ public class ClassificationRestControllerTest {
                 .andExpect(content().contentType(JSON))
                 .andExpect(jsonPath("$.status.code", is(SUCCESS)))
                 .andExpect(jsonPath("$.status.description", nullValue()))
-                .andExpect(jsonPath("$.entityId", notNullValue()));
-
-        ClassificationGetResponse rs = service.findByName(new ClassificationGetByNameRequest(name));
-
-        assertEquals(1, rs.getList().size());
-        assertEquals(name, rs.getList().get(0).getName());
+                .andExpect(jsonPath("$.classification.entityId", notNullValue()))
+                .andExpect(jsonPath("$.classification.name", is(name)));
     }
 
     @Test
@@ -240,12 +236,9 @@ public class ClassificationRestControllerTest {
                 .contentType(JSON))
                 .andExpect(content().contentType(JSON))
                 .andExpect(jsonPath("$.status.code", is(SUCCESS)))
-                .andExpect(jsonPath("$.status.description", nullValue()));
-
-        ClassificationGetResponse rs = service.findById(new ClassificationGetByIdRequest(savedClassificationId));
-
-        assertEquals(1, rs.getList().size());
-        assertEquals(name, rs.getList().get(0).getName());
+                .andExpect(jsonPath("$.status.description", nullValue()))
+                .andExpect(jsonPath("$.classification.entityId", equalTo(savedClassificationId.intValue())))
+                .andExpect(jsonPath("$.classification.name", is(name)));
     }
 
     @Test

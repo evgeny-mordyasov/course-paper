@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import ru.gold.ordance.course.base.entity.Language;
+import ru.gold.ordance.course.base.exception.NotFoundException;
 import ru.gold.ordance.course.base.persistence.LanguageRepository;
 import ru.gold.ordance.course.base.service.LanguageService;
 
@@ -41,13 +42,15 @@ public class LanguageServiceImpl implements LanguageService {
     }
 
     @Override
-    public void update(@NotNull Language language) {
-        repository.saveAndFlush(language);
+    public Language update(@NotNull Language language) {
+        return repository.saveAndFlush(language);
     }
 
     @Override
     public void deleteById(Long id) {
-       repository.findById(id)
-               .ifPresent(language -> repository.deleteById(language.getId()));
+       Language language = repository.findById(id)
+               .orElseThrow(NotFoundException::new);
+
+       repository.deleteById(language.getId());
     }
 }

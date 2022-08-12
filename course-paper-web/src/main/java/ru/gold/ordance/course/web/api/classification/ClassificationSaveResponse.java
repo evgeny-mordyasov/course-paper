@@ -15,12 +15,12 @@ public class ClassificationSaveResponse implements Response {
 
     private final Status status;
 
-    private final Long entityId;
+    private final WebClassification classification;
 
-    public static ClassificationSaveResponse success(Long entityId) {
+    public static ClassificationSaveResponse success(WebClassification classification) {
         return ClassificationSaveResponse.builder()
                 .status(new Status().withCode(StatusCode.SUCCESS))
-                .entityId(entityId)
+                .classification(classification)
                 .build();
     }
 }

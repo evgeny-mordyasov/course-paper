@@ -6,6 +6,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 import ru.gold.ordance.course.base.entity.Client;
+import ru.gold.ordance.course.base.exception.NotFoundException;
 import ru.gold.ordance.course.base.persistence.ClientRepository;
 import org.springframework.dao.DataIntegrityViolationException;
 
@@ -123,18 +124,23 @@ public class ClientServiceTest {
         Long entityId = repository.saveAndFlush(saved).getId();
         Client newObj = createClient(entityId);
 
-        service.update(newObj);
-        Optional<Client> found = repository.findById(entityId);
+        Client updatedClient = service.update(newObj);
 
-        assertTrue(found.isPresent());
-        assertEquals(newObj.getId(), found.get().getId());
-        assertEquals(newObj.getSurname(), found.get().getSurname());
-        assertEquals(newObj.getName(), found.get().getName());
-        assertEquals(newObj.getPatronymic(), found.get().getPatronymic());
-        assertTrue(encoder.matches(newObj.getPassword(), found.get().getPassword()));
-        assertEquals(saved.getEmail(), found.get().getEmail());
-        assertEquals(saved.getRole(), found.get().getRole());
-        assertEquals(saved.isActive(), found.get().isActive());
+        assertEquals(newObj.getId(), updatedClient.getId());
+        assertEquals(newObj.getSurname(), updatedClient.getSurname());
+        assertEquals(newObj.getName(), updatedClient.getName());
+        assertEquals(newObj.getPatronymic(), updatedClient.getPatronymic());
+        assertTrue(encoder.matches(newObj.getPassword(), updatedClient.getPassword()));
+        assertEquals(saved.getEmail(), updatedClient.getEmail());
+        assertEquals(saved.getRole(), updatedClient.getRole());
+        assertEquals(saved.isActive(), updatedClient.isActive());
+    }
+
+    @Test
+    public void deleteById_notFound() {
+        long fakeId = generateId();
+
+        assertThrows(NotFoundException.class, () -> service.deleteById(fakeId));
     }
 
     @Test

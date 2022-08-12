@@ -130,7 +130,8 @@ public class AuthorizationRestControllerTest {
                         .contentType(JSON))
                 .andExpect(content().contentType(JSON))
                 .andExpect(jsonPath("$.status.code", is(SUCCESS)))
-                .andExpect(jsonPath("$.status.description", nullValue()));
+                .andExpect(jsonPath("$.status.description", nullValue()))
+                .andExpect(jsonPath("$.client.email", is(email)));
     }
 
     @Test

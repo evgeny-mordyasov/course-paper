@@ -7,6 +7,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.LockedException;
+import ru.gold.ordance.course.base.exception.NotFoundException;
 import ru.gold.ordance.course.web.api.Status;
 import ru.gold.ordance.course.web.api.StatusCode;
 import ru.gold.ordance.course.web.exception.ValidateException;
@@ -24,6 +25,12 @@ public final class RequestUtils {
             return new Status()
                     .withCode(StatusCode.INVALID_RQ)
                     .withDescription(e.getMessage());
+        }
+
+        if (e instanceof NotFoundException) {
+            return new Status()
+                    .withCode(StatusCode.NOT_FOUND)
+                    .withDescription(StatusCode.NOT_FOUND.getErrorMessage());
         }
 
         if (e instanceof DataIntegrityViolationException) {

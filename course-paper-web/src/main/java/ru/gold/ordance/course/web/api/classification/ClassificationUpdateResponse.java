@@ -15,9 +15,12 @@ public class ClassificationUpdateResponse implements Response {
 
     private final Status status;
 
-    public static ClassificationUpdateResponse success() {
+    private final WebClassification classification;
+
+    public static ClassificationUpdateResponse success(WebClassification classification) {
         return ClassificationUpdateResponse.builder()
                 .status(new Status().withCode(StatusCode.SUCCESS))
+                .classification(classification)
                 .build();
     }
 }

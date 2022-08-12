@@ -6,6 +6,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.ActiveProfiles;
 import ru.gold.ordance.course.base.entity.Classification;
+import ru.gold.ordance.course.base.exception.NotFoundException;
 import ru.gold.ordance.course.base.persistence.ClassificationRepository;
 
 import java.util.List;
@@ -116,12 +117,17 @@ public class ClassificationServiceTest {
         Long entityId = repository.saveAndFlush(saved).getId();
         Classification newObj = createClassification(entityId);
 
-        service.update(newObj);
-        Optional<Classification> found = repository.findById(entityId);
+        Classification updatedClassification = service.update(newObj);
 
-        assertTrue(found.isPresent());
-        assertEquals(newObj.getId(), found.get().getId());
-        assertEquals(newObj.getName(), found.get().getName());
+        assertEquals(newObj.getId(), updatedClassification.getId());
+        assertEquals(newObj.getName(), updatedClassification.getName());
+    }
+
+    @Test
+    public void deleteById_notFound() {
+        long fakeId = generateId();
+
+        assertThrows(NotFoundException.class, () -> service.deleteById(fakeId));
     }
 
     @Test

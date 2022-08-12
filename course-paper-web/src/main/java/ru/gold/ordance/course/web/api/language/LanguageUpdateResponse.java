@@ -15,9 +15,12 @@ public class LanguageUpdateResponse implements Response {
 
     private final Status status;
 
-    public static LanguageUpdateResponse success() {
+    private final WebLanguage language;
+
+    public static LanguageUpdateResponse success(WebLanguage language) {
         return LanguageUpdateResponse.builder()
                 .status(new Status().withCode(StatusCode.SUCCESS))
+                .language(language)
                 .build();
     }
 }

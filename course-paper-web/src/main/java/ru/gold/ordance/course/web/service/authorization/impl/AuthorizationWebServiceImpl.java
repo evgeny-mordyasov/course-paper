@@ -43,7 +43,9 @@ public class AuthorizationWebServiceImpl implements AuthorizationWebService {
         manager.authenticate(
                 new UsernamePasswordAuthenticationToken(rq.getEmail(), rq.getPassword()));
 
-        return AuthorizationSignInResponse.success(provider.createToken(rq.getEmail()));
+        Client client = service.findByEmail(rq.getEmail()).get();
+
+        return AuthorizationSignInResponse.success(mapper.fromClient(client), provider.createToken(rq.getEmail()));
     }
 
     @Override

@@ -48,16 +48,16 @@ public class LanguageWebServiceImpl implements LanguageWebService {
 
     @Override
     public LanguageSaveResponse save(LanguageSaveRequest rq) {
-        Long entityId = service.save(mapper.toLanguage(rq)).getId();
+        Language savedLanguage = service.save(mapper.toLanguage(rq));
 
-        return LanguageSaveResponse.success(entityId);
+        return LanguageSaveResponse.success(mapper.fromLanguage(savedLanguage));
     }
 
     @Override
     public LanguageUpdateResponse update(LanguageUpdateRequest rq) {
-        service.update(mapper.toLanguage(rq));
+        Language updatedLanguage = service.update(mapper.toLanguage(rq));
 
-        return LanguageUpdateResponse.success();
+        return LanguageUpdateResponse.success(mapper.fromLanguage(updatedLanguage));
     }
 
     @Override
