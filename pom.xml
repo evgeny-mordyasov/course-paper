@@ -14,6 +14,7 @@
         <module>course-paper-base</module>
         <module>course-paper-web</module>
         <module>course-paper-common</module>
+        <module>course-paper-db-migration</module>
     </modules>
 
     <properties>
