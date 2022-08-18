@@ -1,4 +1,4 @@
-package ru.gold.ordance.course.base.persistence.config.connection;
+package ru.gold.ordance.course.base.persistence.config;
 
 public class PostgresConnectionConfiguration implements DbConnectionConfiguration {
     private final String url;

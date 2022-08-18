@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.scrypt.SCryptPasswordEncoder;
-import ru.gold.ordance.course.base.persistence.config.PersistenceConfiguration;
+import ru.gold.ordance.course.base.persistence.spring.PersistenceConfiguration;
 import ru.gold.ordance.course.base.persistence.repository.*;
 import ru.gold.ordance.course.base.service.*;
 import ru.gold.ordance.course.base.service.impl.*;

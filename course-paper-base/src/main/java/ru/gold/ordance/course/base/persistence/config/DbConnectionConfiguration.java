@@ -1,4 +1,4 @@
-package ru.gold.ordance.course.base.persistence.config.connection;
+package ru.gold.ordance.course.base.persistence.config;
 
 public interface DbConnectionConfiguration {
     String url();
