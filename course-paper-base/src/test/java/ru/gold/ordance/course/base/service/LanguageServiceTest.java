@@ -3,11 +3,11 @@ package ru.gold.ordance.course.base.service;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.ContextConfiguration;
+import ru.gold.ordance.course.base.TestConfiguration;
 import ru.gold.ordance.course.base.entity.Language;
 import ru.gold.ordance.course.base.exception.NotFoundException;
-import ru.gold.ordance.course.base.persistence.LanguageRepository;
+import ru.gold.ordance.course.base.persistence.repository.LanguageRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,7 +18,7 @@ import static ru.gold.ordance.course.common.utils.TestUtils.generateId;
 import static ru.gold.ordance.course.common.utils.TestUtils.randomString;
 
 @DataJpaTest(showSql = false)
-@ActiveProfiles("test")
+@ContextConfiguration(classes = TestConfiguration.class)
 public class LanguageServiceTest {
     @Autowired
     private LanguageService service;
@@ -104,11 +104,6 @@ public class LanguageServiceTest {
 
     @Test
     public void save_nameAlreadyExists() {
-        final String name = randomString();
-
-        repository.saveAndFlush(createLanguage(name));
-
-        assertThrows(DataIntegrityViolationException.class, () -> service.save(createLanguage(name)));
     }
 
     @Test

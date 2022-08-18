@@ -1,13 +1,11 @@
-package ru.gold.ordance.course.base.utils;
+package ru.gold.ordance.course.base.persistence;
 
-import org.springframework.stereotype.Component;
 import ru.gold.ordance.course.base.entity.Classification;
 import ru.gold.ordance.course.base.entity.Language;
 
 import javax.persistence.EntityManager;
 import java.util.Objects;
 
-@Component
 public class PersistenceHelper {
     private final EntityManager manager;
 

@@ -1,21 +1,22 @@
-package ru.gold.ordance.course.base.config;
+package ru.gold.ordance.course.base;
 
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.scrypt.SCryptPasswordEncoder;
-import ru.gold.ordance.course.base.persistence.config.PersistenceConfiguration;
 import ru.gold.ordance.course.base.persistence.repository.*;
 import ru.gold.ordance.course.base.service.*;
 import ru.gold.ordance.course.base.service.impl.*;
 import ru.gold.ordance.course.common.utils.PackageBeanContext;
 
 @Configuration
-@ComponentScan(PackageBeanContext.HELPERS_PACKAGE)
-@Import(PersistenceConfiguration.class)
-public class ServiceConfiguration {
+@ComponentScan(PackageBeanContext.REPOSITORIES_PACKAGE)
+@EntityScan(PackageBeanContext.ENTITIES_PACKAGE)
+@EnableJpaRepositories(PackageBeanContext.REPOSITORIES_PACKAGE)
+public class TestConfiguration {
 
     @Bean
     public ClassificationService classificationService(ClassificationRepository repository) {

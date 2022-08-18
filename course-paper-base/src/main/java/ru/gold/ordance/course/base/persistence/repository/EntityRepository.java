@@ -1,4 +1,4 @@
-package ru.gold.ordance.course.base.persistence;
+package ru.gold.ordance.course.base.persistence.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.NoRepositoryBean;

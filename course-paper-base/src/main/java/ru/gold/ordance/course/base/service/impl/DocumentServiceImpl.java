@@ -1,18 +1,16 @@
 package ru.gold.ordance.course.base.service.impl;
 
 import com.sun.istack.NotNull;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import ru.gold.ordance.course.base.entity.Document;
 import ru.gold.ordance.course.base.exception.NotFoundException;
-import ru.gold.ordance.course.base.persistence.DocumentRepository;
+import ru.gold.ordance.course.base.persistence.repository.DocumentRepository;
 import ru.gold.ordance.course.base.service.DocumentService;
 
 import java.util.List;
 import java.util.Optional;
 
-@Service
 @Transactional(isolation = Isolation.READ_COMMITTED)
 public class DocumentServiceImpl implements DocumentService {
     private final DocumentRepository repository;

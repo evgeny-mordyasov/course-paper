@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.gold.ordance.course.base.entity.Client;
 import ru.gold.ordance.course.base.entity.Role;
 import ru.gold.ordance.course.base.exception.NotFoundException;
-import ru.gold.ordance.course.base.persistence.ClientRepository;
+import ru.gold.ordance.course.base.persistence.repository.ClientRepository;
 import ru.gold.ordance.course.base.service.ClientService;
 
 import java.util.List;
@@ -16,7 +16,6 @@ import java.util.Optional;
 
 import static ru.gold.ordance.course.common.utils.TestUtils.not;
 
-@Service
 @Transactional(isolation = Isolation.READ_COMMITTED)
 public class ClientServiceImpl implements ClientService {
     private final ClientRepository repository;

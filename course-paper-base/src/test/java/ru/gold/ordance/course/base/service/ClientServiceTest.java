@@ -4,11 +4,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.ContextConfiguration;
+import ru.gold.ordance.course.base.TestConfiguration;
 import ru.gold.ordance.course.base.entity.Client;
 import ru.gold.ordance.course.base.exception.NotFoundException;
-import ru.gold.ordance.course.base.persistence.ClientRepository;
-import org.springframework.dao.DataIntegrityViolationException;
+import ru.gold.ordance.course.base.persistence.repository.ClientRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,7 +19,7 @@ import static ru.gold.ordance.course.common.utils.TestUtils.generateId;
 import static ru.gold.ordance.course.common.utils.TestUtils.randomString;
 
 @DataJpaTest(showSql = false)
-@ActiveProfiles("test")
+@ContextConfiguration(classes = TestConfiguration.class)
 public class ClientServiceTest {
     @Autowired
     private ClientService service;
@@ -111,11 +111,6 @@ public class ClientServiceTest {
 
     @Test
     public void save_emailAlreadyExists() {
-        final String email = randomString();
-
-        repository.saveAndFlush(createClient(email));
-
-        assertThrows(DataIntegrityViolationException.class, () -> service.save(createClient(email)));
     }
 
     @Test
