@@ -2,7 +2,7 @@ package ru.gold.ordance.course.base.spring;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
-import ru.gold.ordance.course.base.utils.PersistenceHelper;
+import ru.gold.ordance.course.base.persistence.PersistenceHelper;
 
 @Component
 public class StaticContextAccessor {

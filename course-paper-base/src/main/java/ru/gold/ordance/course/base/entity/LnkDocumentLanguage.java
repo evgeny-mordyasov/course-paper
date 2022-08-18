@@ -7,17 +7,18 @@ import org.hibernate.annotations.Parameter;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "DOCUMENT_LANGUAGE")
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor(force = true)
 @Builder(toBuilder = true, setterPrefix = "with")
 @ToString
-@Table(uniqueConstraints = { @UniqueConstraint(columnNames = {"urn"}) })
 public class LnkDocumentLanguage implements AbstractEntity {
     private static final long serialVersionUID = 1L;
 
     @Id
+    @Column(name = "ID")
     @GeneratedValue(generator = "lnk_sequence-generator")
     @GenericGenerator(
             name = "lnk_sequence-generator",
@@ -30,10 +31,13 @@ public class LnkDocumentLanguage implements AbstractEntity {
     private final Long id;
 
     @ManyToOne
+    @JoinColumn(name = "DOCUMENT_ID")
     private final Document document;
 
     @ManyToOne
+    @JoinColumn(name = "LANGUAGE_ID")
     private final Language language;
 
+    @Column(name = "URN")
     private final String urn;
 }

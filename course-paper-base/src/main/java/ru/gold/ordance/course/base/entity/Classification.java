@@ -7,17 +7,18 @@ import org.hibernate.annotations.Parameter;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "CLASSIFICATION")
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor(force = true)
 @Builder(toBuilder = true, setterPrefix = "with")
 @ToString
-@Table(uniqueConstraints = { @UniqueConstraint(columnNames = {"name"}) })
 public class Classification implements AbstractEntity {
     private static final long serialVersionUID = 1L;
 
     @Id
+    @Column(name = "ID")
     @GeneratedValue(generator = "classification_sequence-generator")
     @GenericGenerator(
             name = "classification_sequence-generator",
@@ -29,5 +30,6 @@ public class Classification implements AbstractEntity {
             })
     private final Long id;
 
+    @Column(name = "NAME")
     private final String name;
 }

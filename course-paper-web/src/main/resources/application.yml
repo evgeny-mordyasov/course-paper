@@ -22,11 +22,11 @@ persistence:
   dialect: POSTGRES
 
   postgres:
-    url: jdbc:postgresql://localhost:5432/cs
-    username: postgres
-    password: postgres
+    url: jdbc:postgresql://localhost:5433/docs
+    username: docs
+    password: qwe123
 
   h2:
-    url: jdbc:h2:mem:cs
+    url: jdbc:h2:mem:docs
     username: h2
     password:

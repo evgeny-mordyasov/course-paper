@@ -8,6 +8,7 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
+@Table(name = "DOCUMENT")
 @Setter
 @Getter
 @AllArgsConstructor
@@ -18,6 +19,7 @@ public class Document implements AbstractEntity {
     private static final long serialVersionUID = 1L;
 
     @Id
+    @Column(name = "ID")
     @GeneratedValue(generator = "document_sequence-generator")
     @GenericGenerator(
             name = "document_sequence-generator",
@@ -29,9 +31,11 @@ public class Document implements AbstractEntity {
             })
     private final Long id;
 
+    @Column(name = "NAME")
     private final String name;
 
     @ManyToOne
+    @JoinColumn(name = "CLASSIFICATION_ID")
     private final Classification classification;
 
     @ToString.Exclude
