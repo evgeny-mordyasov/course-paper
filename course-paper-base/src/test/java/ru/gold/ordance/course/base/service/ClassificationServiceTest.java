@@ -9,7 +9,6 @@ import ru.gold.ordance.course.base.entity.Classification;
 import ru.gold.ordance.course.base.exception.NotFoundException;
 import ru.gold.ordance.course.base.persistence.repository.ClassificationRepository;
 
-import javax.sql.DataSource;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,9 +25,6 @@ public class ClassificationServiceTest {
 
     @Autowired
     private ClassificationRepository repository;
-
-    @Autowired
-    DataSource dataSource;
 
     @Test
     public void findAll_noOneHasBeenFound() {
