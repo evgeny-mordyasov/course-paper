@@ -3,7 +3,7 @@ package ru.gold.ordance.course.web.api;
 import lombok.Getter;
 import lombok.ToString;
 
-import static ru.gold.ordance.course.web.rest.utils.RequestUtils.toStatus;
+import static ru.gold.ordance.course.web.utils.RequestUtils.toStatus;
 
 @Getter
 @ToString

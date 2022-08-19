@@ -6,10 +6,10 @@ import ru.gold.ordance.course.web.api.Response;
 import ru.gold.ordance.course.web.api.file.FileDeleteByUrnRequest;
 import ru.gold.ordance.course.web.api.file.FileSaveRequest;
 import ru.gold.ordance.course.web.rest.FileRestController;
-import ru.gold.ordance.course.web.service.file.FileWebService;
+import ru.gold.ordance.course.web.service.web.file.FileWebService;
 
 import static ru.gold.ordance.course.web.api.BaseErrorResponse.createFrom;
-import static ru.gold.ordance.course.web.rest.utils.RequestUtils.*;
+import static ru.gold.ordance.course.web.utils.RequestUtils.*;
 
 @RestController
 @RequestMapping("/api/v1/files")

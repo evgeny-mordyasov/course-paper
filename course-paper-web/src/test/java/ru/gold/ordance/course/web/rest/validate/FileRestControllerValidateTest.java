@@ -8,7 +8,6 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -18,9 +17,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 import ru.gold.ordance.course.base.entity.Classification;
 import ru.gold.ordance.course.base.entity.Language;
-import ru.gold.ordance.course.base.persistence.ClassificationRepository;
-import ru.gold.ordance.course.base.persistence.LanguageRepository;
-import ru.gold.ordance.course.web.Application;
+import ru.gold.ordance.course.base.persistence.repository.ClassificationRepository;
+import ru.gold.ordance.course.base.persistence.repository.LanguageRepository;
+import ru.gold.ordance.course.web.TestConfiguration;
 import ru.gold.ordance.course.web.api.StatusCode;
 
 import static org.hamcrest.Matchers.is;
@@ -29,14 +28,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static ru.gold.ordance.course.common.utils.TestUtils.randomFullFileName;
 import static ru.gold.ordance.course.common.utils.TestUtils.randomString;
-import static ru.gold.ordance.course.web.rest.utils.RequestUtils.JSON;
+import static ru.gold.ordance.course.web.utils.RequestUtils.JSON;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = { Application.class })
+@ContextConfiguration(classes = { TestConfiguration.class })
 @AutoConfigureTestDatabase
 @Transactional
 @WebAppConfiguration
-@ActiveProfiles("test")
 @PropertySource("classpath:application-test.properties")
 public class FileRestControllerValidateTest {
     private final static String ENDPOINT = "/api/v1/files/";

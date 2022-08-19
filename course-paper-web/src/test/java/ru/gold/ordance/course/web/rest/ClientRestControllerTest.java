@@ -6,7 +6,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -16,13 +15,13 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 import ru.gold.ordance.course.base.entity.Client;
 import ru.gold.ordance.course.base.entity.Role;
-import ru.gold.ordance.course.base.persistence.ClientRepository;
-import ru.gold.ordance.course.web.Application;
+import ru.gold.ordance.course.base.persistence.repository.ClientRepository;
+import ru.gold.ordance.course.web.TestConfiguration;
 import ru.gold.ordance.course.web.api.StatusCode;
 import ru.gold.ordance.course.web.api.client.ClientGetByIdRequest;
 import ru.gold.ordance.course.web.api.client.ClientGetResponse;
 import ru.gold.ordance.course.web.api.client.ClientUpdateRequest;
-import ru.gold.ordance.course.web.service.client.ClientWebService;
+import ru.gold.ordance.course.web.service.web.client.ClientWebService;
 
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -31,15 +30,14 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static ru.gold.ordance.course.common.utils.TestUtils.randomString;
-import static ru.gold.ordance.course.web.rest.utils.RequestUtils.JSON;
-import static ru.gold.ordance.course.web.rest.utils.RequestUtils.toJSON;
+import static ru.gold.ordance.course.web.utils.RequestUtils.JSON;
+import static ru.gold.ordance.course.web.utils.RequestUtils.toJSON;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = { Application.class })
+@ContextConfiguration(classes = { TestConfiguration.class })
 @AutoConfigureTestDatabase
 @Transactional
 @WebAppConfiguration
-@ActiveProfiles("test")
 @PropertySource("classpath:application-test.properties")
 public class ClientRestControllerTest {
     private final static String ENDPOINT = "/api/v1/clients/";

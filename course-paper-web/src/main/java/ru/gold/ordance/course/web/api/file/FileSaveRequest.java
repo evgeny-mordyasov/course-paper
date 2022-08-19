@@ -7,7 +7,7 @@ import ru.gold.ordance.course.base.entity.Language;
 import ru.gold.ordance.course.web.api.SaveRequest;
 
 import static ru.gold.ordance.course.common.utils.StringUtils.getFileExtension;
-import static ru.gold.ordance.course.web.service.file.FileExtension.isFromWhitelist;
+import static ru.gold.ordance.course.web.service.web.file.FileExtension.isFromWhitelist;
 import static ru.gold.ordance.course.web.utils.ValidatorUtils.*;
 
 @Builder(toBuilder = true)

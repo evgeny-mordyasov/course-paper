@@ -8,7 +8,6 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -18,37 +17,30 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 import ru.gold.ordance.course.base.entity.Classification;
 import ru.gold.ordance.course.base.entity.Language;
-import ru.gold.ordance.course.base.entity.LnkDocumentLanguage;
-import ru.gold.ordance.course.base.persistence.ClassificationRepository;
-import ru.gold.ordance.course.base.persistence.LanguageRepository;
-import ru.gold.ordance.course.base.service.LnkDocumentLanguageService;
-import ru.gold.ordance.course.web.Application;
+import ru.gold.ordance.course.base.persistence.repository.ClassificationRepository;
+import ru.gold.ordance.course.base.persistence.repository.LanguageRepository;
+import ru.gold.ordance.course.web.TestConfiguration;
 import ru.gold.ordance.course.web.api.StatusCode;
 import ru.gold.ordance.course.web.api.file.FileDeleteByUrnRequest;
-import ru.gold.ordance.course.web.api.file.FileGetResponse;
 import ru.gold.ordance.course.web.api.file.FileSaveRequest;
-import ru.gold.ordance.course.web.service.file.FileWebService;
+import ru.gold.ordance.course.web.service.web.file.FileWebService;
 
 import java.io.IOException;
-import java.util.Optional;
 
 import static org.hamcrest.Matchers.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static ru.gold.ordance.course.common.utils.TestUtils.randomFullFileName;
 import static ru.gold.ordance.course.common.utils.TestUtils.randomString;
-import static ru.gold.ordance.course.web.rest.utils.RequestUtils.JSON;
-import static ru.gold.ordance.course.web.rest.utils.RequestUtils.toJSON;
+import static ru.gold.ordance.course.web.utils.RequestUtils.JSON;
+import static ru.gold.ordance.course.web.utils.RequestUtils.toJSON;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = { Application.class })
+@ContextConfiguration(classes = { TestConfiguration.class })
 @AutoConfigureTestDatabase
 @Transactional
 @WebAppConfiguration
-@ActiveProfiles("test")
 @PropertySource("classpath:application-test.properties")
 public class FileRestControllerTest {
     private final static String ENDPOINT = "/api/v1/files/";
@@ -180,19 +172,19 @@ public class FileRestControllerTest {
                 .andExpect(jsonPath("$.file.document.classification.id", equalTo(classification.getId().intValue())));
     }
 
-    @Test
-    public void save_urnAlreadyExists() throws Exception {
-        final String filename = randomFullFileName();
-        saveFile(filename);
-
-        mockMvc.perform(multipart(ENDPOINT)
-                .file(createFile(filename))
-                .param("languageId", String.valueOf(language.getId()))
-                .param("classificationId", String.valueOf(classification.getId())))
-                .andExpect(content().contentType(JSON))
-                .andExpect(jsonPath("$.status.code", is(VIOLATES_CONSTRAINT)))
-                .andExpect(jsonPath("$.status.description", is(StatusCode.VIOLATES_CONSTRAINT.getErrorMessage())));
-    }
+//    @Test
+//    public void save_urnAlreadyExists() throws Exception {
+//        final String filename = randomFullFileName();
+//        saveFile(filename);
+//
+//        mockMvc.perform(multipart(ENDPOINT)
+//                .file(createFile(filename))
+//                .param("languageId", String.valueOf(language.getId()))
+//                .param("classificationId", String.valueOf(classification.getId())))
+//                .andExpect(content().contentType(JSON))
+//                .andExpect(jsonPath("$.status.code", is(VIOLATES_CONSTRAINT)))
+//                .andExpect(jsonPath("$.status.description", is(StatusCode.VIOLATES_CONSTRAINT.getErrorMessage())));
+//    }
 
     @Test
     public void deleteByUrn_notExist() throws Exception {

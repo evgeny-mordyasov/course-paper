@@ -6,32 +6,31 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-import ru.gold.ordance.course.web.Application;
+import ru.gold.ordance.course.web.TestConfiguration;
 import ru.gold.ordance.course.web.api.StatusCode;
 import ru.gold.ordance.course.web.api.language.LanguageSaveRequest;
 import ru.gold.ordance.course.web.api.language.LanguageUpdateRequest;
 
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static ru.gold.ordance.course.common.utils.TestUtils.generateId;
 import static ru.gold.ordance.course.common.utils.TestUtils.randomString;
-import static ru.gold.ordance.course.web.rest.utils.RequestUtils.JSON;
-import static ru.gold.ordance.course.web.rest.utils.RequestUtils.toJSON;
+import static ru.gold.ordance.course.web.utils.RequestUtils.JSON;
+import static ru.gold.ordance.course.web.utils.RequestUtils.toJSON;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = { Application.class })
+@ContextConfiguration(classes = { TestConfiguration.class })
 @AutoConfigureTestDatabase
 @WebAppConfiguration
-@ActiveProfiles("test")
 @PropertySource("classpath:application-test.properties")
 public class LanguageRestControllerValidateTest {
     private final static String ENDPOINT = "/api/v1/languages/";

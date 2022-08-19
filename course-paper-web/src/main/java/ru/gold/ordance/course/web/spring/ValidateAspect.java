@@ -17,7 +17,7 @@ public class ValidateAspect {
     public void webServiceMethodWithRequestArg() {
     }
 
-    @Pointcut("target(ru.gold.ordance.course.web.service.WebService)")
+    @Pointcut("target(ru.gold.ordance.course.web.service.web.WebService)")
     public void classesThatAreWebService() {
     }
 

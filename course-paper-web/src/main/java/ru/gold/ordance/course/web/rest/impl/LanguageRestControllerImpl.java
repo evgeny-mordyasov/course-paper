@@ -4,10 +4,10 @@ import org.springframework.web.bind.annotation.*;
 import ru.gold.ordance.course.web.api.Response;
 import ru.gold.ordance.course.web.api.language.*;
 import ru.gold.ordance.course.web.rest.LanguageRestController;
-import ru.gold.ordance.course.web.service.language.LanguageWebService;
+import ru.gold.ordance.course.web.service.web.language.LanguageWebService;
 
 import static ru.gold.ordance.course.web.api.BaseErrorResponse.createFrom;
-import static ru.gold.ordance.course.web.rest.utils.RequestUtils.*;
+import static ru.gold.ordance.course.web.utils.RequestUtils.*;
 
 @RestController
 @RequestMapping("/api/v1/languages")

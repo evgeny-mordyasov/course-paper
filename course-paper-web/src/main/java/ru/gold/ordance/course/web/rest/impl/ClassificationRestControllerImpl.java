@@ -4,10 +4,10 @@ import org.springframework.web.bind.annotation.*;
 import ru.gold.ordance.course.web.api.Response;
 import ru.gold.ordance.course.web.api.classification.*;
 import ru.gold.ordance.course.web.rest.ClassificationRestController;
-import ru.gold.ordance.course.web.service.classification.ClassificationWebService;
+import ru.gold.ordance.course.web.service.web.classification.ClassificationWebService;
 
 import static ru.gold.ordance.course.web.api.BaseErrorResponse.createFrom;
-import static ru.gold.ordance.course.web.rest.utils.RequestUtils.*;
+import static ru.gold.ordance.course.web.utils.RequestUtils.*;
 
 @RestController
 @RequestMapping("/api/v1/classifications")

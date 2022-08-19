@@ -4,10 +4,10 @@ import org.springframework.web.bind.annotation.*;
 import ru.gold.ordance.course.web.api.Response;
 import ru.gold.ordance.course.web.api.client.*;
 import ru.gold.ordance.course.web.rest.ClientRestController;
-import ru.gold.ordance.course.web.service.client.ClientWebService;
+import ru.gold.ordance.course.web.service.web.client.ClientWebService;
 
 import static ru.gold.ordance.course.web.api.BaseErrorResponse.createFrom;
-import static ru.gold.ordance.course.web.rest.utils.RequestUtils.*;
+import static ru.gold.ordance.course.web.utils.RequestUtils.*;
 
 @RestController
 @RequestMapping("/api/v1/clients")

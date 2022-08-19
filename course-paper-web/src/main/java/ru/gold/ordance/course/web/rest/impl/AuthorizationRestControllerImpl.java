@@ -4,10 +4,10 @@ import org.springframework.web.bind.annotation.*;
 import ru.gold.ordance.course.web.api.Response;
 import ru.gold.ordance.course.web.api.authorization.*;
 import ru.gold.ordance.course.web.rest.AuthorizationRestController;
-import ru.gold.ordance.course.web.service.authorization.AuthorizationWebService;
+import ru.gold.ordance.course.web.service.web.authorization.AuthorizationWebService;
 
 import static ru.gold.ordance.course.web.api.BaseErrorResponse.createFrom;
-import static ru.gold.ordance.course.web.rest.utils.RequestUtils.*;
+import static ru.gold.ordance.course.web.utils.RequestUtils.*;
 
 @RestController
 @RequestMapping("/api/v1/authorizations")
