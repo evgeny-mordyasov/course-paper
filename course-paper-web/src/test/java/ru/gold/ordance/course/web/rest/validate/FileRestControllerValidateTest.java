@@ -201,13 +201,13 @@ public class FileRestControllerValidateTest {
         return String.valueOf(languageRepository.saveAndFlush(Language.builder()
                 .withName(randomString())
                 .build())
-                .getId());
+                .getEntityId());
     }
 
     private String saveClassification() {
         return String.valueOf(classificationRepository.saveAndFlush(Classification.builder()
                 .withName(randomString())
                 .build())
-                .getId());
+                .getEntityId());
     }
 }

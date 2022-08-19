@@ -14,7 +14,7 @@ public class FileMapperImpl implements FileMapper {
     public Document toDocument(FileSaveRequest rq) {
         return Document.builder()
                 .withName(rq.getFile().getOriginalFilename())
-                .withClassification(Classification.builder().withId(rq.getClassificationId()).build())
+                .withClassification(Classification.builder().withEntityId(rq.getClassificationId()).build())
                 .build();
     }
 
@@ -22,7 +22,7 @@ public class FileMapperImpl implements FileMapper {
     public LnkDocumentLanguage toLnk(Document document, Long languageId, String URN) {
         return LnkDocumentLanguage.builder()
                 .withDocument(document)
-                .withLanguage(Language.builder().withId(languageId).build())
+                .withLanguage(Language.builder().withEntityId(languageId).build())
                 .withUrn(URN)
                 .build();
     }

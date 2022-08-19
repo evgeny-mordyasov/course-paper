@@ -18,7 +18,7 @@ public class Classification implements AbstractEntity {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Column(name = "ID")
+    @Column(name = "ENTITY_ID")
     @GeneratedValue(generator = "classification_sequence-generator")
     @GenericGenerator(
             name = "classification_sequence-generator",
@@ -28,7 +28,7 @@ public class Classification implements AbstractEntity {
                     @Parameter(name = "initial_value", value = "1"),
                     @Parameter(name = "increment_size", value = "1")
             })
-    private final Long id;
+    private final Long entityId;
 
     @Column(name = "NAME")
     private final String name;

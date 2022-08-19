@@ -25,8 +25,8 @@ public class LanguageServiceImpl implements LanguageService {
     }
 
     @Override
-    public Optional<Language> findById(@NotNull Long id) {
-        return repository.findById(id);
+    public Optional<Language> findByEntityId(@NotNull Long entityId) {
+        return repository.findById(entityId);
     }
 
     @Override
@@ -45,10 +45,10 @@ public class LanguageServiceImpl implements LanguageService {
     }
 
     @Override
-    public void deleteById(Long id) {
-       Language language = repository.findById(id)
+    public void deleteByEntityId(Long entityId) {
+       Language language = repository.findById(entityId)
                .orElseThrow(NotFoundException::new);
 
-       repository.deleteById(language.getId());
+       repository.deleteById(language.getEntityId());
     }
 }

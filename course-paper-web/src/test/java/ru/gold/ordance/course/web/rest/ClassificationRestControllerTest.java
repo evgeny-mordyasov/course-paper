@@ -79,7 +79,7 @@ public class ClassificationRestControllerTest {
         final int savedClassificationId = repository.saveAndFlush(Classification.builder()
                 .withName(name)
                 .build())
-                .getId()
+                .getEntityId()
                 .intValue();
 
         mockMvc.perform(get(ENDPOINT))
@@ -100,7 +100,7 @@ public class ClassificationRestControllerTest {
         final int firstSavedClassificationId = repository.saveAndFlush(Classification.builder()
                 .withName(firstName)
                 .build())
-                .getId()
+                .getEntityId()
                 .intValue();
 
 
@@ -108,7 +108,7 @@ public class ClassificationRestControllerTest {
         final int secondSavedClassificationId = repository.saveAndFlush(Classification.builder()
                 .withName(secondName)
                 .build())
-                .getId()
+                .getEntityId()
                 .intValue();
 
         mockMvc.perform(get(ENDPOINT))
@@ -144,7 +144,7 @@ public class ClassificationRestControllerTest {
         final int savedClassificationId = repository.saveAndFlush(Classification.builder()
                 .withName(name)
                 .build())
-                .getId()
+                .getEntityId()
                 .intValue();
 
         mockMvc.perform(get(ENDPOINT + savedClassificationId))
@@ -178,7 +178,7 @@ public class ClassificationRestControllerTest {
         final int savedClassificationId = repository.saveAndFlush(Classification.builder()
                 .withName(name)
                 .build())
-                .getId()
+                .getEntityId()
                 .intValue();
 
         mockMvc.perform(get(ENDPOINT + "name/" + name))
@@ -225,7 +225,7 @@ public class ClassificationRestControllerTest {
         final Long savedClassificationId = repository.saveAndFlush(Classification.builder()
                 .withName(randomString())
                 .build())
-                .getId();
+                .getEntityId();
 
         final String name = randomString();
         ClassificationUpdateRequest rq = ClassificationUpdateRequest.builder()
@@ -248,7 +248,7 @@ public class ClassificationRestControllerTest {
         final Long savedClassificationId = repository.saveAndFlush(Classification.builder()
                 .withName(randomString())
                 .build())
-                .getId();
+                .getEntityId();
 
         mockMvc.perform(delete(ENDPOINT + savedClassificationId))
                 .andExpect(content().contentType(JSON))

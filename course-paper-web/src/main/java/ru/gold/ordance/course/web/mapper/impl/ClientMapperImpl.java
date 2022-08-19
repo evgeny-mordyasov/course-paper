@@ -11,7 +11,7 @@ public class ClientMapperImpl implements ClientMapper {
     @Override
     public Client toClient(ClientUpdateRequest rq) {
         return Client.builder()
-                .withId(rq.getEntityId())
+                .withEntityId(rq.getEntityId())
                 .withSurname(rq.getSurname())
                 .withName(rq.getName())
                 .withPatronymic(rq.getPatronymic())
@@ -33,7 +33,7 @@ public class ClientMapperImpl implements ClientMapper {
     @Override
     public WebClient fromClient(Client client) {
         return WebClient.builder()
-                .entityId(client.getId())
+                .entityId(client.getEntityId())
                 .surname(client.getSurname())
                 .name(client.getName())
                 .patronymic(client.getPatronymic())

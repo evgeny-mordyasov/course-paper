@@ -25,8 +25,8 @@ public class ClassificationServiceImpl implements ClassificationService {
     }
 
     @Override
-    public Optional<Classification> findById(@NotNull Long id) {
-        return repository.findById(id);
+    public Optional<Classification> findByEntityId(@NotNull Long entityId) {
+        return repository.findById(entityId);
     }
 
     @Override
@@ -45,10 +45,10 @@ public class ClassificationServiceImpl implements ClassificationService {
     }
 
     @Override
-    public void deleteById(Long id) {
-        Classification classification = repository.findById(id)
+    public void deleteByEntityId(Long entityId) {
+        Classification classification = repository.findById(entityId)
                 .orElseThrow(NotFoundException::new);
 
-        repository.deleteById(classification.getId());
+        repository.deleteById(classification.getEntityId());
     }
 }

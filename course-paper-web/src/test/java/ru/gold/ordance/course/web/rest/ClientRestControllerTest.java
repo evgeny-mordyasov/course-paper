@@ -89,7 +89,7 @@ public class ClientRestControllerTest {
                         .withRole(Role.USER)
                         .withIsActive(true)
                         .build())
-                .getId()
+                .getEntityId()
                 .intValue();
 
         mockMvc.perform(get(ENDPOINT))
@@ -125,7 +125,7 @@ public class ClientRestControllerTest {
                         .withRole(Role.USER)
                         .withIsActive(true)
                         .build())
-                .getId()
+                .getEntityId()
                 .intValue();
 
         final String sSurname = randomString();
@@ -142,7 +142,7 @@ public class ClientRestControllerTest {
                         .withRole(Role.USER)
                         .withIsActive(true)
                         .build())
-                .getId()
+                .getEntityId()
                 .intValue();
 
         mockMvc.perform(get(ENDPOINT))
@@ -198,7 +198,7 @@ public class ClientRestControllerTest {
                         .withRole(Role.USER)
                         .withIsActive(true)
                         .build())
-                .getId()
+                .getEntityId()
                 .intValue();
 
         mockMvc.perform(get(ENDPOINT + savedClientId))
@@ -247,7 +247,7 @@ public class ClientRestControllerTest {
                         .withRole(Role.USER)
                         .withIsActive(true)
                         .build())
-                .getId()
+                .getEntityId()
                 .intValue();
 
         mockMvc.perform(get(ENDPOINT + "email/" + email))
@@ -275,7 +275,7 @@ public class ClientRestControllerTest {
                         .withRole(Role.USER)
                         .withIsActive(true)
                         .build())
-                .getId();
+                .getEntityId();
 
         final String surname = randomString();
         final String name = randomString();
@@ -312,7 +312,7 @@ public class ClientRestControllerTest {
                         .withRole(Role.USER)
                         .withIsActive(true)
                         .build())
-                .getId();
+                .getEntityId();
 
         mockMvc.perform(delete(ENDPOINT + savedClientId))
                 .andExpect(content().contentType(JSON))

@@ -102,8 +102,8 @@ public class FileRestControllerTest {
                 .andExpect(jsonPath("$.status.code", is(SUCCESS)))
                 .andExpect(jsonPath("$.status.description", nullValue()))
                 .andExpect(jsonPath("$.list", hasSize(foundOne)))
-                .andExpect(jsonPath("$.list[0].language.id", equalTo(language.getId().intValue())))
-                .andExpect(jsonPath("$.list[0].document.classification.id", equalTo(classification.getId().intValue())))
+                .andExpect(jsonPath("$.list[0].language.id", equalTo(language.getEntityId().intValue())))
+                .andExpect(jsonPath("$.list[0].document.classification.id", equalTo(classification.getEntityId().intValue())))
                 .andExpect(jsonPath("$.list[0].urn", is(urn)))
                 .andExpect(jsonPath("$.total", is(foundOne)));
     }
@@ -123,11 +123,11 @@ public class FileRestControllerTest {
                 .andExpect(jsonPath("$.status.code", is(SUCCESS)))
                 .andExpect(jsonPath("$.status.description", nullValue()))
                 .andExpect(jsonPath("$.list", hasSize(foundALot)))
-                .andExpect(jsonPath("$.list[0].language.id", equalTo(language.getId().intValue())))
-                .andExpect(jsonPath("$.list[0].document.classification.id", equalTo(classification.getId().intValue())))
+                .andExpect(jsonPath("$.list[0].language.id", equalTo(language.getEntityId().intValue())))
+                .andExpect(jsonPath("$.list[0].document.classification.id", equalTo(classification.getEntityId().intValue())))
                 .andExpect(jsonPath("$.list[0].urn", oneOf(firstUrn, secondUrn)))
-                .andExpect(jsonPath("$.list[1].language.id", equalTo(language.getId().intValue())))
-                .andExpect(jsonPath("$.list[1].document.classification.id", equalTo(classification.getId().intValue())))
+                .andExpect(jsonPath("$.list[1].language.id", equalTo(language.getEntityId().intValue())))
+                .andExpect(jsonPath("$.list[1].document.classification.id", equalTo(classification.getEntityId().intValue())))
                 .andExpect(jsonPath("$.list[1].urn", oneOf(firstUrn, secondUrn)))
                 .andExpect(jsonPath("$.total", is(foundALot)));
     }
@@ -135,8 +135,8 @@ public class FileRestControllerTest {
     private String saveFile(String fileName) throws IOException {
         service.save(FileSaveRequest.builder()
                 .file(createFile(fileName))
-                .languageId(language.getId())
-                .classificationId(classification.getId())
+                .languageId(language.getEntityId())
+                .classificationId(classification.getEntityId())
                 .build());
 
         return getUrn(fileName);
@@ -162,14 +162,14 @@ public class FileRestControllerTest {
 
         mockMvc.perform(multipart(ENDPOINT)
                 .file(createFile(filename))
-                .param("languageId", String.valueOf(language.getId()))
-                .param("classificationId", String.valueOf(classification.getId())))
+                .param("languageId", String.valueOf(language.getEntityId()))
+                .param("classificationId", String.valueOf(classification.getEntityId())))
                 .andExpect(content().contentType(JSON))
                 .andExpect(jsonPath("$.status.code", is(SUCCESS)))
                 .andExpect(jsonPath("$.status.description", nullValue()))
                 .andExpect(jsonPath("$.file.urn", is(urn)))
-                .andExpect(jsonPath("$.file.language.id", equalTo(language.getId().intValue())))
-                .andExpect(jsonPath("$.file.document.classification.id", equalTo(classification.getId().intValue())));
+                .andExpect(jsonPath("$.file.language.id", equalTo(language.getEntityId().intValue())))
+                .andExpect(jsonPath("$.file.document.classification.id", equalTo(classification.getEntityId().intValue())));
     }
 
 //    @Test
@@ -179,8 +179,8 @@ public class FileRestControllerTest {
 //
 //        mockMvc.perform(multipart(ENDPOINT)
 //                .file(createFile(filename))
-//                .param("languageId", String.valueOf(language.getId()))
-//                .param("classificationId", String.valueOf(classification.getId())))
+//                .param("languageId", String.valueOf(language.getEntityId()))
+//                .param("classificationId", String.valueOf(classification.getEntityId())))
 //                .andExpect(content().contentType(JSON))
 //                .andExpect(jsonPath("$.status.code", is(VIOLATES_CONSTRAINT)))
 //                .andExpect(jsonPath("$.status.description", is(StatusCode.VIOLATES_CONSTRAINT.getErrorMessage())));

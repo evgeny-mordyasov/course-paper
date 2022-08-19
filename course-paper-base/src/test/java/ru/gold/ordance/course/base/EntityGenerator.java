@@ -14,7 +14,7 @@ public final class EntityGenerator {
 
     public static Client createClient(Long id) {
         return createBaseClient()
-                .withId(id)
+                .withEntityId(id)
                 .build();
     }
 
@@ -43,7 +43,7 @@ public final class EntityGenerator {
 
     public static Classification createClassification(Long id) {
         return Classification.builder()
-                .withId(id)
+                .withEntityId(id)
                 .withName(randomString())
                 .build();
     }
@@ -62,7 +62,7 @@ public final class EntityGenerator {
 
     public static Language createLanguage(Long id) {
         return Language.builder()
-                .withId(id)
+                .withEntityId(id)
                 .withName(randomString())
                 .build();
     }
@@ -82,7 +82,7 @@ public final class EntityGenerator {
 
     public static Document createDocument(Classification classification, Long id) {
         return Document.builder()
-                .withId(id)
+                .withEntityId(id)
                 .withName(randomString())
                 .withClassification(classification)
                 .build();
@@ -105,7 +105,7 @@ public final class EntityGenerator {
 
     public static LnkDocumentLanguage createLnk(Document doc, Language lang, Long id) {
         return LnkDocumentLanguage.builder()
-                .withId(id)
+                .withEntityId(id)
                 .withDocument(doc)
                 .withLanguage(lang)
                 .withUrn(randomString())

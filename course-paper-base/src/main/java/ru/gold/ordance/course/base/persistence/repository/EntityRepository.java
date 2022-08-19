@@ -9,6 +9,6 @@ import java.util.Optional;
 
 @NoRepositoryBean
 public interface EntityRepository<ENTITY extends AbstractEntity> extends JpaRepository<ENTITY, Long> {
-    Optional<ENTITY> findById(Long id);
+    Optional<ENTITY> findByEntityId(Long entityId);
     List<ENTITY> findAll();
 }

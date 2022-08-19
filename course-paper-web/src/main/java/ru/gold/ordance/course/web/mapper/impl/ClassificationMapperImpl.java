@@ -18,7 +18,7 @@ public class ClassificationMapperImpl implements ClassificationMapper {
     @Override
     public Classification toClassification(ClassificationUpdateRequest rq) {
         return Classification.builder()
-                .withId(rq.getEntityId())
+                .withEntityId(rq.getEntityId())
                 .withName(rq.getName())
                 .build();
     }
@@ -26,7 +26,7 @@ public class ClassificationMapperImpl implements ClassificationMapper {
     @Override
     public WebClassification fromClassification(Classification classification) {
         return WebClassification.builder()
-                .withEntityId(classification.getId())
+                .withEntityId(classification.getEntityId())
                 .withName(classification.getName())
                 .build();
     }

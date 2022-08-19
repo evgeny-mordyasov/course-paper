@@ -31,7 +31,7 @@ public class ClassificationWebServiceImpl implements ClassificationWebService {
 
     @Override
     public ClassificationGetResponse findById(ClassificationGetByIdRequest rq) {
-        Optional<Classification> foundClassification = service.findById(rq.getEntityId());
+        Optional<Classification> foundClassification = service.findByEntityId(rq.getEntityId());
 
         return search(foundClassification);
     }
@@ -59,7 +59,7 @@ public class ClassificationWebServiceImpl implements ClassificationWebService {
 
     @Override
     public ClassificationDeleteResponse deleteById(ClassificationDeleteByIdRequest rq) {
-        service.deleteById(rq.getEntityId());
+        service.deleteByEntityId(rq.getEntityId());
 
         return ClassificationDeleteResponse.success();
     }

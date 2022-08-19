@@ -60,7 +60,7 @@ public class LanguageServiceTest {
     public void findById_notFound() {
         long fakeId = generateId();
 
-        Optional<Language> found = service.findById(fakeId);
+        Optional<Language> found = service.findByEntityId(fakeId);
 
         assertTrue(found.isEmpty());
     }
@@ -69,7 +69,7 @@ public class LanguageServiceTest {
     public void findById_found() {
         Language saved = repository.saveAndFlush(createLanguage());
 
-        Optional<Language> found = service.findById(saved.getId());
+        Optional<Language> found = service.findByEntityId(saved.getEntityId());
 
         assertTrue(found.isPresent());
     }
@@ -96,7 +96,7 @@ public class LanguageServiceTest {
     public void save() {
         Language saved = service.save(createLanguage());
 
-        Optional<Language> found = repository.findById(saved.getId());
+        Optional<Language> found = repository.findById(saved.getEntityId());
 
         assertTrue(found.isPresent());
         assertEquals(saved.getName(), found.get().getName());
@@ -109,12 +109,12 @@ public class LanguageServiceTest {
     @Test
     public void update() {
         Language saved = createLanguage();
-        Long entityId = repository.saveAndFlush(saved).getId();
+        Long entityId = repository.saveAndFlush(saved).getEntityId();
         Language newObj = createLanguage(entityId);
 
         Language updatedLanguage = service.update(newObj);
 
-        assertEquals(newObj.getId(), updatedLanguage.getId());
+        assertEquals(newObj.getEntityId(), updatedLanguage.getEntityId());
         assertEquals(newObj.getName(), updatedLanguage.getName());
     }
 
@@ -122,14 +122,14 @@ public class LanguageServiceTest {
     public void deleteById_notFound() {
         long fakeId = generateId();
 
-        assertThrows(NotFoundException.class, () -> service.deleteById(fakeId));
+        assertThrows(NotFoundException.class, () -> service.deleteByEntityId(fakeId));
     }
 
     @Test
     public void deleteById_languageExists() {
-        Long entityId = repository.saveAndFlush(createLanguage()).getId();
+        Long entityId = repository.saveAndFlush(createLanguage()).getEntityId();
 
-        service.deleteById(entityId);
+        service.deleteByEntityId(entityId);
 
         Optional<Language> found = repository.findById(entityId);
 

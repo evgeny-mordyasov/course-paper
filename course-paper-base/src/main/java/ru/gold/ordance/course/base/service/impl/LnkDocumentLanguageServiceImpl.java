@@ -25,8 +25,8 @@ public class LnkDocumentLanguageServiceImpl implements LnkDocumentLanguageServic
     }
 
     @Override
-    public Optional<LnkDocumentLanguage> findById(@NotNull Long id) {
-        return repository.findById(id);
+    public Optional<LnkDocumentLanguage> findByEntityId(@NotNull Long entityId) {
+        return repository.findById(entityId);
     }
 
     @Override
@@ -36,7 +36,7 @@ public class LnkDocumentLanguageServiceImpl implements LnkDocumentLanguageServic
 
     @Override
     public Long findQuantityByDocumentId(Long documentId) {
-        return repository.countLnkDocumentLanguagesByDocument_Id(documentId);
+        return repository.countLnkDocumentLanguagesByDocument_EntityId(documentId);
     }
 
     @Override
@@ -50,11 +50,11 @@ public class LnkDocumentLanguageServiceImpl implements LnkDocumentLanguageServic
     }
 
     @Override
-    public void deleteById(Long id) {
-        LnkDocumentLanguage lnk = repository.findById(id)
+    public void deleteByEntityId(Long entityId) {
+        LnkDocumentLanguage lnk = repository.findById(entityId)
                 .orElseThrow(NotFoundException::new);
 
-        repository.deleteById(lnk.getId());
+        repository.deleteById(lnk.getEntityId());
     }
 
     @Override
@@ -62,6 +62,6 @@ public class LnkDocumentLanguageServiceImpl implements LnkDocumentLanguageServic
         LnkDocumentLanguage lnk = repository.findLnkDocumentLanguageByUrn(URN)
                 .orElseThrow(NotFoundException::new);
 
-        repository.deleteById(lnk.getId());
+        repository.deleteById(lnk.getEntityId());
     }
 }

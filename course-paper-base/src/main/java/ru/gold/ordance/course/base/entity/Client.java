@@ -19,7 +19,7 @@ public class Client implements AbstractEntity {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Column(name = "ID")
+    @Column(name = "ENTITY_ID")
     @GeneratedValue(generator = "client_sequence-generator")
     @GenericGenerator(
             name = "client_sequence-generator",
@@ -29,7 +29,7 @@ public class Client implements AbstractEntity {
                     @Parameter(name = "initial_value", value = "1"),
                     @Parameter(name = "increment_size", value = "1")
             })
-    private final Long id;
+    private final Long entityId;
 
     @Column(name = "SURNAME")
     private final String surname;

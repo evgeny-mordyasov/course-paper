@@ -74,7 +74,7 @@ public class DocumentServiceTest {
     public void findById_notFound() {
         long fakeId = generateId();
 
-        Optional<Document> found = service.findById(fakeId);
+        Optional<Document> found = service.findByEntityId(fakeId);
 
         assertTrue(found.isEmpty());
     }
@@ -83,7 +83,7 @@ public class DocumentServiceTest {
     public void findById_found() {
         Document saved = repository.saveAndFlush(createDocument(classification));
 
-        Optional<Document> found = service.findById(saved.getId());
+        Optional<Document> found = service.findByEntityId(saved.getEntityId());
 
         assertTrue(found.isPresent());
     }
@@ -126,7 +126,7 @@ public class DocumentServiceTest {
     public void save() {
         Document saved = service.save(createDocument(classification));
 
-        Optional<Document> found = repository.findById(saved.getId());
+        Optional<Document> found = repository.findById(saved.getEntityId());
 
         assertTrue(found.isPresent());
         assertEquals(saved.getName(), found.get().getName());
@@ -136,11 +136,11 @@ public class DocumentServiceTest {
     @Test
     public void update() {
         Document saved = repository.saveAndFlush(createDocument(classification));
-        Document newObj = createDocument(classification, saved.getId());
+        Document newObj = createDocument(classification, saved.getEntityId());
 
         Document updatedDocument = service.update(newObj);
 
-        assertEquals(newObj.getId(), updatedDocument.getId());
+        assertEquals(newObj.getEntityId(), updatedDocument.getEntityId());
         assertEquals(newObj.getName(), updatedDocument.getName());
         assertEquals(newObj.getClassification(), updatedDocument.getClassification());
     }
@@ -149,14 +149,14 @@ public class DocumentServiceTest {
     public void deleteById_notFound() {
         long fakeId = generateId();
 
-        assertThrows(NotFoundException.class, () -> service.deleteById(fakeId));
+        assertThrows(NotFoundException.class, () -> service.deleteByEntityId(fakeId));
     }
 
     @Test
     public void deleteById_documentExists() {
-        Long entityId = repository.saveAndFlush(createDocument(classification)).getId();
+        Long entityId = repository.saveAndFlush(createDocument(classification)).getEntityId();
 
-        service.deleteById(entityId);
+        service.deleteByEntityId(entityId);
 
         Optional<Document> found = repository.findById(entityId);
 

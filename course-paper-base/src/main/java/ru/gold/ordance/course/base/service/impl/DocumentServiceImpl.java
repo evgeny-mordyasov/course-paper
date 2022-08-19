@@ -25,8 +25,8 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     @Override
-    public Optional<Document> findById(@NotNull Long id) {
-        return repository.findById(id);
+    public Optional<Document> findByEntityId(@NotNull Long entityId) {
+        return repository.findById(entityId);
     }
 
     @Override
@@ -45,10 +45,10 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     @Override
-    public void deleteById(Long id) {
-        Document document = repository.findById(id)
+    public void deleteByEntityId(Long entityId) {
+        Document document = repository.findById(entityId)
                 .orElseThrow(NotFoundException::new);
 
-        repository.deleteById(document.getId());
+        repository.deleteById(document.getEntityId());
     }
 }

@@ -18,7 +18,7 @@ public class LanguageMapperImpl implements LanguageMapper {
     @Override
     public Language toLanguage(LanguageUpdateRequest rq) {
         return Language.builder()
-                .withId(rq.getEntityId())
+                .withEntityId(rq.getEntityId())
                 .withName(rq.getName())
                 .build();
     }
@@ -26,7 +26,7 @@ public class LanguageMapperImpl implements LanguageMapper {
     @Override
     public WebLanguage fromLanguage(Language lang) {
         return WebLanguage.builder()
-                .withEntityId(lang.getId())
+                .withEntityId(lang.getEntityId())
                 .withName(lang.getName())
                 .build();
     }

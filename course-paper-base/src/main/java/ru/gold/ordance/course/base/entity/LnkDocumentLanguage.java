@@ -18,7 +18,7 @@ public class LnkDocumentLanguage implements AbstractEntity {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Column(name = "ID")
+    @Column(name = "ENTITY_ID")
     @GeneratedValue(generator = "lnk_sequence-generator")
     @GenericGenerator(
             name = "lnk_sequence-generator",
@@ -28,7 +28,7 @@ public class LnkDocumentLanguage implements AbstractEntity {
                     @Parameter(name = "initial_value", value = "1"),
                     @Parameter(name = "increment_size", value = "1")
             })
-    private final Long id;
+    private final Long entityId;
 
     @ManyToOne
     @JoinColumn(name = "DOCUMENT_ID")

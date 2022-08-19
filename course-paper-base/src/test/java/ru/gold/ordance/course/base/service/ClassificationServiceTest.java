@@ -60,7 +60,7 @@ public class ClassificationServiceTest {
     public void findById_notFound() {
         long fakeId = generateId();
 
-        Optional<Classification> found = service.findById(fakeId);
+        Optional<Classification> found = service.findByEntityId(fakeId);
 
         assertTrue(found.isEmpty());
     }
@@ -69,7 +69,7 @@ public class ClassificationServiceTest {
     public void findById_found() {
         Classification saved = repository.saveAndFlush(createClassification());
 
-        Optional<Classification> found = service.findById(saved.getId());
+        Optional<Classification> found = service.findByEntityId(saved.getEntityId());
 
         assertTrue(found.isPresent());
     }
@@ -96,7 +96,7 @@ public class ClassificationServiceTest {
     public void save() {
         Classification saved = service.save(createClassification());
 
-        Optional<Classification> found = repository.findById(saved.getId());
+        Optional<Classification> found = repository.findById(saved.getEntityId());
 
         assertTrue(found.isPresent());
         assertEquals(saved.getName(), found.get().getName());
@@ -109,12 +109,12 @@ public class ClassificationServiceTest {
     @Test
     public void update() {
         Classification saved = createClassification();
-        Long entityId = repository.saveAndFlush(saved).getId();
+        Long entityId = repository.saveAndFlush(saved).getEntityId();
         Classification newObj = createClassification(entityId);
 
         Classification updatedClassification = service.update(newObj);
 
-        assertEquals(newObj.getId(), updatedClassification.getId());
+        assertEquals(newObj.getEntityId(), updatedClassification.getEntityId());
         assertEquals(newObj.getName(), updatedClassification.getName());
     }
 
@@ -122,14 +122,14 @@ public class ClassificationServiceTest {
     public void deleteById_notFound() {
         long fakeId = generateId();
 
-        assertThrows(NotFoundException.class, () -> service.deleteById(fakeId));
+        assertThrows(NotFoundException.class, () -> service.deleteByEntityId(fakeId));
     }
 
     @Test
     public void deleteById_classificationExists() {
-        Long entityId = repository.saveAndFlush(createClassification()).getId();
+        Long entityId = repository.saveAndFlush(createClassification()).getEntityId();
 
-        service.deleteById(entityId);
+        service.deleteByEntityId(entityId);
 
         Optional<Classification> found = repository.findById(entityId);
 

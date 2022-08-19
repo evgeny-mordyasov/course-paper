@@ -69,8 +69,8 @@ public class FileWebServiceImpl implements FileWebService {
     }
 
     private void deleteRecordInDatabase(LnkDocumentLanguage lnk) {
-        if (isOneRecordByDocumentId(lnk.getDocument().getId())) {
-            documentService.deleteById(lnk.getDocument().getId());
+        if (isOneRecordByDocumentId(lnk.getDocument().getEntityId())) {
+            documentService.deleteByEntityId(lnk.getDocument().getEntityId());
         } else {
             lnkService.deleteByUrn(lnk.getUrn());
         }

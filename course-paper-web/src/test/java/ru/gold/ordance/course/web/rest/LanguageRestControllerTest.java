@@ -79,7 +79,7 @@ public class LanguageRestControllerTest {
         final int savedLanguageId = repository.saveAndFlush(Language.builder()
                 .withName(name)
                 .build())
-                .getId()
+                .getEntityId()
                 .intValue();
 
         mockMvc.perform(get(ENDPOINT))
@@ -100,7 +100,7 @@ public class LanguageRestControllerTest {
         final int firstSavedLanguageId = repository.saveAndFlush(Language.builder()
                 .withName(firstName)
                 .build())
-                .getId()
+                .getEntityId()
                 .intValue();
 
 
@@ -108,7 +108,7 @@ public class LanguageRestControllerTest {
         final int secondSavedLanguageId = repository.saveAndFlush(Language.builder()
                 .withName(secondName)
                 .build())
-                .getId()
+                .getEntityId()
                 .intValue();
 
         mockMvc.perform(get(ENDPOINT))
@@ -144,7 +144,7 @@ public class LanguageRestControllerTest {
         final int savedLanguageId = repository.saveAndFlush(Language.builder()
                 .withName(name)
                 .build())
-                .getId()
+                .getEntityId()
                 .intValue();
 
         mockMvc.perform(get(ENDPOINT + savedLanguageId))
@@ -178,7 +178,7 @@ public class LanguageRestControllerTest {
         final int savedLanguageId = repository.saveAndFlush(Language.builder()
                 .withName(name)
                 .build())
-                .getId()
+                .getEntityId()
                 .intValue();
 
         mockMvc.perform(get(ENDPOINT + "name/" + name))
@@ -226,7 +226,7 @@ public class LanguageRestControllerTest {
         final Long savedLanguageId = repository.saveAndFlush(Language.builder()
                 .withName(randomString())
                 .build())
-                .getId();
+                .getEntityId();
 
         final String name = randomString();
         LanguageUpdateRequest rq = LanguageUpdateRequest.builder()
@@ -249,7 +249,7 @@ public class LanguageRestControllerTest {
         final Long savedLanguageId = repository.saveAndFlush(Language.builder()
                 .withName(randomString())
                 .build())
-                .getId();
+                .getEntityId();
 
         mockMvc.perform(delete(ENDPOINT + savedLanguageId))
                 .andExpect(content().contentType(JSON))

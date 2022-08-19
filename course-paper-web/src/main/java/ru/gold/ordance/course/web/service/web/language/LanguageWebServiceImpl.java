@@ -31,7 +31,7 @@ public class LanguageWebServiceImpl implements LanguageWebService {
 
     @Override
     public LanguageGetResponse findById(LanguageGetByIdRequest rq) {
-        Optional<Language> foundLanguage = service.findById(rq.getEntityId());
+        Optional<Language> foundLanguage = service.findByEntityId(rq.getEntityId());
 
         return search(foundLanguage);
     }
@@ -59,7 +59,7 @@ public class LanguageWebServiceImpl implements LanguageWebService {
 
     @Override
     public LanguageDeleteResponse deleteById(LanguageDeleteByIdRequest rq) {
-        service.deleteById(rq.getEntityId());
+        service.deleteByEntityId(rq.getEntityId());
 
         return LanguageDeleteResponse.success();
     }

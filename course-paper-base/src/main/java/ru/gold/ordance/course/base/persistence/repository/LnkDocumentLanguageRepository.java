@@ -8,5 +8,5 @@ import java.util.Optional;
 @Repository
 public interface LnkDocumentLanguageRepository extends EntityRepository<LnkDocumentLanguage> {
     Optional<LnkDocumentLanguage> findLnkDocumentLanguageByUrn(String URN);
-    Long countLnkDocumentLanguagesByDocument_Id(Long documentId);
+    Long countLnkDocumentLanguagesByDocument_EntityId(Long documentId);
 }

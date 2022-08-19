@@ -24,7 +24,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         Client client = foundClient.orElseThrow(() -> new UsernameNotFoundException("The user by email not found."));
 
         return new UserDetailsImpl(
-                client.getId(),
+                client.getEntityId(),
                 client.getEmail(),
                 client.getPassword(),
                 client.isActive(),

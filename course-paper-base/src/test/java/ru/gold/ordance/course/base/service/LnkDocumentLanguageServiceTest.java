@@ -88,7 +88,7 @@ public class LnkDocumentLanguageServiceTest {
     public void findById_notFound() {
         long fakeId = generateId();
 
-        Optional<LnkDocumentLanguage> found = service.findById(fakeId);
+        Optional<LnkDocumentLanguage> found = service.findByEntityId(fakeId);
 
         assertTrue(found.isEmpty());
     }
@@ -97,7 +97,7 @@ public class LnkDocumentLanguageServiceTest {
     public void findByUrn_found() {
         LnkDocumentLanguage saved = repository.saveAndFlush(createLnk(document, language));
 
-        Optional<LnkDocumentLanguage> found = service.findById(saved.getId());
+        Optional<LnkDocumentLanguage> found = service.findByEntityId(saved.getEntityId());
 
         assertTrue(found.isPresent());
     }
@@ -106,7 +106,7 @@ public class LnkDocumentLanguageServiceTest {
     public void findByUrn_notFound() {
         long fakeURN = generateId();
 
-        Optional<LnkDocumentLanguage> found = service.findById(fakeURN);
+        Optional<LnkDocumentLanguage> found = service.findByEntityId(fakeURN);
 
         assertTrue(found.isEmpty());
     }
@@ -136,7 +136,7 @@ public class LnkDocumentLanguageServiceTest {
         Long foundOne = 1L;
 
         repository.saveAndFlush(createLnk(document, language));
-        Long quantity = service.findQuantityByDocumentId(document.getId());
+        Long quantity = service.findQuantityByDocumentId(document.getEntityId());
 
         assertEquals(foundOne, quantity);
     }
@@ -147,7 +147,7 @@ public class LnkDocumentLanguageServiceTest {
 
         repository.saveAndFlush(createLnk(document, language));
         repository.saveAndFlush(createLnk(document, language));
-        Long quantity = service.findQuantityByDocumentId(document.getId());
+        Long quantity = service.findQuantityByDocumentId(document.getEntityId());
 
         assertEquals(foundALot, quantity);
     }
@@ -157,7 +157,7 @@ public class LnkDocumentLanguageServiceTest {
     public void save() {
         LnkDocumentLanguage saved = repository.saveAndFlush(createLnk(document, language));
 
-        Optional<LnkDocumentLanguage> found = repository.findById(saved.getId());
+        Optional<LnkDocumentLanguage> found = repository.findById(saved.getEntityId());
 
         assertTrue(found.isPresent());
         assertEquals(saved.getDocument(), found.get().getDocument());
@@ -172,12 +172,12 @@ public class LnkDocumentLanguageServiceTest {
     @Test
     public void update() {
         LnkDocumentLanguage saved = createLnk(document, language);
-        Long entityId = repository.saveAndFlush(saved).getId();
+        Long entityId = repository.saveAndFlush(saved).getEntityId();
         LnkDocumentLanguage newObj = createLnk(document, language, entityId);
 
         LnkDocumentLanguage updatedLnk = service.update(newObj);
 
-        assertEquals(newObj.getId(), updatedLnk.getId());
+        assertEquals(newObj.getEntityId(), updatedLnk.getEntityId());
         assertEquals(newObj.getDocument(), updatedLnk.getDocument());
         assertEquals(newObj.getLanguage(), updatedLnk.getLanguage());
         assertEquals(newObj.getUrn(), updatedLnk.getUrn());
@@ -187,14 +187,14 @@ public class LnkDocumentLanguageServiceTest {
     public void deleteById_notFound() {
         long fakeId = generateId();
 
-        assertThrows(NotFoundException.class, () -> service.deleteById(fakeId));
+        assertThrows(NotFoundException.class, () -> service.deleteByEntityId(fakeId));
     }
 
     @Test
     public void deleteById_lnkExists() {
-        Long entityId = repository.saveAndFlush(createLnk(document, language)).getId();
+        Long entityId = repository.saveAndFlush(createLnk(document, language)).getEntityId();
 
-        service.deleteById(entityId);
+        service.deleteByEntityId(entityId);
 
         Optional<LnkDocumentLanguage> found = repository.findById(entityId);
 

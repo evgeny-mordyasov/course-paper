@@ -163,7 +163,7 @@ public class AuthorizationRestControllerTest {
 
         Optional<Client> found = clientService.findByEmail(email);
         assertTrue(found.isPresent());
-        clientService.deleteById(found.get().getId());
+        clientService.deleteByEntityId(found.get().getEntityId());
 
         AuthorizationSignInRequest rq = new AuthorizationSignInRequest(email, password);
 

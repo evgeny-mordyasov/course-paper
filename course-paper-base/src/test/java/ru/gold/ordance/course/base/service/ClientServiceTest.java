@@ -64,7 +64,7 @@ public class ClientServiceTest {
     public void findById_notFound() {
         long fakeId = generateId();
 
-        Optional<Client> found = service.findById(fakeId);
+        Optional<Client> found = service.findByEntityId(fakeId);
 
         assertTrue(found.isEmpty());
     }
@@ -73,7 +73,7 @@ public class ClientServiceTest {
     public void findById_found() {
         Client saved = repository.saveAndFlush(createClient());
 
-        Optional<Client> found = service.findById(saved.getId());
+        Optional<Client> found = service.findByEntityId(saved.getEntityId());
 
         assertTrue(found.isPresent());
     }
@@ -100,7 +100,7 @@ public class ClientServiceTest {
     public void save() {
         Client saved = service.save(createClient());
 
-        Optional<Client> found = repository.findById(saved.getId());
+        Optional<Client> found = repository.findById(saved.getEntityId());
 
         assertTrue(found.isPresent());
         assertEquals(saved.getSurname(), found.get().getSurname());
@@ -116,12 +116,12 @@ public class ClientServiceTest {
     @Test
     public void update() {
         Client saved = createClient();
-        Long entityId = repository.saveAndFlush(saved).getId();
+        Long entityId = repository.saveAndFlush(saved).getEntityId();
         Client newObj = createClient(entityId);
 
         Client updatedClient = service.update(newObj);
 
-        assertEquals(newObj.getId(), updatedClient.getId());
+        assertEquals(newObj.getEntityId(), updatedClient.getEntityId());
         assertEquals(newObj.getSurname(), updatedClient.getSurname());
         assertEquals(newObj.getName(), updatedClient.getName());
         assertEquals(newObj.getPatronymic(), updatedClient.getPatronymic());
@@ -135,14 +135,14 @@ public class ClientServiceTest {
     public void deleteById_notFound() {
         long fakeId = generateId();
 
-        assertThrows(NotFoundException.class, () -> service.deleteById(fakeId));
+        assertThrows(NotFoundException.class, () -> service.deleteByEntityId(fakeId));
     }
 
     @Test
     public void deleteById_clientExists() {
-        Long entityId = repository.saveAndFlush(createClient()).getId();
+        Long entityId = repository.saveAndFlush(createClient()).getEntityId();
 
-        service.deleteById(entityId);
+        service.deleteByEntityId(entityId);
 
         Optional<Client> found = repository.findById(entityId);
 

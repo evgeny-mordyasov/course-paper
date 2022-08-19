@@ -31,7 +31,7 @@ public class ClientWebServiceImpl implements ClientWebService {
 
     @Override
     public ClientGetResponse findById(ClientGetByIdRequest rq) {
-        Optional<Client> foundClient = service.findById(rq.getEntityId());
+        Optional<Client> foundClient = service.findByEntityId(rq.getEntityId());
 
         return search(foundClient);
     }
@@ -52,7 +52,7 @@ public class ClientWebServiceImpl implements ClientWebService {
 
     @Override
     public ClientDeleteResponse deleteById(ClientDeleteByIdRequest rq) {
-        service.deleteById(rq.getEntityId());
+        service.deleteByEntityId(rq.getEntityId());
 
         return ClientDeleteResponse.success();
     }

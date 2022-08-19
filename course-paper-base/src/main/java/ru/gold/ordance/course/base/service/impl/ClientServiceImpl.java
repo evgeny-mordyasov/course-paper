@@ -33,8 +33,8 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public Optional<Client> findById(@NotNull Long id) {
-        return repository.findById(id);
+    public Optional<Client> findByEntityId(@NotNull Long entityId) {
+        return repository.findById(entityId);
     }
 
     @Override
@@ -55,7 +55,7 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public Client update(@NotNull Client client) {
-        Client clientFromDb = repository.getById(client.getId());
+        Client clientFromDb = repository.getById(client.getEntityId());
 
         Client updatedClient = clientFromDb.toBuilder()
                 .withSurname(client.getSurname())
@@ -76,8 +76,8 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public void deleteById(@NotNull Long id) {
-        Client client = repository.findById(id)
+    public void deleteByEntityId(@NotNull Long entityId) {
+        Client client = repository.findById(entityId)
                 .orElseThrow(NotFoundException::new);
 
         inactive(client);
