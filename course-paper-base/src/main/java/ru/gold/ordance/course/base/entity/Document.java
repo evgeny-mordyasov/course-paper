@@ -31,8 +31,14 @@ public class Document implements AbstractEntity {
             })
     private final Long entityId;
 
+    @Column(name = "FULL_NAME")
+    private final String fullName;
+
     @Column(name = "NAME")
     private final String name;
+
+    @Column(name = "EXTENSION")
+    private final String extension;
 
     @ManyToOne
     @JoinColumn(name = "CLASSIFICATION_ID")
