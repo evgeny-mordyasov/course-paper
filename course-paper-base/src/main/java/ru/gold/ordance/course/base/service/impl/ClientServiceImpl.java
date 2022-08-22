@@ -2,12 +2,11 @@ package ru.gold.ordance.course.base.service.impl;
 
 import com.sun.istack.NotNull;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import ru.gold.ordance.course.base.entity.Client;
 import ru.gold.ordance.course.base.entity.Role;
-import ru.gold.ordance.course.base.exception.NotFoundException;
+import ru.gold.ordance.course.base.exception.EntityNotFoundException;
 import ru.gold.ordance.course.base.persistence.repository.ClientRepository;
 import ru.gold.ordance.course.base.service.ClientService;
 
@@ -50,7 +49,7 @@ public class ClientServiceImpl implements ClientService {
                 .withIsActive(true)
                 .build();
 
-        return repository.saveAndFlush(clientWithHashPassword);
+        return repository.preserve(clientWithHashPassword);
     }
 
     @Override
@@ -64,7 +63,7 @@ public class ClientServiceImpl implements ClientService {
                 .withPassword(getNewPasswordIfChanged(client, clientFromDb))
                 .build();
 
-        return repository.saveAndFlush(updatedClient);
+        return repository.update(updatedClient);
     }
 
     private String getNewPasswordIfChanged(Client newClient, Client fromDatabase) {
@@ -77,17 +76,6 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public void deleteByEntityId(@NotNull Long entityId) {
-        Client client = repository.findById(entityId)
-                .orElseThrow(NotFoundException::new);
-
-        inactive(client);
-    }
-
-    private void inactive(Client client) {
-        Client deletedClient = client.toBuilder()
-                .withIsActive(false)
-                .build();
-
-        repository.saveAndFlush(deletedClient);
+        repository.deleteByEntityId(entityId);
     }
 }

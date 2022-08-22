@@ -4,7 +4,7 @@ import com.sun.istack.NotNull;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import ru.gold.ordance.course.base.entity.Document;
-import ru.gold.ordance.course.base.exception.NotFoundException;
+import ru.gold.ordance.course.base.exception.EntityNotFoundException;
 import ru.gold.ordance.course.base.persistence.repository.DocumentRepository;
 import ru.gold.ordance.course.base.service.DocumentService;
 
@@ -36,19 +36,16 @@ public class DocumentServiceImpl implements DocumentService {
 
     @Override
     public Document save(@NotNull Document document) {
-        return repository.saveAndFlush(document);
+        return repository.preserve(document);
     }
 
     @Override
     public Document update(@NotNull Document document) {
-        return repository.saveAndFlush(document);
+        return repository.update(document);
     }
 
     @Override
     public void deleteByEntityId(Long entityId) {
-        Document document = repository.findById(entityId)
-                .orElseThrow(NotFoundException::new);
-
-        repository.deleteById(document.getEntityId());
+        repository.deleteByEntityId(entityId);
     }
 }

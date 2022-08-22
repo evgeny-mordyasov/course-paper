@@ -4,7 +4,7 @@ import com.sun.istack.NotNull;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import ru.gold.ordance.course.base.entity.LnkDocumentLanguage;
-import ru.gold.ordance.course.base.exception.NotFoundException;
+import ru.gold.ordance.course.base.exception.EntityNotFoundException;
 import ru.gold.ordance.course.base.persistence.repository.LnkDocumentLanguageRepository;
 import ru.gold.ordance.course.base.service.LnkDocumentLanguageService;
 
@@ -41,27 +41,21 @@ public class LnkDocumentLanguageServiceImpl implements LnkDocumentLanguageServic
 
     @Override
     public LnkDocumentLanguage save(@NotNull LnkDocumentLanguage lnk) {
-        return repository.saveAndFlush(lnk);
+        return repository.preserve(lnk);
     }
 
     @Override
     public LnkDocumentLanguage update(@NotNull LnkDocumentLanguage lnk) {
-        return repository.saveAndFlush(lnk);
+        return repository.update(lnk);
     }
 
     @Override
     public void deleteByEntityId(Long entityId) {
-        LnkDocumentLanguage lnk = repository.findById(entityId)
-                .orElseThrow(NotFoundException::new);
-
-        repository.deleteById(lnk.getEntityId());
+        repository.deleteByEntityId(entityId);
     }
 
     @Override
     public void deleteByUrn(@NotNull String URN) {
-        LnkDocumentLanguage lnk = repository.findLnkDocumentLanguageByUrn(URN)
-                .orElseThrow(NotFoundException::new);
-
-        repository.deleteById(lnk.getEntityId());
+        repository.deleteByUrn(URN);
     }
 }

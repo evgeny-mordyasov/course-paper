@@ -4,8 +4,6 @@ import ru.gold.ordance.course.web.exception.ValidateException;
 
 import static java.util.Objects.isNull;
 import static org.apache.logging.log4j.util.Strings.isBlank;
-import static ru.gold.ordance.course.base.spring.StaticContextAccessor.getPersistenceHelper;
-import static ru.gold.ordance.course.common.utils.TestUtils.not;
 
 public final class ValidatorUtils {
     private ValidatorUtils() {
@@ -39,12 +37,8 @@ public final class ValidatorUtils {
         }
     }
 
-    public static void errorObjectId(Class<?> clazz, Long objectId, String fieldName) {
+    public static void errorObjectId(Long objectId, String fieldName) {
        errorId(objectId, fieldName);
-
-        if (not(getPersistenceHelper().existsById(clazz, objectId))) {
-            error("The " + fieldName + " was not found in the database.");
-        }
     }
 
     public static void errorTrue(boolean condition, String message) {

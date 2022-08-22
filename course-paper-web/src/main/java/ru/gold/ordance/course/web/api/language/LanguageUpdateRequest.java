@@ -20,7 +20,7 @@ public class LanguageUpdateRequest implements UpdateRequest {
 
     @Override
     public void validate() {
+        errorEntityId(getEntityId());
         errorString(getName(), "name");
-        errorObjectId(Language.class, getEntityId(), "entityId");
     }
 }

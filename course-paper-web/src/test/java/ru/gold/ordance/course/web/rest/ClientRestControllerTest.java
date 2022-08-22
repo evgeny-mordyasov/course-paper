@@ -80,7 +80,7 @@ public class ClientRestControllerTest {
         final String patronymic = randomString();
         final String email = randomString();
 
-        final int savedClientId = repository.saveAndFlush(Client.builder()
+        final int savedClientId = repository.preserve(Client.builder()
                         .withSurname(surname)
                         .withName(name)
                         .withPatronymic(patronymic)
@@ -116,7 +116,7 @@ public class ClientRestControllerTest {
         final String fPatronymic = randomString();
         final String fEmail = randomString();
 
-        final int firstSavedClientId = repository.saveAndFlush(Client.builder()
+        final int firstSavedClientId = repository.preserve(Client.builder()
                         .withSurname(fSurname)
                         .withName(fName)
                         .withPatronymic(fPatronymic)
@@ -133,7 +133,7 @@ public class ClientRestControllerTest {
         final String sPatronymic = randomString();
         final String sEmail = randomString();
 
-        final int secondSavedClientId = repository.saveAndFlush(Client.builder()
+        final int secondSavedClientId = repository.preserve(Client.builder()
                         .withSurname(sSurname)
                         .withName(sName)
                         .withPatronymic(sPatronymic)
@@ -189,7 +189,7 @@ public class ClientRestControllerTest {
         final String patronymic = randomString();
         final String email = randomString();
 
-        final int savedClientId = repository.saveAndFlush(Client.builder()
+        final int savedClientId = repository.preserve(Client.builder()
                         .withSurname(surname)
                         .withName(name)
                         .withPatronymic(patronymic)
@@ -238,7 +238,7 @@ public class ClientRestControllerTest {
         final String patronymic = randomString();
         final String email = randomString();
 
-        final int savedClientId = repository.saveAndFlush(Client.builder()
+        final int savedClientId = repository.preserve(Client.builder()
                         .withSurname(surname)
                         .withName(name)
                         .withPatronymic(patronymic)
@@ -266,7 +266,7 @@ public class ClientRestControllerTest {
 
     @Test
     public void update() throws Exception {
-        final Long savedClientId = repository.saveAndFlush(Client.builder()
+        final Long savedClientId = repository.preserve(Client.builder()
                         .withSurname(randomString())
                         .withName(randomString())
                         .withPatronymic(randomString())
@@ -304,7 +304,7 @@ public class ClientRestControllerTest {
 
     @Test
     public void deleteById() throws Exception {
-        final Long savedClientId = repository.saveAndFlush(Client.builder()
+        final Long savedClientId = repository.preserve(Client.builder()
                         .withSurname(randomString())
                         .withName(randomString())
                         .withPatronymic(randomString())

@@ -8,7 +8,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-import static ru.gold.ordance.course.base.spring.StaticContextAccessor.getPersistenceHelper;
+import static ru.gold.ordance.course.base.persistence.PersistenceHelper.getClassificationNameById;
+import static ru.gold.ordance.course.base.persistence.PersistenceHelper.getLanguageNameById;
 
 public final class FileStorage {
     private final String storagePath;
@@ -19,8 +20,8 @@ public final class FileStorage {
 
     public String getURN(FileSaveRequest rq) {
         return formURN(
-                getPersistenceHelper().getClassificationNameById(rq.getClassificationId()),
-                getPersistenceHelper().getLanguageNameById(rq.getLanguageId()),
+                getClassificationNameById(rq.getClassificationId()),
+                getLanguageNameById(rq.getLanguageId()),
                 rq.getFile().getOriginalFilename());
     }
 

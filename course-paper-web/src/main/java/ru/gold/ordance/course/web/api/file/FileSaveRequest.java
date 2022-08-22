@@ -26,10 +26,10 @@ public class FileSaveRequest implements SaveRequest {
 
     @Override
     public void validate() {
+        errorObjectId(getClassificationId(), "classificationId");
+        errorObjectId(getLanguageId(), "languageId");
         errorTrue(getFile().isEmpty(), "The file is missing.");
         errorString(getFile().getOriginalFilename(), "fileName");
         errorFalse(isFromWhitelist(getFileExtension(getFile().getOriginalFilename())), "The file extension not supported.");
-        errorObjectId(Classification.class, getClassificationId(), "classificationId");
-        errorObjectId(Language.class, getLanguageId(), "languageId");
     }
 }

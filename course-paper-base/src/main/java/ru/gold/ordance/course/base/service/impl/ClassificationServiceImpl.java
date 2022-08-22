@@ -4,7 +4,7 @@ import com.sun.istack.NotNull;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import ru.gold.ordance.course.base.entity.Classification;
-import ru.gold.ordance.course.base.exception.NotFoundException;
+import ru.gold.ordance.course.base.exception.EntityNotFoundException;
 import ru.gold.ordance.course.base.persistence.repository.ClassificationRepository;
 import ru.gold.ordance.course.base.service.ClassificationService;
 
@@ -36,19 +36,16 @@ public class ClassificationServiceImpl implements ClassificationService {
 
     @Override
     public Classification save(@NotNull Classification classification) {
-        return repository.saveAndFlush(classification);
+        return repository.preserve(classification);
     }
 
     @Override
     public Classification update(@NotNull Classification classification) {
-        return repository.saveAndFlush(classification);
+        return repository.update(classification);
     }
 
     @Override
     public void deleteByEntityId(Long entityId) {
-        Classification classification = repository.findById(entityId)
-                .orElseThrow(NotFoundException::new);
-
-        repository.deleteById(classification.getEntityId());
+        repository.deleteByEntityId(entityId);
     }
 }

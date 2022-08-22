@@ -76,7 +76,7 @@ public class ClassificationRestControllerTest {
         final int foundOne = 1;
 
         final String name = randomString();
-        final int savedClassificationId = repository.saveAndFlush(Classification.builder()
+        final int savedClassificationId = repository.preserve(Classification.builder()
                 .withName(name)
                 .build())
                 .getEntityId()
@@ -97,7 +97,7 @@ public class ClassificationRestControllerTest {
         final int foundALot = 2;
 
         final String firstName = randomString();
-        final int firstSavedClassificationId = repository.saveAndFlush(Classification.builder()
+        final int firstSavedClassificationId = repository.preserve(Classification.builder()
                 .withName(firstName)
                 .build())
                 .getEntityId()
@@ -105,7 +105,7 @@ public class ClassificationRestControllerTest {
 
 
         final String secondName = randomString();
-        final int secondSavedClassificationId = repository.saveAndFlush(Classification.builder()
+        final int secondSavedClassificationId = repository.preserve(Classification.builder()
                 .withName(secondName)
                 .build())
                 .getEntityId()
@@ -141,7 +141,7 @@ public class ClassificationRestControllerTest {
         final int foundOne = 1;
 
         final String name = randomString();
-        final int savedClassificationId = repository.saveAndFlush(Classification.builder()
+        final int savedClassificationId = repository.preserve(Classification.builder()
                 .withName(name)
                 .build())
                 .getEntityId()
@@ -175,7 +175,7 @@ public class ClassificationRestControllerTest {
         final int foundOne = 1;
 
         final String name = randomString();
-        final int savedClassificationId = repository.saveAndFlush(Classification.builder()
+        final int savedClassificationId = repository.preserve(Classification.builder()
                 .withName(name)
                 .build())
                 .getEntityId()
@@ -222,7 +222,7 @@ public class ClassificationRestControllerTest {
 
     @Test
     public void update() throws Exception {
-        final Long savedClassificationId = repository.saveAndFlush(Classification.builder()
+        final Long savedClassificationId = repository.preserve(Classification.builder()
                 .withName(randomString())
                 .build())
                 .getEntityId();
@@ -245,7 +245,7 @@ public class ClassificationRestControllerTest {
 
     @Test
     public void deleteById() throws Exception {
-        final Long savedClassificationId = repository.saveAndFlush(Classification.builder()
+        final Long savedClassificationId = repository.preserve(Classification.builder()
                 .withName(randomString())
                 .build())
                 .getEntityId();

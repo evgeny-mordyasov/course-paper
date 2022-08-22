@@ -6,7 +6,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ContextConfiguration;
 import ru.gold.ordance.course.base.TestConfiguration;
 import ru.gold.ordance.course.base.entity.Classification;
-import ru.gold.ordance.course.base.exception.NotFoundException;
+import ru.gold.ordance.course.base.exception.EntityNotFoundException;
 import ru.gold.ordance.course.base.persistence.repository.ClassificationRepository;
 
 import java.util.List;
@@ -38,7 +38,7 @@ public class ClassificationServiceTest {
     @Test
     public void findAll_foundOne() {
         int foundOne = 1;
-        repository.saveAndFlush(createClassification());
+        repository.preserve(createClassification());
 
         List<Classification> found = service.findAll();
 
@@ -48,8 +48,8 @@ public class ClassificationServiceTest {
     @Test
     public void findAll_foundALot() {
         int foundALot = 2;
-        repository.saveAndFlush(createClassification());
-        repository.saveAndFlush(createClassification());
+        repository.preserve(createClassification());
+        repository.preserve(createClassification());
 
         List<Classification> found = service.findAll();
 
@@ -67,7 +67,7 @@ public class ClassificationServiceTest {
 
     @Test
     public void findById_found() {
-        Classification saved = repository.saveAndFlush(createClassification());
+        Classification saved = repository.preserve(createClassification());
 
         Optional<Classification> found = service.findByEntityId(saved.getEntityId());
 
@@ -85,7 +85,7 @@ public class ClassificationServiceTest {
 
     @Test
     public void findByName_found() {
-        Classification saved = repository.saveAndFlush(createClassification());
+        Classification saved = repository.preserve(createClassification());
 
         Optional<Classification> found = service.findByName(saved.getName());
 
@@ -109,7 +109,7 @@ public class ClassificationServiceTest {
     @Test
     public void update() {
         Classification saved = createClassification();
-        Long entityId = repository.saveAndFlush(saved).getEntityId();
+        Long entityId = repository.preserve(saved).getEntityId();
         Classification newObj = createClassification(entityId);
 
         Classification updatedClassification = service.update(newObj);
@@ -122,12 +122,12 @@ public class ClassificationServiceTest {
     public void deleteById_notFound() {
         long fakeId = generateId();
 
-        assertThrows(NotFoundException.class, () -> service.deleteByEntityId(fakeId));
+        assertThrows(EntityNotFoundException.class, () -> service.deleteByEntityId(fakeId));
     }
 
     @Test
     public void deleteById_classificationExists() {
-        Long entityId = repository.saveAndFlush(createClassification()).getEntityId();
+        Long entityId = repository.preserve(createClassification()).getEntityId();
 
         service.deleteByEntityId(entityId);
 

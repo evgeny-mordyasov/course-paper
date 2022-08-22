@@ -6,7 +6,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ContextConfiguration;
 import ru.gold.ordance.course.base.TestConfiguration;
 import ru.gold.ordance.course.base.entity.Language;
-import ru.gold.ordance.course.base.exception.NotFoundException;
+import ru.gold.ordance.course.base.exception.EntityNotFoundException;
 import ru.gold.ordance.course.base.persistence.repository.LanguageRepository;
 
 import java.util.List;
@@ -38,7 +38,7 @@ public class LanguageServiceTest {
     @Test
     public void findAll_foundOne() {
         int foundOne = 1;
-        repository.saveAndFlush(createLanguage());
+        repository.preserve(createLanguage());
 
         List<Language> found = service.findAll();
 
@@ -48,8 +48,8 @@ public class LanguageServiceTest {
     @Test
     public void findAll_foundALot() {
         int foundALot = 2;
-        repository.saveAndFlush(createLanguage());
-        repository.saveAndFlush(createLanguage());
+        repository.preserve(createLanguage());
+        repository.preserve(createLanguage());
 
         List<Language> found = service.findAll();
 
@@ -67,7 +67,7 @@ public class LanguageServiceTest {
 
     @Test
     public void findById_found() {
-        Language saved = repository.saveAndFlush(createLanguage());
+        Language saved = repository.preserve(createLanguage());
 
         Optional<Language> found = service.findByEntityId(saved.getEntityId());
 
@@ -85,7 +85,7 @@ public class LanguageServiceTest {
 
     @Test
     public void findByName_found() {
-        Language saved = repository.saveAndFlush(createLanguage());
+        Language saved = repository.preserve(createLanguage());
 
         Optional<Language> found = service.findByName(saved.getName());
 
@@ -109,7 +109,7 @@ public class LanguageServiceTest {
     @Test
     public void update() {
         Language saved = createLanguage();
-        Long entityId = repository.saveAndFlush(saved).getEntityId();
+        Long entityId = repository.preserve(saved).getEntityId();
         Language newObj = createLanguage(entityId);
 
         Language updatedLanguage = service.update(newObj);
@@ -122,12 +122,12 @@ public class LanguageServiceTest {
     public void deleteById_notFound() {
         long fakeId = generateId();
 
-        assertThrows(NotFoundException.class, () -> service.deleteByEntityId(fakeId));
+        assertThrows(EntityNotFoundException.class, () -> service.deleteByEntityId(fakeId));
     }
 
     @Test
     public void deleteById_languageExists() {
-        Long entityId = repository.saveAndFlush(createLanguage()).getEntityId();
+        Long entityId = repository.preserve(createLanguage()).getEntityId();
 
         service.deleteByEntityId(entityId);
 

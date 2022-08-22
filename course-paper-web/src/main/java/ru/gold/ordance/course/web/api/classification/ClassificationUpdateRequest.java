@@ -20,7 +20,7 @@ public class ClassificationUpdateRequest implements UpdateRequest {
 
     @Override
     public void validate() {
+        errorEntityId(getEntityId());
         errorString(getName(), "name");
-        errorObjectId(Classification.class, getEntityId(), "entityId");
     }
 }

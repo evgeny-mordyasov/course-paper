@@ -7,7 +7,9 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.LockedException;
-import ru.gold.ordance.course.base.exception.NotFoundException;
+import ru.gold.ordance.course.base.exception.EntityNotFoundException;
+import ru.gold.ordance.course.base.exception.InternalEntityNotFoundException;
+import ru.gold.ordance.course.base.exception.ViolatesConstraintException;
 import ru.gold.ordance.course.web.api.Status;
 import ru.gold.ordance.course.web.api.StatusCode;
 import ru.gold.ordance.course.web.exception.ValidateException;
@@ -27,13 +29,19 @@ public final class RequestUtils {
                     .withDescription(e.getMessage());
         }
 
-        if (e instanceof NotFoundException) {
+        if (e instanceof EntityNotFoundException) {
             return new Status()
-                    .withCode(StatusCode.NOT_FOUND)
-                    .withDescription(StatusCode.NOT_FOUND.getErrorMessage());
+                    .withCode(StatusCode.ENTITY_NOT_FOUND)
+                    .withDescription(StatusCode.ENTITY_NOT_FOUND.getErrorMessage());
         }
 
-        if (e instanceof DataIntegrityViolationException) {
+        if (e instanceof InternalEntityNotFoundException) {
+            return new Status()
+                    .withCode(StatusCode.INTERNAL_ENTITY_NOT_FOUND)
+                    .withDescription(StatusCode.INTERNAL_ENTITY_NOT_FOUND.getErrorMessage());
+        }
+
+        if (e instanceof ViolatesConstraintException) {
             return new Status()
                     .withCode(StatusCode.VIOLATES_CONSTRAINT)
                     .withDescription(StatusCode.VIOLATES_CONSTRAINT.getErrorMessage());

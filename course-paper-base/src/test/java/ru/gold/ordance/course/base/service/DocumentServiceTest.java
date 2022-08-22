@@ -8,7 +8,7 @@ import org.springframework.test.context.ContextConfiguration;
 import ru.gold.ordance.course.base.TestConfiguration;
 import ru.gold.ordance.course.base.entity.Classification;
 import ru.gold.ordance.course.base.entity.Document;
-import ru.gold.ordance.course.base.exception.NotFoundException;
+import ru.gold.ordance.course.base.exception.EntityNotFoundException;
 import ru.gold.ordance.course.base.persistence.repository.ClassificationRepository;
 import ru.gold.ordance.course.base.persistence.repository.DocumentRepository;
 
@@ -52,7 +52,7 @@ public class DocumentServiceTest {
     @Test
     public void findAll_foundOne() {
         int foundOne = 1;
-        repository.saveAndFlush(createDocument(classification));
+        repository.preserve(createDocument(classification));
 
         List<Document> found = service.findAll();
 
@@ -62,8 +62,8 @@ public class DocumentServiceTest {
     @Test
     public void findAll_foundALot() {
         int foundALot = 2;
-        repository.saveAndFlush(createDocument(classification));
-        repository.saveAndFlush(createDocument(classification));
+        repository.preserve(createDocument(classification));
+        repository.preserve(createDocument(classification));
 
         List<Document> found = service.findAll();
 
@@ -81,7 +81,7 @@ public class DocumentServiceTest {
 
     @Test
     public void findById_found() {
-        Document saved = repository.saveAndFlush(createDocument(classification));
+        Document saved = repository.preserve(createDocument(classification));
 
         Optional<Document> found = service.findByEntityId(saved.getEntityId());
 
@@ -102,7 +102,7 @@ public class DocumentServiceTest {
     public void findByName_foundOne() {
         int foundOne = 1;
 
-        Document saved = repository.saveAndFlush(createDocument(classification));
+        Document saved = repository.preserve(createDocument(classification));
 
         List<Document> found = service.findByName(saved.getName());
 
@@ -114,8 +114,8 @@ public class DocumentServiceTest {
         String name = randomString();
         int foundALot = 2;
 
-        repository.saveAndFlush(createDocument(classification, name));
-        repository.saveAndFlush(createDocument(classification, name));
+        repository.preserve(createDocument(classification, name));
+        repository.preserve(createDocument(classification, name));
 
         List<Document> found = service.findByName(name);
 
@@ -135,7 +135,7 @@ public class DocumentServiceTest {
 
     @Test
     public void update() {
-        Document saved = repository.saveAndFlush(createDocument(classification));
+        Document saved = repository.preserve(createDocument(classification));
         Document newObj = createDocument(classification, saved.getEntityId());
 
         Document updatedDocument = service.update(newObj);
@@ -149,12 +149,12 @@ public class DocumentServiceTest {
     public void deleteById_notFound() {
         long fakeId = generateId();
 
-        assertThrows(NotFoundException.class, () -> service.deleteByEntityId(fakeId));
+        assertThrows(EntityNotFoundException.class, () -> service.deleteByEntityId(fakeId));
     }
 
     @Test
     public void deleteById_documentExists() {
-        Long entityId = repository.saveAndFlush(createDocument(classification)).getEntityId();
+        Long entityId = repository.preserve(createDocument(classification)).getEntityId();
 
         service.deleteByEntityId(entityId);
 

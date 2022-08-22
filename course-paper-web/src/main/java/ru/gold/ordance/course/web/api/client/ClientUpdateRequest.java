@@ -26,10 +26,10 @@ public class ClientUpdateRequest implements UpdateRequest {
 
     @Override
     public void validate() {
+        errorEntityId(getEntityId());
         errorString(getSurname(), "surname");
         errorString(getName(), "name");
         errorString(getPatronymic(), "patronymic");
         errorString(getPassword(), "password");
-        errorObjectId(Client.class, getEntityId(), "entityId");
     }
 }

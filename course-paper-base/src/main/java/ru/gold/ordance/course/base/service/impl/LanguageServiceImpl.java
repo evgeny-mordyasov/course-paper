@@ -4,7 +4,7 @@ import com.sun.istack.NotNull;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import ru.gold.ordance.course.base.entity.Language;
-import ru.gold.ordance.course.base.exception.NotFoundException;
+import ru.gold.ordance.course.base.exception.EntityNotFoundException;
 import ru.gold.ordance.course.base.persistence.repository.LanguageRepository;
 import ru.gold.ordance.course.base.service.LanguageService;
 
@@ -36,19 +36,16 @@ public class LanguageServiceImpl implements LanguageService {
 
     @Override
     public Language save(@NotNull Language language) {
-        return repository.saveAndFlush(language);
+        return repository.preserve(language);
     }
 
     @Override
     public Language update(@NotNull Language language) {
-        return repository.saveAndFlush(language);
+        return repository.update(language);
     }
 
     @Override
     public void deleteByEntityId(Long entityId) {
-       Language language = repository.findById(entityId)
-               .orElseThrow(NotFoundException::new);
-
-       repository.deleteById(language.getEntityId());
+       repository.deleteByEntityId(entityId);
     }
 }

@@ -1,31 +1,44 @@
 package ru.gold.ordance.course.base.persistence;
 
 import ru.gold.ordance.course.base.entity.Classification;
+import ru.gold.ordance.course.base.entity.Document;
 import ru.gold.ordance.course.base.entity.Language;
 
 import javax.persistence.EntityManager;
 import java.util.Objects;
 
 public class PersistenceHelper {
-    private final EntityManager manager;
+    private static EntityManager manager;
 
-    public PersistenceHelper(EntityManager manager) {
-        this.manager = manager;
+    public PersistenceHelper(EntityManager em) {
+        manager = em;
     }
 
-    public <T> T findById(Class<T> clazz, Long id) {
-        return manager.find(clazz, id);
+    public static <T> T findById(Class<T> clazz, Long entityId) {
+        return manager.find(clazz, entityId);
     }
 
-    public boolean existsById(Class<?> clazz, Long id) {
-        return Objects.nonNull(findById(clazz, id));
+    public static boolean noExistsById(Class<?> clazz, Long entityId) {
+        return Objects.isNull(findById(clazz, entityId));
     }
 
-    public String getLanguageNameById(Long id) {
-        return findById(Language.class, id).getName();
+    public static boolean noExistsClassification(Long entityId) {
+        return noExistsById(Classification.class, entityId);
     }
 
-    public String getClassificationNameById(Long id) {
-        return findById(Classification.class, id).getName();
+    public static boolean noExistsLanguage(Long entityId) {
+        return noExistsById(Language.class, entityId);
+    }
+
+    public static boolean noExistsDocument(Long entityId) {
+        return noExistsById(Document.class, entityId);
+    }
+
+    public static String getLanguageNameById(Long entityId) {
+        return findById(Language.class, entityId).getName();
+    }
+
+    public static String getClassificationNameById(Long entityId) {
+        return findById(Classification.class, entityId).getName();
     }
 }

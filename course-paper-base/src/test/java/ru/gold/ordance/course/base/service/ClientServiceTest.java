@@ -7,7 +7,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ContextConfiguration;
 import ru.gold.ordance.course.base.TestConfiguration;
 import ru.gold.ordance.course.base.entity.Client;
-import ru.gold.ordance.course.base.exception.NotFoundException;
+import ru.gold.ordance.course.base.exception.EntityNotFoundException;
 import ru.gold.ordance.course.base.persistence.repository.ClientRepository;
 
 import java.util.List;
@@ -42,7 +42,7 @@ public class ClientServiceTest {
     @Test
     public void findAll_foundOne() {
         int foundOne = 1;
-        repository.saveAndFlush(createClient());
+        repository.preserve(createClient());
 
         List<Client> found = service.findAll();
 
@@ -52,8 +52,8 @@ public class ClientServiceTest {
     @Test
     public void findAll_foundALot() {
         int foundALot = 2;
-        repository.saveAndFlush(createClient());
-        repository.saveAndFlush(createClient());
+        repository.preserve(createClient());
+        repository.preserve(createClient());
 
         List<Client> found = service.findAll();
 
@@ -71,7 +71,7 @@ public class ClientServiceTest {
 
     @Test
     public void findById_found() {
-        Client saved = repository.saveAndFlush(createClient());
+        Client saved = repository.preserve(createClient());
 
         Optional<Client> found = service.findByEntityId(saved.getEntityId());
 
@@ -89,7 +89,7 @@ public class ClientServiceTest {
 
     @Test
     public void findByEmail_found() {
-        Client saved = repository.saveAndFlush(createClient());
+        Client saved = repository.preserve(createClient());
 
         Optional<Client> found = service.findByEmail(saved.getEmail());
 
@@ -116,7 +116,7 @@ public class ClientServiceTest {
     @Test
     public void update() {
         Client saved = createClient();
-        Long entityId = repository.saveAndFlush(saved).getEntityId();
+        Long entityId = repository.preserve(saved).getEntityId();
         Client newObj = createClient(entityId);
 
         Client updatedClient = service.update(newObj);
@@ -135,12 +135,12 @@ public class ClientServiceTest {
     public void deleteById_notFound() {
         long fakeId = generateId();
 
-        assertThrows(NotFoundException.class, () -> service.deleteByEntityId(fakeId));
+        assertThrows(EntityNotFoundException.class, () -> service.deleteByEntityId(fakeId));
     }
 
     @Test
     public void deleteById_clientExists() {
-        Long entityId = repository.saveAndFlush(createClient()).getEntityId();
+        Long entityId = repository.preserve(createClient()).getEntityId();
 
         service.deleteByEntityId(entityId);
 

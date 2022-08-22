@@ -76,7 +76,7 @@ public class LanguageRestControllerTest {
         final int foundOne = 1;
 
         final String name = randomString();
-        final int savedLanguageId = repository.saveAndFlush(Language.builder()
+        final int savedLanguageId = repository.preserve(Language.builder()
                 .withName(name)
                 .build())
                 .getEntityId()
@@ -97,7 +97,7 @@ public class LanguageRestControllerTest {
         final int foundALot = 2;
 
         final String firstName = randomString();
-        final int firstSavedLanguageId = repository.saveAndFlush(Language.builder()
+        final int firstSavedLanguageId = repository.preserve(Language.builder()
                 .withName(firstName)
                 .build())
                 .getEntityId()
@@ -105,7 +105,7 @@ public class LanguageRestControllerTest {
 
 
         final String secondName = randomString();
-        final int secondSavedLanguageId = repository.saveAndFlush(Language.builder()
+        final int secondSavedLanguageId = repository.preserve(Language.builder()
                 .withName(secondName)
                 .build())
                 .getEntityId()
@@ -141,7 +141,7 @@ public class LanguageRestControllerTest {
         final int foundOne = 1;
 
         final String name = randomString();
-        final int savedLanguageId = repository.saveAndFlush(Language.builder()
+        final int savedLanguageId = repository.preserve(Language.builder()
                 .withName(name)
                 .build())
                 .getEntityId()
@@ -175,7 +175,7 @@ public class LanguageRestControllerTest {
         final int foundOne = 1;
 
         final String name = randomString();
-        final int savedLanguageId = repository.saveAndFlush(Language.builder()
+        final int savedLanguageId = repository.preserve(Language.builder()
                 .withName(name)
                 .build())
                 .getEntityId()
@@ -223,7 +223,7 @@ public class LanguageRestControllerTest {
 
     @Test
     public void update() throws Exception {
-        final Long savedLanguageId = repository.saveAndFlush(Language.builder()
+        final Long savedLanguageId = repository.preserve(Language.builder()
                 .withName(randomString())
                 .build())
                 .getEntityId();
@@ -246,7 +246,7 @@ public class LanguageRestControllerTest {
 
     @Test
     public void deleteById() throws Exception {
-        final Long savedLanguageId = repository.saveAndFlush(Language.builder()
+        final Long savedLanguageId = repository.preserve(Language.builder()
                 .withName(randomString())
                 .build())
                 .getEntityId();
