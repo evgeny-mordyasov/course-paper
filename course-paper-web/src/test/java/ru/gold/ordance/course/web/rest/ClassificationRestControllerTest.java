@@ -17,14 +17,12 @@ import ru.gold.ordance.course.base.entity.Classification;
 import ru.gold.ordance.course.base.persistence.repository.ClassificationRepository;
 import ru.gold.ordance.course.web.TestConfiguration;
 import ru.gold.ordance.course.web.api.StatusCode;
-import ru.gold.ordance.course.web.api.classification.ClassificationGetByIdRequest;
-import ru.gold.ordance.course.web.api.classification.ClassificationGetResponse;
-import ru.gold.ordance.course.web.api.classification.ClassificationSaveRequest;
-import ru.gold.ordance.course.web.api.classification.ClassificationUpdateRequest;
+import ru.gold.ordance.course.web.api.classification.*;
 import ru.gold.ordance.course.web.service.web.classification.ClassificationWebService;
 
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -255,8 +253,8 @@ public class ClassificationRestControllerTest {
                 .andExpect(jsonPath("$.status.code", is(SUCCESS)))
                 .andExpect(jsonPath("$.status.description", nullValue()));
 
-        ClassificationGetResponse rs = service.findById(new ClassificationGetByIdRequest(savedClassificationId));
+        ClassificationGetEntityResponse rs = service.findById(new ClassificationGetByIdRequest(savedClassificationId));
 
-        assertEquals(0, rs.getList().size());
+        assertNull(rs.getClassification());
     }
 }

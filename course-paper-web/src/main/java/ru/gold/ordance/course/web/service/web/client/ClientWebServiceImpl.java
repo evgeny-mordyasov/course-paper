@@ -20,24 +20,24 @@ public class ClientWebServiceImpl implements ClientWebService {
     }
 
     @Override
-    public ClientGetResponse findAll() {
+    public ClientGetListResponse findAll() {
         List<Client> allClients = service.findAll();
 
-        return ClientGetResponse.success(
+        return ClientGetListResponse.success(
                 allClients.stream()
                         .map(mapper::fromClient)
                         .collect(Collectors.toList()));
     }
 
     @Override
-    public ClientGetResponse findById(ClientGetByIdRequest rq) {
+    public ClientGetEntityResponse findById(ClientGetByIdRequest rq) {
         Optional<Client> foundClient = service.findByEntityId(rq.getEntityId());
 
         return search(foundClient);
     }
 
     @Override
-    public ClientGetResponse findByEmail(ClientGetByEmailRequest rq) {
+    public ClientGetEntityResponse findByEmail(ClientGetByEmailRequest rq) {
         Optional<Client> foundClient = service.findByEmail(rq.getEmail());
 
         return search(foundClient);
@@ -57,9 +57,9 @@ public class ClientWebServiceImpl implements ClientWebService {
         return ClientDeleteResponse.success();
     }
 
-    private ClientGetResponse search(Optional<Client> client) {
-        return ClientGetResponse.success(client.isEmpty()
-                ? Collections.emptyList()
-                : Collections.singletonList(mapper.fromClient(client.get())));
+    private ClientGetEntityResponse search(Optional<Client> client) {
+        return client.isEmpty()
+                ? ClientGetEntityResponse.emptySuccess()
+                : ClientGetEntityResponse.success(mapper.fromClient(client.get()));
     }
 }

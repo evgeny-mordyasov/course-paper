@@ -20,24 +20,24 @@ public class LanguageWebServiceImpl implements LanguageWebService {
     }
 
     @Override
-    public LanguageGetResponse findAll() {
+    public LanguageGetListResponse findAll() {
         List<Language> allLanguages = service.findAll();
 
-        return LanguageGetResponse.success(
+        return LanguageGetListResponse.success(
                 allLanguages.stream()
                         .map(mapper::fromLanguage)
                         .collect(Collectors.toList()));
     }
 
     @Override
-    public LanguageGetResponse findById(LanguageGetByIdRequest rq) {
+    public LanguageGetEntityResponse findById(LanguageGetByIdRequest rq) {
         Optional<Language> foundLanguage = service.findByEntityId(rq.getEntityId());
 
         return search(foundLanguage);
     }
 
     @Override
-    public LanguageGetResponse findByName(LanguageGetByNameRequest rq) {
+    public LanguageGetEntityResponse findByName(LanguageGetByNameRequest rq) {
         Optional<Language> foundLanguage = service.findByName(rq.getName());
 
         return search(foundLanguage);
@@ -64,9 +64,9 @@ public class LanguageWebServiceImpl implements LanguageWebService {
         return LanguageDeleteResponse.success();
     }
 
-    private LanguageGetResponse search(Optional<Language> language) {
-        return LanguageGetResponse.success(language.isEmpty()
-                ? Collections.emptyList()
-                : Collections.singletonList(mapper.fromLanguage(language.get())));
+    private LanguageGetEntityResponse search(Optional<Language> language) {
+        return language.isEmpty()
+                ? LanguageGetEntityResponse.emptySuccess()
+                : LanguageGetEntityResponse.success(mapper.fromLanguage(language.get()));
     }
 }

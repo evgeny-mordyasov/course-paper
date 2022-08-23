@@ -20,24 +20,24 @@ public class ClassificationWebServiceImpl implements ClassificationWebService {
     }
 
     @Override
-    public ClassificationGetResponse findAll() {
+    public ClassificationGetListResponse findAll() {
         List<Classification> allClassifications = service.findAll();
 
-        return ClassificationGetResponse.success(
+        return ClassificationGetListResponse.success(
                 allClassifications.stream()
                     .map(mapper::fromClassification)
                     .collect(Collectors.toList()));
     }
 
     @Override
-    public ClassificationGetResponse findById(ClassificationGetByIdRequest rq) {
+    public ClassificationGetEntityResponse findById(ClassificationGetByIdRequest rq) {
         Optional<Classification> foundClassification = service.findByEntityId(rq.getEntityId());
 
         return search(foundClassification);
     }
 
     @Override
-    public ClassificationGetResponse findByName(ClassificationGetByNameRequest rq) {
+    public ClassificationGetEntityResponse findByName(ClassificationGetByNameRequest rq) {
         Optional<Classification> foundClassification = service.findByName(rq.getName());
 
         return search(foundClassification);
@@ -64,9 +64,9 @@ public class ClassificationWebServiceImpl implements ClassificationWebService {
         return ClassificationDeleteResponse.success();
     }
 
-    private ClassificationGetResponse search(Optional<Classification> classification) {
-        return ClassificationGetResponse.success(classification.isEmpty()
-                ? Collections.emptyList()
-                : Collections.singletonList(mapper.fromClassification(classification.get())));
+    private ClassificationGetEntityResponse search(Optional<Classification> classification) {
+        return classification.isEmpty()
+                ? ClassificationGetEntityResponse.emptySuccess()
+                : ClassificationGetEntityResponse.success(mapper.fromClassification(classification.get()));
     }
 }

@@ -24,11 +24,11 @@ public final class WebLoggerUtils {
     }
 
     public static void loggingSuccessResponse(Response rs) {
-        LOGGER.info(rs.getErrorMessage() + " response: {}", rs);
+        LOGGER.info(getErrorMessage(rs) + " response: {}", rs);
     }
 
     public static void loggingSuccessResponse(Response rs, Request rq) {
-        LOGGER.info(rs.getErrorMessage() + " response: {}, request: {}", rs, rq);
+        LOGGER.info(getErrorMessage(rs) + " response: {}, request: {}", rs, rq);
     }
 
     public static void loggingErrorResponse(Response rs, Exception e) {
@@ -40,7 +40,11 @@ public final class WebLoggerUtils {
     }
 
     private static void loggingErrorResponseCommon(Response rs, Request rq, Exception e) {
-        LOGGER.info(rs.getErrorMessage() + " response: {}, request: {}", rs, rq,
-                rs.getCode() == StatusCode.CALL_ERROR ? e : Strings.EMPTY);
+        LOGGER.info(getErrorMessage(rs) + " response: {}, request: {}", rs, rq,
+                rs.getStatus().getCode() == StatusCode.CALL_ERROR ? e : Strings.EMPTY);
+    }
+
+    private static String getErrorMessage(Response rs) {
+        return rs.getStatus().getDescription();
     }
 }

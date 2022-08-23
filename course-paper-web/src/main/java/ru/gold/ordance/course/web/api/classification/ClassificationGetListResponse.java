@@ -1,4 +1,4 @@
-package ru.gold.ordance.course.web.api.client;
+package ru.gold.ordance.course.web.api.classification;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -12,17 +12,17 @@ import java.util.List;
 @Builder
 @Getter
 @ToString
-public class ClientGetResponse implements Response {
+public class ClassificationGetListResponse implements Response {
     private static final long serialVersionUID = 1L;
 
     private final Status status;
 
-    private final List<WebClient> list;
+    private final List<WebClassification> list;
 
     private final Integer total;
 
-    public static ClientGetResponse success(List<WebClient> list) {
-        return ClientGetResponse.builder()
+    public static ClassificationGetListResponse success(List<WebClassification> list) {
+        return ClassificationGetListResponse.builder()
                 .status(new Status().withCode(StatusCode.SUCCESS))
                 .list(list)
                 .total(list.size())

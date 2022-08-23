@@ -1,4 +1,4 @@
-package ru.gold.ordance.course.web.api.classification;
+package ru.gold.ordance.course.web.api.language;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -12,17 +12,17 @@ import java.util.List;
 @Builder
 @Getter
 @ToString
-public class ClassificationGetResponse implements Response {
+public class LanguageGetListResponse implements Response {
     private static final long serialVersionUID = 1L;
 
     private final Status status;
 
-    private final List<WebClassification> list;
+    private final List<WebLanguage> list;
 
     private final Integer total;
 
-    public static ClassificationGetResponse success(List<WebClassification> list) {
-        return ClassificationGetResponse.builder()
+    public static LanguageGetListResponse success(List<WebLanguage> list) {
+        return LanguageGetListResponse.builder()
                 .status(new Status().withCode(StatusCode.SUCCESS))
                 .list(list)
                 .total(list.size())

@@ -17,14 +17,12 @@ import ru.gold.ordance.course.base.entity.Language;
 import ru.gold.ordance.course.base.persistence.repository.LanguageRepository;
 import ru.gold.ordance.course.web.TestConfiguration;
 import ru.gold.ordance.course.web.api.StatusCode;
-import ru.gold.ordance.course.web.api.language.LanguageGetByIdRequest;
-import ru.gold.ordance.course.web.api.language.LanguageGetResponse;
-import ru.gold.ordance.course.web.api.language.LanguageSaveRequest;
-import ru.gold.ordance.course.web.api.language.LanguageUpdateRequest;
+import ru.gold.ordance.course.web.api.language.*;
 import ru.gold.ordance.course.web.service.web.language.LanguageWebService;
 
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -256,8 +254,8 @@ public class LanguageRestControllerTest {
                 .andExpect(jsonPath("$.status.code", is(SUCCESS)))
                 .andExpect(jsonPath("$.status.description", nullValue()));
 
-        LanguageGetResponse rs = service.findById(new LanguageGetByIdRequest(savedLanguageId));
+        LanguageGetEntityResponse rs = service.findById(new LanguageGetByIdRequest(savedLanguageId));
 
-        assertEquals(0, rs.getList().size());
+        assertNull(rs.getLanguage());
     }
 }

@@ -19,13 +19,13 @@ import ru.gold.ordance.course.base.persistence.repository.ClientRepository;
 import ru.gold.ordance.course.web.TestConfiguration;
 import ru.gold.ordance.course.web.api.StatusCode;
 import ru.gold.ordance.course.web.api.client.ClientGetByIdRequest;
-import ru.gold.ordance.course.web.api.client.ClientGetResponse;
+import ru.gold.ordance.course.web.api.client.ClientGetEntityResponse;
+import ru.gold.ordance.course.web.api.client.ClientGetListResponse;
 import ru.gold.ordance.course.web.api.client.ClientUpdateRequest;
 import ru.gold.ordance.course.web.service.web.client.ClientWebService;
 
 import static org.hamcrest.Matchers.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -319,9 +319,9 @@ public class ClientRestControllerTest {
                 .andExpect(jsonPath("$.status.code", is(SUCCESS)))
                 .andExpect(jsonPath("$.status.description", nullValue()));
 
-        ClientGetResponse rs = service.findById(new ClientGetByIdRequest(savedClientId));
+        ClientGetEntityResponse rs = service.findById(new ClientGetByIdRequest(savedClientId));
 
-        assertEquals(1, rs.getList().size());
-        assertFalse(rs.getList().get(0).isActive());
+        assertNotNull(rs.getClient());
+        assertFalse(rs.getClient().isActive());
     }
 }

@@ -35,7 +35,7 @@ public class ServiceLoggerAspect {
     }
 
     @AfterReturning(value = "execution(* ru.gold.ordance.course.base.service.*..*(..)) && classesThatAreService()", returning = "value")
-    public void registerServiceMethodWithListResponse(Long value) {
+    public void registerServiceMethodWithLongResponse(Long value) {
         loggingLongValue(value);
     }
 
