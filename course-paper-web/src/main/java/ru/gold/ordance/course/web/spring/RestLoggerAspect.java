@@ -3,6 +3,7 @@ package ru.gold.ordance.course.web.spring;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.springframework.stereotype.Component;
+import ru.gold.ordance.course.base.exception.BaseException;
 import ru.gold.ordance.course.web.api.Request;
 import ru.gold.ordance.course.web.api.Response;
 

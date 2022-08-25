@@ -6,8 +6,8 @@ import ru.gold.ordance.course.web.api.classification.*;
 import ru.gold.ordance.course.web.rest.ClassificationRestController;
 import ru.gold.ordance.course.web.service.web.classification.ClassificationWebService;
 
-import static ru.gold.ordance.course.web.api.BaseErrorResponse.createFrom;
-import static ru.gold.ordance.course.web.utils.RequestUtils.*;
+import static ru.gold.ordance.course.web.utils.RequestUtils.JSON;
+import static ru.gold.ordance.course.web.utils.RequestUtils.execute;
 
 @RestController
 @RequestMapping("/api/v1/classifications")
@@ -21,60 +21,39 @@ public class ClassificationRestControllerImpl implements ClassificationRestContr
     @Override
     @GetMapping(produces = JSON)
     public Response findAll() {
-        try {
-            return service.findAll();
-        } catch (Exception e) {
-            return createFrom(e);
-        }
+        return execute(service::findAll);
     }
 
     @Override
     @GetMapping(value = "/{entityId}", produces = JSON)
     public Response findById(@PathVariable Long entityId) {
-        try {
-            return service.findById(new ClassificationGetByIdRequest(entityId));
-        } catch (Exception e) {
-            return createFrom(e);
-        }
+        return execute(() ->
+                service.findById(new ClassificationGetByIdRequest(entityId)));
     }
 
     @Override
     @GetMapping(params = "name", produces = JSON)
     public Response findByName(@RequestParam("name") String name) {
-        try {
-            return service.findByName(new ClassificationGetByNameRequest(name));
-        } catch (Exception e) {
-            return createFrom(e);
-        }
+        return execute(() ->
+                service.findByName(new ClassificationGetByNameRequest(name)));
     }
 
     @Override
     @PostMapping(consumes = JSON, produces = JSON)
     public Response save(@RequestBody ClassificationSaveRequest rq) {
-        try {
-            return service.save(rq);
-        } catch (Exception e) {
-            return createFrom(e);
-        }
+        return execute(() -> service.save(rq));
     }
 
     @Override
     @PutMapping(consumes = JSON, produces = JSON)
     public Response update(@RequestBody ClassificationUpdateRequest rq) {
-        try {
-            return service.update(rq);
-        } catch (Exception e) {
-            return createFrom(e);
-        }
+        return execute(() -> service.update(rq));
     }
 
     @Override
     @DeleteMapping(value = "/{entityId}", produces = JSON)
     public Response deleteById(@PathVariable Long entityId) {
-        try {
-            return service.deleteById(new ClassificationDeleteByIdRequest(entityId));
-        } catch (Exception e) {
-            return createFrom(e);
-        }
+        return execute(() ->
+                service.deleteById(new ClassificationDeleteByIdRequest(entityId)));
     }
 }

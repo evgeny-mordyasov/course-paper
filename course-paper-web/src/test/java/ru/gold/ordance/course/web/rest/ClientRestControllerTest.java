@@ -17,10 +17,9 @@ import ru.gold.ordance.course.base.entity.Client;
 import ru.gold.ordance.course.base.entity.Role;
 import ru.gold.ordance.course.base.persistence.repository.ClientRepository;
 import ru.gold.ordance.course.web.TestConfiguration;
-import ru.gold.ordance.course.web.api.StatusCode;
+import ru.gold.ordance.course.common.api.StatusCode;
 import ru.gold.ordance.course.web.api.client.ClientGetByIdRequest;
 import ru.gold.ordance.course.web.api.client.ClientGetEntityResponse;
-import ru.gold.ordance.course.web.api.client.ClientGetListResponse;
 import ru.gold.ordance.course.web.api.client.ClientUpdateRequest;
 import ru.gold.ordance.course.web.service.web.client.ClientWebService;
 

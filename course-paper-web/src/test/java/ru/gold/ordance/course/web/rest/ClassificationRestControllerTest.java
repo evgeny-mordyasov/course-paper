@@ -16,7 +16,7 @@ import org.springframework.web.context.WebApplicationContext;
 import ru.gold.ordance.course.base.entity.Classification;
 import ru.gold.ordance.course.base.persistence.repository.ClassificationRepository;
 import ru.gold.ordance.course.web.TestConfiguration;
-import ru.gold.ordance.course.web.api.StatusCode;
+import ru.gold.ordance.course.common.api.StatusCode;
 import ru.gold.ordance.course.web.api.classification.*;
 import ru.gold.ordance.course.web.service.web.classification.ClassificationWebService;
 

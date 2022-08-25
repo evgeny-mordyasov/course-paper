@@ -1,4 +1,4 @@
-package ru.gold.ordance.course.web.api;
+package ru.gold.ordance.course.common.api;
 
 public enum StatusCode {
     SUCCESS("The request completed."),

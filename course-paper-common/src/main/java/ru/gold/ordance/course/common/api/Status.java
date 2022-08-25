@@ -1,4 +1,4 @@
-package ru.gold.ordance.course.web.api;
+package ru.gold.ordance.course.common.api;
 
 public class Status {
     private StatusCode code;

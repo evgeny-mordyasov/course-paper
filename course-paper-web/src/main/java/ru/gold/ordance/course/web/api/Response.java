@@ -1,6 +1,6 @@
 package ru.gold.ordance.course.web.api;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import ru.gold.ordance.course.common.api.Status;
 
 import java.io.Serializable;
 

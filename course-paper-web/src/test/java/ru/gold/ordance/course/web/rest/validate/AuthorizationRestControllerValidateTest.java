@@ -12,7 +12,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import ru.gold.ordance.course.web.TestConfiguration;
-import ru.gold.ordance.course.web.api.StatusCode;
+import ru.gold.ordance.course.common.api.StatusCode;
 import ru.gold.ordance.course.web.api.authorization.AuthorizationSignInRequest;
 import ru.gold.ordance.course.web.api.authorization.AuthorizationSignUpRequest;
 import ru.gold.ordance.course.web.api.authorization.AuthorizationTokenLifeRequest;

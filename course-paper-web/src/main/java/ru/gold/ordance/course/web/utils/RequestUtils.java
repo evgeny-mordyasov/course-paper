@@ -2,17 +2,12 @@ package ru.gold.ordance.course.web.utils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.tomcat.util.http.fileupload.impl.FileSizeLimitExceededException;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.MediaType;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.LockedException;
-import ru.gold.ordance.course.base.exception.EntityNotFoundException;
-import ru.gold.ordance.course.base.exception.InternalEntityNotFoundException;
-import ru.gold.ordance.course.base.exception.ViolatesConstraintException;
-import ru.gold.ordance.course.web.api.Status;
-import ru.gold.ordance.course.web.api.StatusCode;
-import ru.gold.ordance.course.web.exception.ValidateException;
+import ru.gold.ordance.course.web.api.Response;
+
+import java.util.function.Supplier;
+
+import static ru.gold.ordance.course.web.api.BaseErrorResponse.createFrom;
 
 public final class RequestUtils {
     public static final String JSON = MediaType.APPLICATION_JSON_VALUE;
@@ -22,49 +17,15 @@ public final class RequestUtils {
     private RequestUtils() {
     }
 
-    public static Status toStatus(Exception e) {
-        if (e instanceof ValidateException || e instanceof FileSizeLimitExceededException) {
-            return new Status()
-                    .withCode(StatusCode.INVALID_RQ)
-                    .withDescription(e.getMessage());
-        }
-
-        if (e instanceof EntityNotFoundException) {
-            return new Status()
-                    .withCode(StatusCode.ENTITY_NOT_FOUND)
-                    .withDescription(StatusCode.ENTITY_NOT_FOUND.getErrorMessage());
-        }
-
-        if (e instanceof InternalEntityNotFoundException) {
-            return new Status()
-                    .withCode(StatusCode.INTERNAL_ENTITY_NOT_FOUND)
-                    .withDescription(StatusCode.INTERNAL_ENTITY_NOT_FOUND.getErrorMessage());
-        }
-
-        if (e instanceof ViolatesConstraintException) {
-            return new Status()
-                    .withCode(StatusCode.VIOLATES_CONSTRAINT)
-                    .withDescription(StatusCode.VIOLATES_CONSTRAINT.getErrorMessage());
-        }
-
-        if (e instanceof BadCredentialsException) {
-            return new Status()
-                    .withCode(StatusCode.UNAUTHORIZED)
-                    .withDescription(StatusCode.UNAUTHORIZED.getErrorMessage());
-        }
-
-        if (e instanceof LockedException) {
-            return new Status()
-                    .withCode(StatusCode.BANNED)
-                    .withDescription(StatusCode.BANNED.getErrorMessage());
-        }
-
-        return new Status()
-                .withCode(StatusCode.CALL_ERROR)
-                .withDescription(e.toString());
-    }
-
     public static String toJSON(Object obj) throws JsonProcessingException {
         return mapper.writeValueAsString(obj);
+    }
+
+    public static Response execute(Supplier<Response> action) {
+        try {
+            return action.get();
+        } catch (Exception e) {
+            return createFrom(e);
+        }
     }
 }

@@ -16,7 +16,7 @@ import org.springframework.web.context.WebApplicationContext;
 import ru.gold.ordance.course.base.entity.Language;
 import ru.gold.ordance.course.base.persistence.repository.LanguageRepository;
 import ru.gold.ordance.course.web.TestConfiguration;
-import ru.gold.ordance.course.web.api.StatusCode;
+import ru.gold.ordance.course.common.api.StatusCode;
 import ru.gold.ordance.course.web.api.language.*;
 import ru.gold.ordance.course.web.service.web.language.LanguageWebService;
 

@@ -20,7 +20,7 @@ import ru.gold.ordance.course.base.entity.Language;
 import ru.gold.ordance.course.base.persistence.repository.ClassificationRepository;
 import ru.gold.ordance.course.base.persistence.repository.LanguageRepository;
 import ru.gold.ordance.course.web.TestConfiguration;
-import ru.gold.ordance.course.web.api.StatusCode;
+import ru.gold.ordance.course.common.api.StatusCode;
 
 import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;

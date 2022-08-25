@@ -9,8 +9,6 @@ spring:
 
   servlet:
     multipart:
-      max-file-size: 10MB
-      max-request-size: 15MB
       location: ${java.io.tmpdir}
 
 jwt:

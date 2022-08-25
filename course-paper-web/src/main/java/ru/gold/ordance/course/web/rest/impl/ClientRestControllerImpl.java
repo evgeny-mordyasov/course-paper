@@ -2,12 +2,15 @@ package ru.gold.ordance.course.web.rest.impl;
 
 import org.springframework.web.bind.annotation.*;
 import ru.gold.ordance.course.web.api.Response;
-import ru.gold.ordance.course.web.api.client.*;
+import ru.gold.ordance.course.web.api.client.ClientDeleteByIdRequest;
+import ru.gold.ordance.course.web.api.client.ClientGetByEmailRequest;
+import ru.gold.ordance.course.web.api.client.ClientGetByIdRequest;
+import ru.gold.ordance.course.web.api.client.ClientUpdateRequest;
 import ru.gold.ordance.course.web.rest.ClientRestController;
 import ru.gold.ordance.course.web.service.web.client.ClientWebService;
 
-import static ru.gold.ordance.course.web.api.BaseErrorResponse.createFrom;
-import static ru.gold.ordance.course.web.utils.RequestUtils.*;
+import static ru.gold.ordance.course.web.utils.RequestUtils.JSON;
+import static ru.gold.ordance.course.web.utils.RequestUtils.execute;
 
 @RestController
 @RequestMapping("/api/v1/clients")
@@ -21,50 +24,32 @@ public class ClientRestControllerImpl implements ClientRestController {
     @Override
     @GetMapping(produces = JSON)
     public Response findAll() {
-        try {
-            return service.findAll();
-        } catch (Exception e) {
-            return createFrom(e);
-        }
+        return execute(service::findAll);
     }
 
     @Override
     @GetMapping(value = "/{entityId}", produces = JSON)
     public Response findById(@PathVariable Long entityId) {
-        try {
-            return service.findById(new ClientGetByIdRequest(entityId));
-        } catch (Exception e) {
-            return createFrom(e);
-        }
+        return execute(() ->
+                service.findById(new ClientGetByIdRequest(entityId)));
     }
 
     @Override
     @GetMapping(params = "email", produces = JSON)
     public Response findByEmail(@RequestParam("email") String email) {
-        try {
-            return service.findByEmail(new ClientGetByEmailRequest(email));
-        } catch (Exception e) {
-            return createFrom(e);
-        }
+        return execute(() ->
+                service.findByEmail(new ClientGetByEmailRequest(email)));
     }
 
     @Override
     @PutMapping(consumes = JSON, produces = JSON)
     public Response update(@RequestBody ClientUpdateRequest rq) {
-        try {
-            return service.update(rq);
-        } catch (Exception e) {
-            return createFrom(e);
-        }
+        return execute(() -> service.update(rq));
     }
 
     @Override
     @DeleteMapping(value = "/{entityId}", produces = JSON)
     public Response deleteById(@PathVariable Long entityId) {
-        try {
-            return service.deleteById(new ClientDeleteByIdRequest(entityId));
-        } catch (Exception e) {
-            return createFrom(e);
-        }
+        return execute(() -> service.deleteById(new ClientDeleteByIdRequest(entityId)));
     }
 }

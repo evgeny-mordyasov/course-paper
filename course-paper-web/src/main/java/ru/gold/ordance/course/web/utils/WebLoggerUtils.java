@@ -5,7 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.gold.ordance.course.web.api.Request;
 import ru.gold.ordance.course.web.api.Response;
-import ru.gold.ordance.course.web.api.StatusCode;
+import ru.gold.ordance.course.common.api.StatusCode;
 
 import static ru.gold.ordance.course.common.utils.StringUtils.getRequestTextFor;
 

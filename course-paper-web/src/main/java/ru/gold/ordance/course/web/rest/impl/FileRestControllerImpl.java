@@ -8,8 +8,11 @@ import ru.gold.ordance.course.web.api.file.FileSaveRequest;
 import ru.gold.ordance.course.web.rest.FileRestController;
 import ru.gold.ordance.course.web.service.web.file.FileWebService;
 
+import java.io.IOException;
+
 import static ru.gold.ordance.course.web.api.BaseErrorResponse.createFrom;
-import static ru.gold.ordance.course.web.utils.RequestUtils.*;
+import static ru.gold.ordance.course.web.utils.RequestUtils.JSON;
+import static ru.gold.ordance.course.web.utils.RequestUtils.execute;
 
 @RestController
 @RequestMapping("/api/v1/files")
@@ -23,11 +26,7 @@ public class FileRestControllerImpl implements FileRestController {
     @Override
     @GetMapping(produces = JSON)
     public Response findAll() {
-        try {
-            return service.findAll();
-        } catch (Exception e) {
-            return createFrom(e);
-        }
+        return execute(service::findAll);
     }
 
     @Override
@@ -41,20 +40,24 @@ public class FileRestControllerImpl implements FileRestController {
                 .classificationId(classificationId)
                 .build();
 
-        try {
-            return service.save(rq);
-        } catch (Exception e) {
-            return createFrom(e);
-        }
+        return execute(() -> {
+            try {
+                return service.save(rq);
+            } catch (IOException e) {
+                return createFrom(e);
+            }
+        });
     }
 
     @Override
     @PostMapping(produces = JSON, consumes = JSON)
     public Response deleteByUrn(@RequestBody FileDeleteByUrnRequest rq) {
-        try {
-            return service.deleteByUrn(rq);
-        } catch (Exception e) {
-            return createFrom(e);
-        }
+        return execute(() -> {
+            try {
+                return service.deleteByUrn(rq);
+            } catch (IOException e) {
+                return createFrom(e);
+            }
+        });
     }
 }
