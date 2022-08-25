@@ -39,8 +39,8 @@ public class ClientRestControllerImpl implements ClientRestController {
     }
 
     @Override
-    @GetMapping(value = "/email/{email}", produces = JSON)
-    public Response findByEmail(@PathVariable String email) {
+    @GetMapping(params = "email", produces = JSON)
+    public Response findByEmail(@RequestParam("email") String email) {
         try {
             return service.findByEmail(new ClientGetByEmailRequest(email));
         } catch (Exception e) {

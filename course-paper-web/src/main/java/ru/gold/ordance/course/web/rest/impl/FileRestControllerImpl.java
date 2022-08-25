@@ -31,7 +31,7 @@ public class FileRestControllerImpl implements FileRestController {
     }
 
     @Override
-    @PostMapping(produces = JSON)
+    @PostMapping(params = {"file", "languageId", "classificationId"}, produces = JSON)
     public Response save(@RequestParam("file") MultipartFile file,
                          @RequestParam("languageId") Long languageId,
                          @RequestParam("classificationId") Long classificationId) {

@@ -39,9 +39,9 @@ public class LanguageRestControllerImpl implements LanguageRestController {
     }
 
     @Override
-    @GetMapping(value = "/name/{name}", produces = JSON)
-    public Response findByName(@PathVariable String name) {
-        try {
+    @GetMapping(params = "name", produces = JSON)
+    public Response findByName(@RequestParam("name") String name) {
+            try {
             return service.findByName(new LanguageGetByNameRequest(name));
         } catch (Exception e) {
             return createFrom(e);

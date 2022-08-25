@@ -39,8 +39,8 @@ public class ClassificationRestControllerImpl implements ClassificationRestContr
     }
 
     @Override
-    @GetMapping(value = "/name/{name}", produces = JSON)
-    public Response findByName(@PathVariable String name) {
+    @GetMapping(params = "name", produces = JSON)
+    public Response findByName(@RequestParam("name") String name) {
         try {
             return service.findByName(new ClassificationGetByNameRequest(name));
         } catch (Exception e) {
