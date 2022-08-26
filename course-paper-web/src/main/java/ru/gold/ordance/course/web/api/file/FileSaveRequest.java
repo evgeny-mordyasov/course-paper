@@ -1,12 +1,11 @@
 package ru.gold.ordance.course.web.api.file;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
-import ru.gold.ordance.course.base.entity.Classification;
-import ru.gold.ordance.course.base.entity.Language;
 import ru.gold.ordance.course.web.api.SaveRequest;
 
-import static ru.gold.ordance.course.common.utils.StringUtils.getFileExtension;
+import static ru.gold.ordance.course.common.utils.FileUtils.getFileExtension;
 import static ru.gold.ordance.course.web.service.web.file.FileExtension.isFromWhitelist;
 import static ru.gold.ordance.course.web.utils.ValidatorUtils.*;
 
@@ -23,6 +22,10 @@ public class FileSaveRequest implements SaveRequest {
     private final Long classificationId;
 
     private final Long languageId;
+
+    @JsonIgnore
+    @Setter
+    private String urn;
 
     @Override
     public void validate() {

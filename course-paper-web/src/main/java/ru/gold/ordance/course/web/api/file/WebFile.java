@@ -1,9 +1,7 @@
 package ru.gold.ordance.course.web.api.file;
 
 import lombok.*;
-import ru.gold.ordance.course.base.entity.Classification;
-import ru.gold.ordance.course.base.entity.Document;
-import ru.gold.ordance.course.base.entity.Language;
+import ru.gold.ordance.course.web.api.language.WebLanguage;
 
 import java.io.Serializable;
 
@@ -15,9 +13,9 @@ import java.io.Serializable;
 public class WebFile implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private final Document document;
+    private final WebDocument document;
 
-    private final Language language;
+    private final WebLanguage language;
 
     private final String urn;
 }

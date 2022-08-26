@@ -8,7 +8,7 @@ import ru.gold.ordance.course.web.api.file.WebFile;
 public interface FileMapper {
     Document toDocument(FileSaveRequest rq);
 
-    LnkDocumentLanguage toLnk(Document document, Long languageId, String URN);
+    LnkDocumentLanguage toLnk(Long documentId, Long languageId, String URN);
 
     WebFile toWebFile(LnkDocumentLanguage lnk);
 }

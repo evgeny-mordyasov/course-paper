@@ -1,12 +1,13 @@
 package ru.gold.ordance.course.base.persistence.repository;
 
 import org.springframework.stereotype.Repository;
+import ru.gold.ordance.course.base.entity.Classification;
 import ru.gold.ordance.course.base.entity.Document;
 import ru.gold.ordance.course.base.exception.InternalEntityNotFoundException;
 
 import java.util.List;
 
-import static ru.gold.ordance.course.base.persistence.PersistenceHelper.noExistsClassification;
+import static ru.gold.ordance.course.base.persistence.PersistenceHelper.getClassificationById;
 
 @Repository
 public interface DocumentRepository extends EntityRepository<Document> {
@@ -14,21 +15,23 @@ public interface DocumentRepository extends EntityRepository<Document> {
 
     @Override
     default Document preserve(Document entity) {
-        validate(entity);
-        return EntityRepository.super.preserve(entity);
+        return EntityRepository.super.preserve(fillEntity(entity));
     }
 
     @Override
     default Document update(Document entity) {
-        validate(entity);
-        return EntityRepository.super.update(entity);
+        return EntityRepository.super.update(fillEntity(entity));
     }
 
-    private void validate(Document entity) {
-        long classificationId = entity.getClassification().getEntityId();
+    private Document fillEntity(Document entity) {
+        Classification classification = getClassificationById(entity.getClassification().getEntityId());
 
-        if (noExistsClassification(classificationId)) {
+        if (classification == null) {
             throw new InternalEntityNotFoundException();
         }
+
+        return entity.toBuilder()
+                .withClassification(classification)
+                .build();
     }
 }

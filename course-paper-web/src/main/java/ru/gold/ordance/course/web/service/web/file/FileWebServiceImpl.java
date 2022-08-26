@@ -1,83 +1,61 @@
 package ru.gold.ordance.course.web.service.web.file;
 
 import org.springframework.transaction.annotation.Transactional;
-import ru.gold.ordance.course.base.entity.Document;
 import ru.gold.ordance.course.base.entity.LnkDocumentLanguage;
-import ru.gold.ordance.course.base.service.DocumentService;
-import ru.gold.ordance.course.base.service.LnkDocumentLanguageService;
 import ru.gold.ordance.course.web.api.file.*;
-import ru.gold.ordance.course.web.mapper.FileMapper;
+import ru.gold.ordance.course.web.service.web.file.helper.FileDatabaseHelper;
+import ru.gold.ordance.course.web.service.web.file.helper.FileSystemHelper;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
+import java.nio.file.Files;
+import java.nio.file.Path;
+
+import static ru.gold.ordance.course.base.persistence.PersistenceHelper.getClassificationById;
+import static ru.gold.ordance.course.base.persistence.PersistenceHelper.getLanguageById;
+import static ru.gold.ordance.course.common.utils.FileUtils.createUrn;
 
 public class FileWebServiceImpl implements FileWebService {
-    private final DocumentService documentService;
-    private final LnkDocumentLanguageService lnkService;
-    private final FileMapper mapper;
-    private final FileStorage fileStorage;
+    private final FileDatabaseHelper databaseHelper;
+    private final FileSystemHelper fileSystemHelper;
 
-    public FileWebServiceImpl(DocumentService documentService,
-                              LnkDocumentLanguageService lnkService,
-                              FileMapper mapper,
-                              FileStorage fileStorage) {
-        this.documentService = documentService;
-        this.lnkService = lnkService;
-        this.mapper = mapper;
-        this.fileStorage = fileStorage;
+    public FileWebServiceImpl(FileDatabaseHelper databaseHelper,
+                              FileSystemHelper fileSystemHelper) {
+        this.databaseHelper = databaseHelper;
+        this.fileSystemHelper = fileSystemHelper;
     }
 
     @Override
     public FileGetResponse findAll() {
-        List<LnkDocumentLanguage> allFiles = lnkService.findAll();
-
-        return FileGetResponse.success(
-                allFiles.stream()
-                        .map(mapper::toWebFile)
-                        .collect(Collectors.toList()));
+        return databaseHelper.findAll();
     }
 
     @Override
     @Transactional
     public FileSaveResponse save(FileSaveRequest rq) throws IOException {
-        String URN = fileStorage.getURN(rq);
+        setUrn(rq);
 
-        LnkDocumentLanguage savedDocument = saveDocument(rq, URN);
-        fileStorage.moveFileTo(URN, rq.getFile());
+        FileSaveResponse rs = databaseHelper.save(rq);
+        fileSystemHelper.save(rq);
 
-        return FileSaveResponse.success(mapper.toWebFile(savedDocument));
+        return rs;
     }
 
-    private LnkDocumentLanguage saveDocument(FileSaveRequest rq, String URN) {
-        Document savedDocument = documentService.save(mapper.toDocument(rq));
-        return lnkService.save(mapper.toLnk(savedDocument, rq.getLanguageId(), URN));
+    private void setUrn(FileSaveRequest rq) {
+       rq.setUrn(createUrn(
+               getClassificationById(rq.getClassificationId()).getName(),
+               getLanguageById(rq.getLanguageId()).getName(),
+               rq.getFile().getOriginalFilename()));
     }
 
     @Override
     @Transactional
     public FileDeleteResponse deleteByUrn(FileDeleteByUrnRequest rq) throws IOException {
-        Optional<LnkDocumentLanguage> foundLnk = lnkService.findByUrn(rq.getUrn());
+        boolean isDelete = databaseHelper.isDeleteByUrn(rq);
 
-        if (foundLnk.isPresent()) {
-            deleteRecordInDatabase(foundLnk.get());
-            fileStorage.deleteFileByUrn(foundLnk.get().getUrn());
+        if (isDelete) {
+            fileSystemHelper.deleteByUrn(rq);
         }
 
         return FileDeleteResponse.success();
-    }
-
-    private void deleteRecordInDatabase(LnkDocumentLanguage lnk) {
-        if (isOneRecordByDocumentId(lnk.getDocument().getEntityId())) {
-            documentService.deleteByEntityId(lnk.getDocument().getEntityId());
-        } else {
-            lnkService.deleteByUrn(lnk.getUrn());
-        }
-    }
-
-    private boolean isOneRecordByDocumentId(Long documentId) {
-        Long quantityByDocumentId = lnkService.findQuantityByDocumentId(documentId);
-        return quantityByDocumentId == 1;
     }
 }

@@ -3,10 +3,11 @@ package ru.gold.ordance.course.web.service.web.file;
 import java.util.Arrays;
 
 public enum FileExtension {
-    DOC(".doc"),
-    DOCX(".docx"),
-    RTF(".rtf"),
-    TXT(".txt");
+    DOC("doc"),
+    DOCX("docx"),
+    RTF("rtf"),
+    TXT("txt"),
+    PDF("pdf");
 
     private final String extension;
 

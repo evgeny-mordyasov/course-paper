@@ -20,9 +20,10 @@ import ru.gold.ordance.course.web.service.web.classification.ClassificationWebSe
 import ru.gold.ordance.course.web.service.web.classification.ClassificationWebServiceImpl;
 import ru.gold.ordance.course.web.service.web.client.ClientWebService;
 import ru.gold.ordance.course.web.service.web.client.ClientWebServiceImpl;
-import ru.gold.ordance.course.web.service.web.file.FileStorage;
 import ru.gold.ordance.course.web.service.web.file.FileWebService;
 import ru.gold.ordance.course.web.service.web.file.FileWebServiceImpl;
+import ru.gold.ordance.course.web.service.web.file.helper.FileDatabaseHelper;
+import ru.gold.ordance.course.web.service.web.file.helper.FileSystemHelper;
 import ru.gold.ordance.course.web.service.web.language.LanguageWebService;
 import ru.gold.ordance.course.web.service.web.language.LanguageWebServiceImpl;
 
@@ -45,16 +46,20 @@ public class WebServiceConfiguration {
     }
 
     @Bean
-    public FileWebService fileWebService(LnkDocumentLanguageService lnkService,
-                                         DocumentService documentService,
-                                         FileStorage fileStorage,
-                                         FileMapper mapper) {
-        return new FileWebServiceImpl(documentService, lnkService, mapper, fileStorage);
+    public FileDatabaseHelper fileDatabaseHelper(DocumentService documentService,
+                                                 LnkDocumentLanguageService lnkService,
+                                                 FileMapper mapper) {
+        return new FileDatabaseHelper(documentService, lnkService, mapper);
     }
 
     @Bean
-    public FileStorage fileStorage(@Value("${spring.servlet.multipart.location}") String storagePath) {
-        return new FileStorage(storagePath);
+    public FileSystemHelper fileSystemHelper(@Value("${spring.servlet.multipart.location}") String storagePath) {
+        return new FileSystemHelper(storagePath);
+    }
+
+    @Bean
+    public FileWebService fileWebService(FileDatabaseHelper databaseHelper, FileSystemHelper systemHelper) {
+        return new FileWebServiceImpl(databaseHelper, systemHelper);
     }
 
     @Bean

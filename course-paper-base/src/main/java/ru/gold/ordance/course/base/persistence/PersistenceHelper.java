@@ -18,27 +18,15 @@ public class PersistenceHelper {
         return manager.find(clazz, entityId);
     }
 
-    public static boolean noExistsById(Class<?> clazz, Long entityId) {
-        return Objects.isNull(findById(clazz, entityId));
+    public static Classification getClassificationById(Long classificationId) {
+        return findById(Classification.class, classificationId);
     }
 
-    public static boolean noExistsClassification(Long entityId) {
-        return noExistsById(Classification.class, entityId);
+    public static Language getLanguageById(Long languageId) {
+        return findById(Language.class, languageId);
     }
 
-    public static boolean noExistsLanguage(Long entityId) {
-        return noExistsById(Language.class, entityId);
-    }
-
-    public static boolean noExistsDocument(Long entityId) {
-        return noExistsById(Document.class, entityId);
-    }
-
-    public static String getLanguageNameById(Long entityId) {
-        return findById(Language.class, entityId).getName();
-    }
-
-    public static String getClassificationNameById(Long entityId) {
-        return findById(Classification.class, entityId).getName();
+    public static Document getDocumentById(Long documentId) {
+        return findById(Document.class, documentId);
     }
 }
