@@ -7,7 +7,7 @@ import ru.gold.ordance.course.web.api.Request;
 import ru.gold.ordance.course.web.api.Response;
 import ru.gold.ordance.course.common.api.StatusCode;
 
-import static ru.gold.ordance.course.common.utils.StringUtils.getRequestTextFor;
+import static ru.gold.ordance.course.common.utils.StringWebLoggerUtils.getRequestTextFor;
 
 public final class WebLoggerUtils {
     private static final Logger LOGGER = LoggerFactory.getLogger(WebLoggerUtils.class);

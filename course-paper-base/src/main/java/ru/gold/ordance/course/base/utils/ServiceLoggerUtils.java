@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 import java.util.Optional;
 
-import static ru.gold.ordance.course.common.utils.StringUtils.getServiceTextFor;
+import static ru.gold.ordance.course.common.utils.StringServiceLoggerUtils.getServiceTextFor;
 
 public class ServiceLoggerUtils {
     private static final Logger LOGGER = LoggerFactory.getLogger(ServiceLoggerUtils.class);

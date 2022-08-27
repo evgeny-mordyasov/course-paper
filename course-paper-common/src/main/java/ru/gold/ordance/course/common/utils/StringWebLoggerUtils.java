@@ -8,8 +8,8 @@ import static org.apache.commons.lang3.StringUtils.SPACE;
 import static org.apache.commons.lang3.StringUtils.capitalize;
 import static ru.gold.ordance.course.common.utils.TestUtils.not;
 
-public final class StringUtils {
-    private StringUtils() {
+public final class StringWebLoggerUtils {
+    private StringWebLoggerUtils() {
     }
 
     public static String getRequestTextFor(String methodName) {
@@ -29,23 +29,5 @@ public final class StringUtils {
         if (not(words.isEmpty())) {
             words.set(0, capitalize(words.get(0)));
         }
-    }
-
-    public static String getServiceTextFor(String classAndMethodNames) {
-        String className = getTextBeforeSubstring(classAndMethodNames, ".");
-        String fullMethodName = getTextAfterSubstring(classAndMethodNames, ".");
-
-        String entityName = getTextBeforeSubstring(className, "ServiceImpl");
-        String methodName = getTextBeforeSubstring(fullMethodName, "(");
-
-        return String.format("%s: %s", entityName, methodName);
-    }
-
-    private static String getTextBeforeSubstring(String string, String substring) {
-        return string.substring(0, string.indexOf(substring));
-    }
-
-    private static String getTextAfterSubstring(String string, String substring) {
-        return string.substring(string.indexOf(substring) + 1);
     }
 }
