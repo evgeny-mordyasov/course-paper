@@ -3,12 +3,15 @@ package ru.gold.ordance.course.web.service.web.file.helper;
 import org.springframework.web.multipart.MultipartFile;
 import ru.gold.ordance.course.web.api.file.FileDeleteByUrnRequest;
 import ru.gold.ordance.course.web.api.file.FileSaveRequest;
+import ru.gold.ordance.course.web.exception.FileAlreadyExistsException;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
+
+import static ru.gold.ordance.course.common.utils.FileUtils.urnWithoutFileName;
 
 public class FileSystemHelper {
     private final String storagePath;
@@ -18,7 +21,15 @@ public class FileSystemHelper {
     }
 
     public void save(FileSaveRequest rq) throws IOException {
+        throwExceptionIfFileExistsBy(rq);
+
         moveFileTo(rq.getUrn(), rq.getFile());
+    }
+
+    private void throwExceptionIfFileExistsBy(FileSaveRequest rq) {
+        if (Files.isRegularFile(Paths.get(storagePath + rq.getUrn()))) {
+            throw new FileAlreadyExistsException("The file '" + rq.getUrn() + "' already exists.");
+        }
     }
 
     public void moveFileTo(String urn, MultipartFile file) throws IOException {
@@ -27,12 +38,8 @@ public class FileSystemHelper {
     }
 
     private void creatingDirectoriesFor(String urn) throws IOException {
-        try {
-            Path fullPath = Path.of(storagePath + urn);
-            Files.createDirectories(fullPath);
-        } catch (FileAlreadyExistsException e) {
-            throw new ru.gold.ordance.course.web.exception.FileAlreadyExistsException("File " + e.getMessage() + " already exists.");
-        }
+        Path fullPath = Path.of(storagePath + urnWithoutFileName(urn));
+        Files.createDirectories(fullPath);
     }
 
     public void deleteByUrn(FileDeleteByUrnRequest rq) throws IOException {

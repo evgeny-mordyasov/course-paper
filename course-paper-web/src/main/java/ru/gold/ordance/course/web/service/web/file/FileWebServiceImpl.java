@@ -1,14 +1,11 @@
 package ru.gold.ordance.course.web.service.web.file;
 
 import org.springframework.transaction.annotation.Transactional;
-import ru.gold.ordance.course.base.entity.LnkDocumentLanguage;
 import ru.gold.ordance.course.web.api.file.*;
 import ru.gold.ordance.course.web.service.web.file.helper.FileDatabaseHelper;
 import ru.gold.ordance.course.web.service.web.file.helper.FileSystemHelper;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 
 import static ru.gold.ordance.course.base.persistence.PersistenceHelper.getClassificationById;
 import static ru.gold.ordance.course.base.persistence.PersistenceHelper.getLanguageById;
@@ -50,11 +47,8 @@ public class FileWebServiceImpl implements FileWebService {
     @Override
     @Transactional
     public FileDeleteResponse deleteByUrn(FileDeleteByUrnRequest rq) throws IOException {
-        boolean isDelete = databaseHelper.isDeleteByUrn(rq);
-
-        if (isDelete) {
-            fileSystemHelper.deleteByUrn(rq);
-        }
+        databaseHelper.deleteByUrn(rq);
+        fileSystemHelper.deleteByUrn(rq);
 
         return FileDeleteResponse.success();
     }

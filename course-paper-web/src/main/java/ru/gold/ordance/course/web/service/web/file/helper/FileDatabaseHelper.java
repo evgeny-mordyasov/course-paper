@@ -3,7 +3,11 @@ package ru.gold.ordance.course.web.service.web.file.helper;
 import ru.gold.ordance.course.base.entity.LnkDocumentLanguage;
 import ru.gold.ordance.course.base.service.DocumentService;
 import ru.gold.ordance.course.base.service.LnkDocumentLanguageService;
-import ru.gold.ordance.course.web.api.file.*;
+import ru.gold.ordance.course.web.api.file.FileDeleteByUrnRequest;
+import ru.gold.ordance.course.web.api.file.FileGetResponse;
+import ru.gold.ordance.course.web.api.file.FileSaveRequest;
+import ru.gold.ordance.course.web.api.file.FileSaveResponse;
+import ru.gold.ordance.course.web.exception.FileNotFoundException;
 import ru.gold.ordance.course.web.mapper.FileMapper;
 
 import java.util.List;
@@ -41,15 +45,14 @@ public class FileDatabaseHelper {
         return FileSaveResponse.success(mapper.toWebFile(lnk));
     }
 
-    public boolean isDeleteByUrn(FileDeleteByUrnRequest rq) {
+    public void deleteByUrn(FileDeleteByUrnRequest rq) {
         Optional<LnkDocumentLanguage> foundLnk = lnkService.findByUrn(rq.getUrn());
 
-        if (foundLnk.isPresent()) {
-            deleteRecordInDatabase(foundLnk.get());
-            return true;
+        if (foundLnk.isEmpty()) {
+            throw new FileNotFoundException("The file '" + rq.getUrn() + "' not found.");
         }
 
-        return false;
+        deleteRecordInDatabase(foundLnk.get());
     }
 
     private void deleteRecordInDatabase(LnkDocumentLanguage lnk) {

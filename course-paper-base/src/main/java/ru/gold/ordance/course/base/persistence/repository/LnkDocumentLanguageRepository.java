@@ -5,7 +5,6 @@ import ru.gold.ordance.course.base.entity.Document;
 import ru.gold.ordance.course.base.entity.Language;
 import ru.gold.ordance.course.base.entity.LnkDocumentLanguage;
 import ru.gold.ordance.course.base.exception.EntityNotFoundException;
-import ru.gold.ordance.course.base.exception.InternalEntityNotFoundException;
 import ru.gold.ordance.course.base.exception.ViolatesConstraintException;
 
 import java.util.Optional;
@@ -25,7 +24,7 @@ public interface LnkDocumentLanguageRepository extends EntityRepository<LnkDocum
 
     @Override
     default LnkDocumentLanguage update(LnkDocumentLanguage entity) {
-        return EntityRepository.super.update(fillEntity(entity));
+        throw new UnsupportedOperationException("The update method not supported.");
     }
 
     default void deleteByUrn(String urn) {
@@ -39,25 +38,27 @@ public interface LnkDocumentLanguageRepository extends EntityRepository<LnkDocum
     }
 
     private LnkDocumentLanguage fillEntity(LnkDocumentLanguage entity) {
+        validate(entity);
+
         Language language = getLanguageById(entity.getLanguage().getEntityId());
         Document document = getDocumentById(entity.getDocument().getEntityId());
-
-        if (language == null || document == null) {
-            throw new InternalEntityNotFoundException();
-        }
-
-        Optional<LnkDocumentLanguage> fromStorage =
-                findLnkDocumentLanguageByDocument_EntityIdAndLanguage_EntityIdAndUrn(document.getEntityId(), language.getEntityId(), entity.getUrn());
-
-        fromStorage.ifPresent(lnkFromStorage -> {
-            if (!lnkFromStorage.getEntityId().equals(entity.getEntityId())) {
-                throw new ViolatesConstraintException();
-            }
-        });
 
         return entity.toBuilder()
                 .withLanguage(language)
                 .withDocument(document)
                 .build();
+    }
+
+    private void validate(LnkDocumentLanguage entity) {
+        Optional<LnkDocumentLanguage> fromStorage =
+                findLnkDocumentLanguageByDocument_EntityIdAndLanguage_EntityIdAndUrn(
+                        entity.getDocument().getEntityId(),
+                        entity.getLanguage().getEntityId(),
+                        entity.getUrn());
+
+
+        if (fromStorage.isPresent()) {
+            throw new ViolatesConstraintException();
+        }
     }
 }

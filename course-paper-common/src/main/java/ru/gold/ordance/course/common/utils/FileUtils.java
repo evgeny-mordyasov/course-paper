@@ -12,6 +12,10 @@ public final class FileUtils {
         return fullFileName.substring(0, fullFileName.indexOf("."));
     }
 
+    public static String urnWithoutFileName(String urn) {
+        return urn.substring(0, urn.lastIndexOf("/"));
+    }
+
     public static String createUrn(String classificationName, String languageName, String fullFileName) {
         return String.format("/%s/%s/%s", classificationName, languageName, fullFileName);
     }

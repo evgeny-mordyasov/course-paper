@@ -3,7 +3,6 @@ package ru.gold.ordance.course.base.persistence.repository;
 import org.springframework.stereotype.Repository;
 import ru.gold.ordance.course.base.entity.Classification;
 import ru.gold.ordance.course.base.entity.Document;
-import ru.gold.ordance.course.base.exception.InternalEntityNotFoundException;
 
 import java.util.List;
 
@@ -25,10 +24,6 @@ public interface DocumentRepository extends EntityRepository<Document> {
 
     private Document fillEntity(Document entity) {
         Classification classification = getClassificationById(entity.getClassification().getEntityId());
-
-        if (classification == null) {
-            throw new InternalEntityNotFoundException();
-        }
 
         return entity.toBuilder()
                 .withClassification(classification)
