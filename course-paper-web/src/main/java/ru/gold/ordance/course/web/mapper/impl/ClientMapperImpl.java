@@ -38,6 +38,8 @@ public class ClientMapperImpl implements ClientMapper {
                 .name(client.getName())
                 .patronymic(client.getPatronymic())
                 .email(client.getEmail())
+                .startDate(client.getStartDate())
+                .updateDate(client.getUpdateDate())
                 .role(client.getRole())
                 .isActive(client.isActive())
                 .build();

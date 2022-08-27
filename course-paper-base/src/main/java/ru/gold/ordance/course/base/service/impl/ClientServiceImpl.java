@@ -6,10 +6,11 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import ru.gold.ordance.course.base.entity.Client;
 import ru.gold.ordance.course.base.entity.Role;
-import ru.gold.ordance.course.base.exception.EntityNotFoundException;
 import ru.gold.ordance.course.base.persistence.repository.ClientRepository;
 import ru.gold.ordance.course.base.service.ClientService;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -47,6 +48,8 @@ public class ClientServiceImpl implements ClientService {
                 .withPassword(encoder.encode(client.getPassword()))
                 .withRole(Role.USER)
                 .withIsActive(true)
+                .withStartDate(new Timestamp(new Date().getTime()))
+                .withUpdateDate(new Timestamp(new Date().getTime()))
                 .build();
 
         return repository.preserve(clientWithHashPassword);
@@ -61,6 +64,7 @@ public class ClientServiceImpl implements ClientService {
                 .withName(client.getName())
                 .withPatronymic(client.getPatronymic())
                 .withPassword(getNewPasswordIfChanged(client, clientFromDb))
+                .withUpdateDate(new Timestamp(new Date().getTime()))
                 .build();
 
         return repository.update(updatedClient);
