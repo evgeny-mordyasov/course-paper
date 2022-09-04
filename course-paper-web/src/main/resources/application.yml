@@ -9,7 +9,7 @@ spring:
 
   servlet:
     multipart:
-      location: ${java.io.tmpdir}
+      location: /usr/local/storage
 
 jwt:
   secret: ru.gold.ordance
@@ -18,6 +18,6 @@ jwt:
 
 persistence:
   postgres:
-    url: jdbc:postgresql://localhost:5433/docs
+    url: jdbc:postgresql://docs_db:5432/docs
     username: docs
     password: qwe123

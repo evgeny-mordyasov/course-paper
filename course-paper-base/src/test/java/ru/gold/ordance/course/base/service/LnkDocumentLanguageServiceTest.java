@@ -170,20 +170,6 @@ public class LnkDocumentLanguageServiceTest {
     }
 
     @Test
-    public void update() {
-        LnkDocumentLanguage saved = createLnk(document, language);
-        Long entityId = repository.preserve(saved).getEntityId();
-        LnkDocumentLanguage newObj = createLnk(document, language, entityId);
-
-        LnkDocumentLanguage updatedLnk = service.update(newObj);
-
-        assertEquals(newObj.getEntityId(), updatedLnk.getEntityId());
-        assertEquals(newObj.getDocument(), updatedLnk.getDocument());
-        assertEquals(newObj.getLanguage(), updatedLnk.getLanguage());
-        assertEquals(newObj.getUrn(), updatedLnk.getUrn());
-    }
-
-    @Test
     public void deleteById_notFound() {
         long fakeId = generateId();
 

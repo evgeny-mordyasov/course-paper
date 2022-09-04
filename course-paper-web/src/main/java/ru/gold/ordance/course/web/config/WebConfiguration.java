@@ -24,10 +24,10 @@ public class WebConfiguration extends WebSecurityConfigurerAdapter {
         http
                 .httpBasic().disable()
                 .csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .authorizeRequests()
-                .antMatchers("/**")
-                .access("isAnonymous() and (hasIpAddress(\"127.1.0.1\") or hasIpAddress(\"::1\"))");
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+//                .and()
+//                .authorizeRequests()
+//                .antMatchers("/**");
+//                .access("isAnonymous() and (hasIpAddress(\"127.1.0.1\") or hasIpAddress(\"::1\"))");
     }
 }

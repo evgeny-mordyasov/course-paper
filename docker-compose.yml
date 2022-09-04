@@ -1,0 +1,50 @@
+version: '3'
+
+services:
+  postgresql:
+    build: ./course-paper-db-migration/
+    image: postgresql:14
+    container_name: docs_db
+    ports:
+      - 5433:5432
+
+
+  flyway-manual:
+    image: flyway/flyway:latest
+    container_name: flyway_manual
+    command: -connectRetries=60
+      -configFiles=/flyway/conf/flyway.conf
+      migrate
+
+    volumes:
+    - ./course-paper-db-migration/src/main/resources/db/manual:/flyway/sql
+    - ./course-paper-db-migration/src/main/resources/flyway/config/manual:/flyway/conf
+    depends_on:
+      postgresql:
+        condition: service_started
+
+
+  flyway-migration:
+    image: flyway/flyway:latest
+    container_name: flyway_migration
+    command: -connectRetries=60
+      -configFiles=/flyway/conf/flyway.conf
+      migrate
+
+    volumes:
+      - ./course-paper-db-migration/src/main/resources/db/migration:/flyway/sql
+      - ./course-paper-db-migration/src/main/resources/flyway/config/migration:/flyway/conf
+    depends_on:
+      - flyway-manual
+
+
+  app:
+    build: ./course-paper-web/
+    image: app
+    container_name: app
+    ports:
+      - 8090:8090
+    depends_on:
+      - flyway-migration
+
+
