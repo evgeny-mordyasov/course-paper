@@ -12,7 +12,7 @@ import java.util.List;
 @Builder
 @Getter
 @ToString
-public class FileGetResponse implements Response {
+public class FileGetListResponse implements Response {
     private static final long serialVersionUID = 1L;
 
     private final Status status;
@@ -21,8 +21,8 @@ public class FileGetResponse implements Response {
 
     private final Integer total;
 
-    public static FileGetResponse success(List<WebFile> list) {
-        return FileGetResponse.builder()
+    public static FileGetListResponse success(List<WebFile> list) {
+        return FileGetListResponse.builder()
                 .status(new Status().withCode(StatusCode.SUCCESS))
                 .list(list)
                 .total(list.size())

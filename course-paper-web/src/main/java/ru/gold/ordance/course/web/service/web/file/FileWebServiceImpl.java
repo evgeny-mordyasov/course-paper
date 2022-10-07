@@ -1,7 +1,9 @@
 package ru.gold.ordance.course.web.service.web.file;
 
+import org.springframework.core.io.Resource;
 import org.springframework.transaction.annotation.Transactional;
 import ru.gold.ordance.course.web.api.file.*;
+import ru.gold.ordance.course.web.exception.FileNotFoundException;
 import ru.gold.ordance.course.web.service.web.file.helper.FileDatabaseHelper;
 import ru.gold.ordance.course.web.service.web.file.helper.FileSystemHelper;
 
@@ -22,7 +24,7 @@ public class FileWebServiceImpl implements FileWebService {
     }
 
     @Override
-    public FileGetResponse findAll() {
+    public FileGetListResponse findAll() {
         return databaseHelper.findAll();
     }
 
@@ -35,6 +37,17 @@ public class FileWebServiceImpl implements FileWebService {
         fileSystemHelper.save(rq);
 
         return rs;
+    }
+
+    @Override
+    public Resource load(FileGetByIdRequest rq) throws Exception {
+        FileGetEntityResponse rs = databaseHelper.findById(rq);
+
+        if (rs.getFile() != null) {
+            return fileSystemHelper.getResource(rs.getFile().getUrn());
+        }
+
+        throw new FileNotFoundException("The '" + rs.getFile().getUrn() + "' not found.");
     }
 
     private void setUrn(FileSaveRequest rq) {

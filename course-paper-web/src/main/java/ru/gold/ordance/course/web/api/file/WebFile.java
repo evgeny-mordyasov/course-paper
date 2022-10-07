@@ -5,7 +5,7 @@ import ru.gold.ordance.course.web.api.language.WebLanguage;
 
 import java.io.Serializable;
 
-@Builder(setterPrefix = "with")
+@Builder(setterPrefix = "with", toBuilder = true)
 @AllArgsConstructor
 @NoArgsConstructor(force = true)
 @Getter

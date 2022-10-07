@@ -59,4 +59,12 @@ public class FileMapperImpl implements FileMapper {
                 .withUrn(lnk.getUrn())
                 .build();
     }
+
+    @Override
+    public WebFile toWebFileResource(LnkDocumentLanguage lnk) {
+       return toWebFile(lnk)
+               .toBuilder()
+               .withUrn("http://localhost:8090/api/v1/files/resource/" + lnk.getEntityId())
+               .build();
+    }
 }

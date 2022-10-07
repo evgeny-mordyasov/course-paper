@@ -3,10 +3,7 @@ package ru.gold.ordance.course.web.service.web.file.helper;
 import ru.gold.ordance.course.base.entity.LnkDocumentLanguage;
 import ru.gold.ordance.course.base.service.DocumentService;
 import ru.gold.ordance.course.base.service.LnkDocumentLanguageService;
-import ru.gold.ordance.course.web.api.file.FileDeleteByUrnRequest;
-import ru.gold.ordance.course.web.api.file.FileGetResponse;
-import ru.gold.ordance.course.web.api.file.FileSaveRequest;
-import ru.gold.ordance.course.web.api.file.FileSaveResponse;
+import ru.gold.ordance.course.web.api.file.*;
 import ru.gold.ordance.course.web.exception.FileNotFoundException;
 import ru.gold.ordance.course.web.mapper.FileMapper;
 
@@ -19,7 +16,6 @@ public class FileDatabaseHelper {
     private final LnkDocumentLanguageService lnkService;
     private final FileMapper mapper;
 
-
     public FileDatabaseHelper(DocumentService documentService,
                               LnkDocumentLanguageService lnkService,
                               FileMapper mapper) {
@@ -28,13 +24,21 @@ public class FileDatabaseHelper {
         this.mapper = mapper;
     }
 
-    public FileGetResponse findAll() {
+    public FileGetListResponse findAll() {
         List<LnkDocumentLanguage> allFiles = lnkService.findAll();
 
-        return FileGetResponse.success(
+        return FileGetListResponse.success(
                 allFiles.stream()
-                        .map(mapper::toWebFile)
+                        .map(mapper::toWebFileResource)
                         .collect(Collectors.toList()));
+    }
+
+    public FileGetEntityResponse findById(FileGetByIdRequest rq) {
+        Optional<LnkDocumentLanguage> foundLnk = lnkService.findByEntityId(rq.getEntityId());
+
+        return foundLnk.isPresent()
+                ? FileGetEntityResponse.success(mapper.toWebFile(foundLnk.get()))
+                : FileGetEntityResponse.emptySuccess();
     }
 
     public FileSaveResponse save(FileSaveRequest rq) {
