@@ -60,36 +60,28 @@ public class LanguageServiceTest {
     public void findById_notFound() {
         long fakeId = generateId();
 
-        Optional<Language> found = service.findByEntityId(fakeId);
-
-        assertTrue(found.isEmpty());
+        assertThrows(EntityNotFoundException.class, () -> service.deleteByEntityId(fakeId));
     }
 
     @Test
     public void findById_found() {
         Language saved = repository.preserve(createLanguage());
 
-        Optional<Language> found = service.findByEntityId(saved.getEntityId());
-
-        assertTrue(found.isPresent());
+        assertDoesNotThrow(() -> service.findByEntityId(saved.getEntityId()));
     }
 
     @Test
     public void findByName_notFound() {
         String fakeName = randomString();
 
-        Optional<Language> found = service.findByName(fakeName);
-
-        assertTrue(found.isEmpty());
+        assertThrows(EntityNotFoundException.class, () -> service.findByName(fakeName));
     }
 
     @Test
     public void findByName_found() {
         Language saved = repository.preserve(createLanguage());
 
-        Optional<Language> found = service.findByName(saved.getName());
-
-        assertTrue(found.isPresent());
+        assertDoesNotThrow(() -> service.findByName(saved.getName()));
     }
 
     @Test

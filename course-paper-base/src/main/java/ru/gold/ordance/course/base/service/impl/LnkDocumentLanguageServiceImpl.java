@@ -25,17 +25,17 @@ public class LnkDocumentLanguageServiceImpl implements LnkDocumentLanguageServic
     }
 
     @Override
-    public Optional<LnkDocumentLanguage> findByEntityId(@NotNull Long entityId) {
-        return repository.findById(entityId);
+    public LnkDocumentLanguage findByEntityId(@NotNull Long entityId) {
+        return repository.getByEntityId(entityId);
     }
 
     @Override
-    public Optional<LnkDocumentLanguage> findByUrn(@NotNull String URN) {
-        return repository.findLnkDocumentLanguageByUrn(URN);
+    public LnkDocumentLanguage findByUrn(@NotNull String URN) {
+        return repository.getLnkDocumentLanguageByUrn(URN);
     }
 
     @Override
-    public Long findQuantityByDocumentId(Long documentId) {
+    public Long getQuantityByDocumentId(Long documentId) {
         return repository.countLnkDocumentLanguagesByDocument_EntityId(documentId);
     }
 

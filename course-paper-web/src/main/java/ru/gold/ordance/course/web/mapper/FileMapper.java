@@ -11,6 +11,4 @@ public interface FileMapper {
     LnkDocumentLanguage toLnk(Long documentId, Long languageId, String URN);
 
     WebFile toWebFile(LnkDocumentLanguage lnk);
-
-    WebFile toWebFileResource(LnkDocumentLanguage lnk);
 }

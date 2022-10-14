@@ -33,13 +33,13 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public Optional<Client> findByEntityId(@NotNull Long entityId) {
-        return repository.findById(entityId);
+    public Client findByEntityId(@NotNull Long entityId) {
+        return repository.getByEntityId(entityId);
     }
 
     @Override
-    public Optional<Client> findByEmail(@NotNull String email) {
-        return repository.findByEmail(email);
+    public Client findByEmail(@NotNull String email) {
+        return repository.getByEmail(email);
     }
 
     @Override
@@ -57,7 +57,7 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public Client update(@NotNull Client client) {
-        Client clientFromDb = repository.getById(client.getEntityId());
+        Client clientFromDb = repository.getByEntityId(client.getEntityId());
 
         Client updatedClient = clientFromDb.toBuilder()
                 .withSurname(client.getSurname())

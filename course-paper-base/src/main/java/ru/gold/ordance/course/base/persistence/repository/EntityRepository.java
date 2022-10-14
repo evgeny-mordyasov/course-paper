@@ -13,6 +13,16 @@ public interface EntityRepository<ENTITY extends AbstractEntity> extends JpaRepo
     Optional<ENTITY> findByEntityId(Long entityId);
     List<ENTITY> findAll();
 
+    default ENTITY getByEntityId(Long entityId) {
+        Optional<ENTITY> entity = findByEntityId(entityId);
+
+        if (entity.isEmpty()) {
+            throw new EntityNotFoundException();
+        }
+
+        return entity.get();
+    }
+
     default ENTITY preserve(ENTITY entity) {
         return saveAndFlush(entity);
     }

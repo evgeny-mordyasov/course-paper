@@ -88,27 +88,21 @@ public class LnkDocumentLanguageServiceTest {
     public void findById_notFound() {
         long fakeId = generateId();
 
-        Optional<LnkDocumentLanguage> found = service.findByEntityId(fakeId);
-
-        assertTrue(found.isEmpty());
+        assertThrows(EntityNotFoundException.class, () -> service.deleteByEntityId(fakeId));
     }
 
     @Test
     public void findByUrn_found() {
         LnkDocumentLanguage saved = repository.preserve(createLnk(document, language));
 
-        Optional<LnkDocumentLanguage> found = service.findByEntityId(saved.getEntityId());
-
-        assertTrue(found.isPresent());
+        assertDoesNotThrow(() -> service.findByEntityId(saved.getEntityId()));
     }
 
     @Test
     public void findByUrn_notFound() {
         long fakeURN = generateId();
 
-        Optional<LnkDocumentLanguage> found = service.findByEntityId(fakeURN);
-
-        assertTrue(found.isEmpty());
+        assertThrows(EntityNotFoundException.class, () -> service.findByEntityId(fakeURN));
     }
 
     @Test
@@ -116,9 +110,7 @@ public class LnkDocumentLanguageServiceTest {
         final String URN = randomString();
 
         LnkDocumentLanguage saved = repository.preserve(createLnk(document, language, URN));
-        Optional<LnkDocumentLanguage> found = service.findByUrn(saved.getUrn());
-
-        assertTrue(found.isPresent());
+        assertDoesNotThrow(() -> service.findByUrn(saved.getUrn()));
     }
 
     @Test
@@ -126,7 +118,7 @@ public class LnkDocumentLanguageServiceTest {
         Long noOneHasBeenFound = 0L;
         Long fakeDocumentId = 999L;
 
-        Long quantity = service.findQuantityByDocumentId(fakeDocumentId);
+        Long quantity = service.getQuantityByDocumentId(fakeDocumentId);
 
         assertEquals(noOneHasBeenFound, quantity);
     }
@@ -136,7 +128,7 @@ public class LnkDocumentLanguageServiceTest {
         Long foundOne = 1L;
 
         repository.preserve(createLnk(document, language));
-        Long quantity = service.findQuantityByDocumentId(document.getEntityId());
+        Long quantity = service.getQuantityByDocumentId(document.getEntityId());
 
         assertEquals(foundOne, quantity);
     }
@@ -147,7 +139,7 @@ public class LnkDocumentLanguageServiceTest {
 
         repository.preserve(createLnk(document, language));
         repository.preserve(createLnk(document, language));
-        Long quantity = service.findQuantityByDocumentId(document.getEntityId());
+        Long quantity = service.getQuantityByDocumentId(document.getEntityId());
 
         assertEquals(foundALot, quantity);
     }

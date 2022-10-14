@@ -25,8 +25,8 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     @Override
-    public Optional<Document> findByEntityId(@NotNull Long entityId) {
-        return repository.findById(entityId);
+    public Document findByEntityId(@NotNull Long entityId) {
+        return repository.getByEntityId(entityId);
     }
 
     @Override

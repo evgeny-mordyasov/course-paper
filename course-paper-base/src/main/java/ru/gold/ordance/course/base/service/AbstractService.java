@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface AbstractService<ENTITY extends AbstractEntity> {
     List<ENTITY> findAll();
-    Optional<ENTITY> findByEntityId(Long entityId);
+    ENTITY findByEntityId(Long entityId);
     ENTITY save(ENTITY entity);
     ENTITY update(ENTITY entity);
     void deleteByEntityId(Long entityId);

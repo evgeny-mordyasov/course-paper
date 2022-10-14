@@ -5,9 +5,7 @@ import ru.gold.ordance.course.base.service.LanguageService;
 import ru.gold.ordance.course.web.api.language.*;
 import ru.gold.ordance.course.web.mapper.LanguageMapper;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class LanguageWebServiceImpl implements LanguageWebService {
@@ -31,14 +29,14 @@ public class LanguageWebServiceImpl implements LanguageWebService {
 
     @Override
     public LanguageGetEntityResponse findById(LanguageGetByIdRequest rq) {
-        Optional<Language> foundLanguage = service.findByEntityId(rq.getEntityId());
+        Language foundLanguage = service.findByEntityId(rq.getEntityId());
 
         return search(foundLanguage);
     }
 
     @Override
     public LanguageGetEntityResponse findByName(LanguageGetByNameRequest rq) {
-        Optional<Language> foundLanguage = service.findByName(rq.getName());
+        Language foundLanguage = service.findByName(rq.getName());
 
         return search(foundLanguage);
     }
@@ -64,9 +62,7 @@ public class LanguageWebServiceImpl implements LanguageWebService {
         return LanguageDeleteResponse.success();
     }
 
-    private LanguageGetEntityResponse search(Optional<Language> language) {
-        return language.isEmpty()
-                ? LanguageGetEntityResponse.emptySuccess()
-                : LanguageGetEntityResponse.success(mapper.fromLanguage(language.get()));
+    private LanguageGetEntityResponse search(Language language) {
+        return LanguageGetEntityResponse.success(mapper.fromLanguage(language));
     }
 }

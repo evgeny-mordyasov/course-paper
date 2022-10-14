@@ -74,18 +74,14 @@ public class DocumentServiceTest {
     public void findById_notFound() {
         long fakeId = generateId();
 
-        Optional<Document> found = service.findByEntityId(fakeId);
-
-        assertTrue(found.isEmpty());
+        assertThrows(EntityNotFoundException.class, () -> service.deleteByEntityId(fakeId));
     }
 
     @Test
     public void findById_found() {
         Document saved = repository.preserve(createDocument(classification));
 
-        Optional<Document> found = service.findByEntityId(saved.getEntityId());
-
-        assertTrue(found.isPresent());
+        assertDoesNotThrow(() -> service.findByEntityId(saved.getEntityId()));
     }
 
     @Test

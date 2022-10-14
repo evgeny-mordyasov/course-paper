@@ -5,9 +5,7 @@ import ru.gold.ordance.course.base.service.ClassificationService;
 import ru.gold.ordance.course.web.api.classification.*;
 import ru.gold.ordance.course.web.mapper.ClassificationMapper;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class ClassificationWebServiceImpl implements ClassificationWebService {
@@ -31,14 +29,14 @@ public class ClassificationWebServiceImpl implements ClassificationWebService {
 
     @Override
     public ClassificationGetEntityResponse findById(ClassificationGetByIdRequest rq) {
-        Optional<Classification> foundClassification = service.findByEntityId(rq.getEntityId());
+        Classification foundClassification = service.findByEntityId(rq.getEntityId());
 
         return search(foundClassification);
     }
 
     @Override
     public ClassificationGetEntityResponse findByName(ClassificationGetByNameRequest rq) {
-        Optional<Classification> foundClassification = service.findByName(rq.getName());
+        Classification foundClassification = service.findByName(rq.getName());
 
         return search(foundClassification);
     }
@@ -64,9 +62,7 @@ public class ClassificationWebServiceImpl implements ClassificationWebService {
         return ClassificationDeleteResponse.success();
     }
 
-    private ClassificationGetEntityResponse search(Optional<Classification> classification) {
-        return classification.isEmpty()
-                ? ClassificationGetEntityResponse.emptySuccess()
-                : ClassificationGetEntityResponse.success(mapper.fromClassification(classification.get()));
+    private ClassificationGetEntityResponse search(Classification classification) {
+        return ClassificationGetEntityResponse.success(mapper.fromClassification(classification));
     }
 }

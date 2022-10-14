@@ -5,7 +5,7 @@ import ru.gold.ordance.course.base.entity.LnkDocumentLanguage;
 import java.util.Optional;
 
 public interface LnkDocumentLanguageService extends AbstractService<LnkDocumentLanguage> {
-    Optional<LnkDocumentLanguage> findByUrn(String URN);
-    Long findQuantityByDocumentId(Long documentId);
+    LnkDocumentLanguage findByUrn(String URN);
+    Long getQuantityByDocumentId(Long documentId);
     void deleteByUrn(String URN);
 }

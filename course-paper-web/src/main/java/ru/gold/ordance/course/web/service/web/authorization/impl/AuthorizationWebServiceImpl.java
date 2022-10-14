@@ -43,7 +43,7 @@ public class AuthorizationWebServiceImpl implements AuthorizationWebService {
             manager.authenticate(
                     new UsernamePasswordAuthenticationToken(rq.getEmail(), rq.getPassword()));
 
-            Client client = service.findByEmail(rq.getEmail()).get();
+            Client client = service.findByEmail(rq.getEmail());
 
             return AuthorizationSignInResponse.success(mapper.fromClient(client), provider.createToken(rq.getEmail()));
         } catch (BadCredentialsException e) {

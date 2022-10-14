@@ -5,9 +5,7 @@ import ru.gold.ordance.course.base.service.ClientService;
 import ru.gold.ordance.course.web.api.client.*;
 import ru.gold.ordance.course.web.mapper.ClientMapper;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class ClientWebServiceImpl implements ClientWebService {
@@ -31,14 +29,14 @@ public class ClientWebServiceImpl implements ClientWebService {
 
     @Override
     public ClientGetEntityResponse findById(ClientGetByIdRequest rq) {
-        Optional<Client> foundClient = service.findByEntityId(rq.getEntityId());
+        Client foundClient = service.findByEntityId(rq.getEntityId());
 
         return search(foundClient);
     }
 
     @Override
     public ClientGetEntityResponse findByEmail(ClientGetByEmailRequest rq) {
-        Optional<Client> foundClient = service.findByEmail(rq.getEmail());
+        Client foundClient = service.findByEmail(rq.getEmail());
 
         return search(foundClient);
     }
@@ -57,9 +55,7 @@ public class ClientWebServiceImpl implements ClientWebService {
         return ClientDeleteResponse.success();
     }
 
-    private ClientGetEntityResponse search(Optional<Client> client) {
-        return client.isEmpty()
-                ? ClientGetEntityResponse.emptySuccess()
-                : ClientGetEntityResponse.success(mapper.fromClient(client.get()));
+    private ClientGetEntityResponse search(Client client) {
+        return ClientGetEntityResponse.success(mapper.fromClient(client));
     }
 }

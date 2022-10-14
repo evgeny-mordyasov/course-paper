@@ -11,6 +11,16 @@ import java.util.Optional;
 public interface ClientRepository extends EntityRepository<Client> {
     Optional<Client> findByEmail(String email);
 
+    default Client getByEmail(String email) {
+        Optional<Client> entity = findByEmail(email);
+
+        if (entity.isEmpty()) {
+            throw new EntityNotFoundException();
+        }
+
+        return entity.get();
+    }
+
     @Override
     default Client preserve(Client entity) {
         validate(entity);

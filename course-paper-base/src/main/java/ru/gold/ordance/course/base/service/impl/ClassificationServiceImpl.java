@@ -25,13 +25,13 @@ public class ClassificationServiceImpl implements ClassificationService {
     }
 
     @Override
-    public Optional<Classification> findByEntityId(@NotNull Long entityId) {
-        return repository.findById(entityId);
+    public Classification findByEntityId(@NotNull Long entityId) {
+        return repository.getByEntityId(entityId);
     }
 
     @Override
-    public Optional<Classification> findByName(@NotNull String name) {
-        return repository.findByName(name);
+    public Classification findByName(@NotNull String name) {
+        return repository.getByName(name);
     }
 
     @Override

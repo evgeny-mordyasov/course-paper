@@ -18,4 +18,6 @@ public class WebFile implements Serializable {
     private final WebLanguage language;
 
     private final String urn;
+
+    private final String url;
 }

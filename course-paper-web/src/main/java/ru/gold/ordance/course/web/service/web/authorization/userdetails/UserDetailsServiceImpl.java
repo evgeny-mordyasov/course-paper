@@ -8,7 +8,6 @@ import ru.gold.ordance.course.base.entity.Client;
 import ru.gold.ordance.course.base.service.ClientService;
 
 import java.util.Collections;
-import java.util.Optional;
 
 public class UserDetailsServiceImpl implements UserDetailsService {
 
@@ -20,8 +19,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Optional<Client> foundClient = service.findByEmail(email);
-        Client client = foundClient.orElseThrow(() -> new UsernameNotFoundException("The user by email not found."));
+        Client client = service.findByEmail(email);
 
         return new UserDetailsImpl(
                 client.getEntityId(),

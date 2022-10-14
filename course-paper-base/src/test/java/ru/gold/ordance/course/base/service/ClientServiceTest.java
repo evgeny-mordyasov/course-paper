@@ -64,36 +64,28 @@ public class ClientServiceTest {
     public void findById_notFound() {
         long fakeId = generateId();
 
-        Optional<Client> found = service.findByEntityId(fakeId);
-
-        assertTrue(found.isEmpty());
+        assertThrows(EntityNotFoundException.class, () -> service.deleteByEntityId(fakeId));
     }
 
     @Test
     public void findById_found() {
         Client saved = repository.preserve(createClient());
 
-        Optional<Client> found = service.findByEntityId(saved.getEntityId());
-
-        assertTrue(found.isPresent());
+        assertDoesNotThrow(() -> service.findByEntityId(saved.getEntityId()));
     }
 
     @Test
     public void findByEmail_notFound() {
         String fakeEmail = randomString();
 
-        Optional<Client> found = service.findByEmail(fakeEmail);
-
-        assertTrue(found.isEmpty());
+        assertThrows(EntityNotFoundException.class, () -> service.findByEmail(fakeEmail));
     }
 
     @Test
     public void findByEmail_found() {
         Client saved = repository.preserve(createClient());
 
-        Optional<Client> found = service.findByEmail(saved.getEmail());
-
-        assertTrue(found.isPresent());
+        assertDoesNotThrow(() -> service.findByEmail(saved.getEmail()));
     }
 
     @Test

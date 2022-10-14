@@ -17,6 +17,16 @@ public interface LnkDocumentLanguageRepository extends EntityRepository<LnkDocum
     Optional<LnkDocumentLanguage> findLnkDocumentLanguageByDocument_EntityIdAndLanguage_EntityIdAndUrn(Long docId, Long langId, String urn);
     Long countLnkDocumentLanguagesByDocument_EntityId(Long documentId);
 
+    default LnkDocumentLanguage getLnkDocumentLanguageByUrn(String URN) {
+        Optional<LnkDocumentLanguage> entity = findLnkDocumentLanguageByUrn(URN);
+
+        if (entity.isEmpty()) {
+            throw new EntityNotFoundException();
+        }
+
+        return entity.get();
+    }
+
     @Override
     default LnkDocumentLanguage preserve(LnkDocumentLanguage entity) {
         return EntityRepository.super.preserve(fillEntity(entity));

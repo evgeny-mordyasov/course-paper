@@ -60,36 +60,28 @@ public class ClassificationServiceTest {
     public void findById_notFound() {
         long fakeId = generateId();
 
-        Optional<Classification> found = service.findByEntityId(fakeId);
-
-        assertTrue(found.isEmpty());
+        assertThrows(EntityNotFoundException.class, () -> service.findByEntityId(fakeId));
     }
 
     @Test
     public void findById_found() {
         Classification saved = repository.preserve(createClassification());
 
-        Optional<Classification> found = service.findByEntityId(saved.getEntityId());
-
-        assertTrue(found.isPresent());
+        assertDoesNotThrow(() -> service.findByEntityId(saved.getEntityId()));
     }
 
     @Test
     public void findByName_notFound() {
         String fakeName = randomString();
 
-        Optional<Classification> found = service.findByName(fakeName);
-
-        assertTrue(found.isEmpty());
+        assertThrows(EntityNotFoundException.class, () -> service.findByName(fakeName));
     }
 
     @Test
     public void findByName_found() {
         Classification saved = repository.preserve(createClassification());
 
-        Optional<Classification> found = service.findByName(saved.getName());
-
-        assertTrue(found.isPresent());
+        assertDoesNotThrow(() -> service.findByName(saved.getName()));
     }
 
     @Test
