@@ -15,6 +15,7 @@ import static ru.gold.ordance.course.common.utils.FileUtils.getFileExtension;
 import static ru.gold.ordance.course.common.utils.FileUtils.getFileName;
 
 public class FileMapperImpl implements FileMapper {
+    private static final String RESOURCE_URL = "http://localhost:8090/api/v1/files/resource/";
 
     @Override
     public Document toDocument(FileSaveRequest rq) {
@@ -57,7 +58,7 @@ public class FileMapperImpl implements FileMapper {
                         .withName(lang.getName())
                         .build())
                 .withUrn(lnk.getUrn())
-                .withUrl("http://localhost:8090/api/v1/files/resource/" + lnk.getEntityId())
+                .withUrl(RESOURCE_URL + lnk.getEntityId())
                 .build();
     }
 }
