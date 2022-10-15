@@ -12,7 +12,6 @@ import ru.gold.ordance.course.base.service.ClientService;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 import static ru.gold.ordance.course.common.utils.TestUtils.not;
 
@@ -44,7 +43,7 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public Client save(@NotNull Client client) {
-        Client clientWithHashPassword = client.toBuilder()
+        Client fullClient = client.toBuilder()
                 .withPassword(encoder.encode(client.getPassword()))
                 .withRole(Role.USER)
                 .withIsActive(true)
@@ -52,7 +51,7 @@ public class ClientServiceImpl implements ClientService {
                 .withUpdateDate(new Timestamp(new Date().getTime()))
                 .build();
 
-        return repository.preserve(clientWithHashPassword);
+        return repository.preserve(fullClient);
     }
 
     @Override

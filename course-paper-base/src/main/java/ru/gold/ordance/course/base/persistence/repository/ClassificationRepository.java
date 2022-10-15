@@ -2,42 +2,26 @@ package ru.gold.ordance.course.base.persistence.repository;
 
 import org.springframework.stereotype.Repository;
 import ru.gold.ordance.course.base.entity.Classification;
-import ru.gold.ordance.course.base.exception.EntityNotFoundException;
-import ru.gold.ordance.course.base.exception.ViolatesConstraintException;
 
 import java.util.Optional;
 
+import static ru.gold.ordance.course.base.persistence.PersistenceHelper.getEntity;
+
 @Repository
-public interface ClassificationRepository extends EntityRepository<Classification> {
+public interface ClassificationRepository extends EntityDuplicateRepository<Classification> {
     Optional<Classification> findByName(String name);
 
     default Classification getByName(String name) {
-        Optional<Classification> entity = findByName(name);
-
-        if (entity.isEmpty()) {
-            throw new EntityNotFoundException();
-        }
-
-        return entity.get();
+        return getEntity(findByName(name));
     }
 
     @Override
     default Classification preserve(Classification entity) {
-        validate(entity);
-        return EntityRepository.super.preserve(entity);
+        return preserve(entity, () -> findByName(entity.getName()));
     }
 
     @Override
     default Classification update(Classification entity) {
-        validate(entity);
-        return EntityRepository.super.update(entity);
-    }
-
-    private void validate(Classification entity) {
-        Optional<Classification> found = findByName(entity.getName());
-
-        if (found.isPresent() && !found.get().getEntityId().equals(entity.getEntityId())) {
-            throw new ViolatesConstraintException();
-        }
+        return update(entity, () -> findByName(entity.getName()));
     }
 }

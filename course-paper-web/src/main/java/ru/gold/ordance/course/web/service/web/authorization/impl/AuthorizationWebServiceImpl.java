@@ -1,9 +1,6 @@
 package ru.gold.ordance.course.web.service.web.authorization.impl;
 
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.LockedException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.authentication.*;
 import ru.gold.ordance.course.base.entity.Client;
 import ru.gold.ordance.course.base.service.ClientService;
 import ru.gold.ordance.course.web.api.authorization.*;
@@ -46,7 +43,7 @@ public class AuthorizationWebServiceImpl implements AuthorizationWebService {
             Client client = service.findByEmail(rq.getEmail());
 
             return AuthorizationSignInResponse.success(mapper.fromClient(client), provider.createToken(rq.getEmail()));
-        } catch (BadCredentialsException e) {
+        } catch (BadCredentialsException | InternalAuthenticationServiceException e) {
             throw new UnauthorizedException();
         } catch (LockedException e) {
             throw new BannedException();

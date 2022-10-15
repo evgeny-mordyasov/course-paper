@@ -10,6 +10,7 @@ spring:
   servlet:
     multipart:
       location: /usr/local/storage
+      max-file-size: -1
 
 jwt:
   secret: ru.gold.ordance

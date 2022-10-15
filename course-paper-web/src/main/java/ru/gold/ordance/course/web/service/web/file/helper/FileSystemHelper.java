@@ -24,14 +24,14 @@ public class FileSystemHelper {
     }
 
     public void save(FileSaveRequest rq) throws IOException {
-        throwExceptionIfFileExistsBy(rq);
+        throwExceptionIfFileExistsBy(rq.getUrn());
 
         moveFileTo(rq.getUrn(), rq.getFile());
     }
 
-    private void throwExceptionIfFileExistsBy(FileSaveRequest rq) {
-        if (Files.isRegularFile(Paths.get(storagePath + rq.getUrn()))) {
-            throw new FileAlreadyExistsException("The file '" + rq.getUrn() + "' already exists.");
+    private void throwExceptionIfFileExistsBy(String urn) {
+        if (Files.isRegularFile(Paths.get(storagePath + urn))) {
+            throw new FileAlreadyExistsException("The file '" + urn + "' already exists.");
         }
     }
 

@@ -33,10 +33,8 @@ public class FileWebServiceImpl implements FileWebService {
     public FileSaveResponse save(FileSaveRequest rq) throws IOException {
         setUrn(rq);
 
-        FileSaveResponse rs = databaseHelper.save(rq);
         fileSystemHelper.save(rq);
-
-        return rs;
+        return databaseHelper.save(rq);
     }
 
     @Override

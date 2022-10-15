@@ -5,26 +5,20 @@ import ru.gold.ordance.course.base.entity.Document;
 import ru.gold.ordance.course.base.entity.Language;
 import ru.gold.ordance.course.base.entity.LnkDocumentLanguage;
 import ru.gold.ordance.course.base.exception.EntityNotFoundException;
-import ru.gold.ordance.course.base.exception.ViolatesConstraintException;
 
 import java.util.Optional;
 
-import static ru.gold.ordance.course.base.persistence.PersistenceHelper.*;
+import static ru.gold.ordance.course.base.persistence.PersistenceHelper.getDocumentById;
+import static ru.gold.ordance.course.base.persistence.PersistenceHelper.getEntity;
+import static ru.gold.ordance.course.base.persistence.PersistenceHelper.getLanguageById;
 
 @Repository
 public interface LnkDocumentLanguageRepository extends EntityRepository<LnkDocumentLanguage> {
     Optional<LnkDocumentLanguage> findLnkDocumentLanguageByUrn(String URN);
-    Optional<LnkDocumentLanguage> findLnkDocumentLanguageByDocument_EntityIdAndLanguage_EntityIdAndUrn(Long docId, Long langId, String urn);
     Long countLnkDocumentLanguagesByDocument_EntityId(Long documentId);
 
     default LnkDocumentLanguage getLnkDocumentLanguageByUrn(String URN) {
-        Optional<LnkDocumentLanguage> entity = findLnkDocumentLanguageByUrn(URN);
-
-        if (entity.isEmpty()) {
-            throw new EntityNotFoundException();
-        }
-
-        return entity.get();
+        return getEntity(findLnkDocumentLanguageByUrn(URN));
     }
 
     @Override
@@ -48,8 +42,6 @@ public interface LnkDocumentLanguageRepository extends EntityRepository<LnkDocum
     }
 
     private LnkDocumentLanguage fillEntity(LnkDocumentLanguage entity) {
-        validate(entity);
-
         Language language = getLanguageById(entity.getLanguage().getEntityId());
         Document document = getDocumentById(entity.getDocument().getEntityId());
 
@@ -57,18 +49,5 @@ public interface LnkDocumentLanguageRepository extends EntityRepository<LnkDocum
                 .withLanguage(language)
                 .withDocument(document)
                 .build();
-    }
-
-    private void validate(LnkDocumentLanguage entity) {
-        Optional<LnkDocumentLanguage> fromStorage =
-                findLnkDocumentLanguageByDocument_EntityIdAndLanguage_EntityIdAndUrn(
-                        entity.getDocument().getEntityId(),
-                        entity.getLanguage().getEntityId(),
-                        entity.getUrn());
-
-
-        if (fromStorage.isPresent()) {
-            throw new ViolatesConstraintException();
-        }
     }
 }

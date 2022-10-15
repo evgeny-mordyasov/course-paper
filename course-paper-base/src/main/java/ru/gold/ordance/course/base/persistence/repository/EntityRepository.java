@@ -8,19 +8,15 @@ import ru.gold.ordance.course.base.exception.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 
+import static ru.gold.ordance.course.base.persistence.PersistenceHelper.getEntity;
+
 @NoRepositoryBean
 public interface EntityRepository<ENTITY extends AbstractEntity> extends JpaRepository<ENTITY, Long> {
     Optional<ENTITY> findByEntityId(Long entityId);
     List<ENTITY> findAll();
 
     default ENTITY getByEntityId(Long entityId) {
-        Optional<ENTITY> entity = findByEntityId(entityId);
-
-        if (entity.isEmpty()) {
-            throw new EntityNotFoundException();
-        }
-
-        return entity.get();
+        return getEntity(findByEntityId(entityId));
     }
 
     default ENTITY preserve(ENTITY entity) {
@@ -36,10 +32,16 @@ public interface EntityRepository<ENTITY extends AbstractEntity> extends JpaRepo
     }
 
     default void deleteByEntityId(Long entityId) {
-        if (findByEntityId(entityId).isEmpty()) {
+        Optional<ENTITY> entity = findByEntityId(entityId);
+
+        if (entity.isEmpty()) {
             throw new EntityNotFoundException();
         }
 
-        deleteById(entityId);
+        actionForDeleting(entity.get());
+    }
+
+    default void actionForDeleting(ENTITY entity) {
+        deleteById(entity.getEntityId());
     }
 }
