@@ -18,15 +18,9 @@ public class ClassificationGetEntityResponse implements Response {
     private final WebClassification classification;
 
     public static ClassificationGetEntityResponse success(WebClassification classification) {
-        return status().classification(classification).build();
-    }
-
-    public static ClassificationGetEntityResponse emptySuccess() {
-        return status().build();
-    }
-
-    private static ClassificationGetEntityResponse.ClassificationGetEntityResponseBuilder status() {
         return ClassificationGetEntityResponse.builder()
-                .status(new Status().withCode(StatusCode.SUCCESS));
+                .status(new Status().withCode(StatusCode.SUCCESS))
+                .classification(classification)
+                .build();
     }
 }

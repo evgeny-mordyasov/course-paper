@@ -8,6 +8,7 @@ import ru.gold.ordance.course.web.api.file.FileDeleteByUrnRequest;
 public interface FileRestController {
     Response findAll();
     Response save(MultipartFile file, Long languageId, Long classificationId);
-    ResponseEntity<?> findById(Long entityId);
+    ResponseEntity<?> findResourceById(Long entityId);
+    Response findById(Long entityId);
     Response deleteByUrn(FileDeleteByUrnRequest rq);
 }

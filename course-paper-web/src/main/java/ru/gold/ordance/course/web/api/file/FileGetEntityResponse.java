@@ -18,15 +18,9 @@ public class FileGetEntityResponse implements Response {
     private final WebFile file;
 
     public static FileGetEntityResponse success(WebFile file) {
-        return status().file(file).build();
-    }
-
-    public static FileGetEntityResponse emptySuccess() {
-        return status().build();
-    }
-
-    private static FileGetEntityResponse.FileGetEntityResponseBuilder status() {
         return FileGetEntityResponse.builder()
-                .status(new Status().withCode(StatusCode.SUCCESS));
+                .status(new Status().withCode(StatusCode.SUCCESS))
+                .file(file)
+                .build();
     }
 }

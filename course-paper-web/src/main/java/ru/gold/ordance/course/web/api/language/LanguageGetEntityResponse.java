@@ -18,15 +18,9 @@ public class LanguageGetEntityResponse implements Response {
     private final WebLanguage language;
 
     public static LanguageGetEntityResponse success(WebLanguage language) {
-        return status().language(language).build();
-    }
-
-    public static LanguageGetEntityResponse emptySuccess() {
-        return status().build();
-    }
-
-    private static LanguageGetEntityResponse.LanguageGetEntityResponseBuilder status() {
         return LanguageGetEntityResponse.builder()
-                .status(new Status().withCode(StatusCode.SUCCESS));
+                .status(new Status().withCode(StatusCode.SUCCESS))
+                .language(language)
+                .build();
     }
 }

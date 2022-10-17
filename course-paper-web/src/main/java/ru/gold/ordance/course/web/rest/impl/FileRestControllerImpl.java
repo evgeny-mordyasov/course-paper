@@ -56,7 +56,7 @@ public class FileRestControllerImpl implements FileRestController {
 
     @Override
     @GetMapping(value = "/resource/{entityId}")
-    public ResponseEntity<?> findById(@PathVariable("entityId") Long entityId) {
+    public ResponseEntity<?> findResourceById(@PathVariable("entityId") Long entityId) {
         FileGetByIdRequest rq = new FileGetByIdRequest(entityId);
 
         try {
@@ -68,6 +68,12 @@ public class FileRestControllerImpl implements FileRestController {
         } catch (Exception e) {
             return ResponseEntity.of(Optional.of(createFrom(e)));
         }
+    }
+
+    @Override
+    @GetMapping(value = "/{entityId}", produces = JSON)
+    public Response findById(@PathVariable Long entityId) {
+        return execute(() -> service.findById(new FileGetByIdRequest(entityId)));
     }
 
     @Override
