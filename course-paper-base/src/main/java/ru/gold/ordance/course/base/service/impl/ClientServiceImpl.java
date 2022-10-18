@@ -5,12 +5,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import ru.gold.ordance.course.base.entity.Client;
-import ru.gold.ordance.course.base.entity.Role;
 import ru.gold.ordance.course.base.persistence.repository.ClientRepository;
 import ru.gold.ordance.course.base.service.ClientService;
 
-import java.sql.Timestamp;
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 
 import static ru.gold.ordance.course.common.utils.TestUtils.not;
@@ -45,10 +44,6 @@ public class ClientServiceImpl implements ClientService {
     public Client save(@NotNull Client client) {
         Client fullClient = client.toBuilder()
                 .withPassword(encoder.encode(client.getPassword()))
-                .withRole(Role.USER)
-                .withIsActive(true)
-                .withStartDate(new Timestamp(new Date().getTime()))
-                .withUpdateDate(new Timestamp(new Date().getTime()))
                 .build();
 
         return repository.preserve(fullClient);
@@ -63,7 +58,7 @@ public class ClientServiceImpl implements ClientService {
                 .withName(client.getName())
                 .withPatronymic(client.getPatronymic())
                 .withPassword(getNewPasswordIfChanged(client, clientFromDb))
-                .withUpdateDate(new Timestamp(new Date().getTime()))
+                .withLastModifiedDate(LocalDateTime.now(ZoneOffset.UTC))
                 .build();
 
         return repository.update(updatedClient);
@@ -79,6 +74,12 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public void deleteByEntityId(@NotNull Long entityId) {
-        repository.deleteByEntityId(entityId);
+        Client clientFromDb = repository.getByEntityId(entityId);
+        Client updatedClient = clientFromDb.toBuilder()
+                .withLastModifiedDate(LocalDateTime.now(ZoneOffset.UTC))
+                .withIsActive(false)
+                .build();
+
+        repository.saveAndFlush(updatedClient);
     }
 }

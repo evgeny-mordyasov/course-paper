@@ -23,13 +23,4 @@ public interface ClientRepository extends EntityDuplicateRepository<Client> {
     default Client update(Client entity) {
         return update(entity, () -> findByEmail(entity.getEmail()));
     }
-
-    @Override
-    default void actionForDeleting(Client client) {
-        Client deletedClient = client.toBuilder()
-                .withIsActive(false)
-                .build();
-
-        saveAndFlush(deletedClient);
-    }
 }

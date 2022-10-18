@@ -4,7 +4,7 @@ import lombok.*;
 import ru.gold.ordance.course.base.entity.Role;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Builder
 @AllArgsConstructor
@@ -24,9 +24,9 @@ public class WebClient implements Serializable {
 
     private final String email;
 
-    private final Date startDate;
+    private final LocalDateTime createdDate;
 
-    private final Date updateDate;
+    private final LocalDateTime lastModifiedDate;
 
     private final Role role;
 

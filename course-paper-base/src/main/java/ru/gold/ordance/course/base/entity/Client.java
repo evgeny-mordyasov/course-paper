@@ -1,11 +1,18 @@
 package ru.gold.ordance.course.base.entity;
 
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.ToString;
+import org.hibernate.annotations.Generated;
+import org.hibernate.annotations.GenerationTime;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "CLIENT")
@@ -46,15 +53,19 @@ public class Client implements AbstractEntity {
     @Column(name = "PASSWORD")
     private final String password;
 
-    @Enumerated(EnumType.STRING)
+    @Generated(value = GenerationTime.INSERT)
+    @Column(name = "ROLE")
     private final Role role;
 
-    @Column(name = "START_DATE")
-    private final Timestamp startDate;
+    @Generated(value = GenerationTime.INSERT)
+    @Column(name = "CREATED_DATE")
+    private final LocalDateTime createdDate;
 
-    @Column(name = "UPDATE_DATE")
-    private final Timestamp updateDate;
+    @Generated(value = GenerationTime.INSERT)
+    @Column(name = "LAST_MODIFIED_DATE")
+    private final LocalDateTime lastModifiedDate;
 
+    @Generated(value = GenerationTime.INSERT)
     @Column(name = "IS_ACTIVE")
     private final boolean isActive;
 }
