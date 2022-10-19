@@ -1,9 +1,6 @@
 package ru.gold.ordance.course.base.persistence;
 
-import ru.gold.ordance.course.base.entity.AbstractEntity;
-import ru.gold.ordance.course.base.entity.Classification;
-import ru.gold.ordance.course.base.entity.Document;
-import ru.gold.ordance.course.base.entity.Language;
+import ru.gold.ordance.course.base.entity.*;
 import ru.gold.ordance.course.base.exception.EntityNotFoundException;
 import ru.gold.ordance.course.base.exception.ViolatesConstraintException;
 
@@ -50,5 +47,9 @@ public class PersistenceHelper {
 
     public static Document getDocumentById(Long documentId) {
         return findById(Document.class, documentId);
+    }
+
+    public static Client getClientById(Long clientId) {
+        return findById(Client.class, clientId);
     }
 }

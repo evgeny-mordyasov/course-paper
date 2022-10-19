@@ -15,9 +15,7 @@ public class AuthorizationSignUpResponse implements Response {
     private static final long serialVersionUID = 1L;
 
     private final Status status;
-
     private final WebClient client;
-
     private final String token;
 
     public static AuthorizationSignUpResponse success(WebClient client, String token) {

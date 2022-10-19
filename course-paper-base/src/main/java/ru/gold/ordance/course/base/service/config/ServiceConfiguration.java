@@ -43,6 +43,11 @@ public class ServiceConfiguration {
     }
 
     @Bean
+    public HistoryService documentReadingHistoryService(HistoryRepository repository) {
+        return new HistoryServiceImpl(repository);
+    }
+
+    @Bean
     public PasswordEncoder passwordEncoder() {
         return new SCryptPasswordEncoder();
     }

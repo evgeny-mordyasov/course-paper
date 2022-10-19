@@ -16,9 +16,7 @@ public class ClassificationGetListResponse implements Response {
     private static final long serialVersionUID = 1L;
 
     private final Status status;
-
     private final List<WebClassification> list;
-
     private final Integer total;
 
     public static ClassificationGetListResponse success(List<WebClassification> list) {

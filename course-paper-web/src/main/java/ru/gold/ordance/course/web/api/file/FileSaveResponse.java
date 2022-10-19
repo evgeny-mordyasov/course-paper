@@ -14,7 +14,6 @@ public class FileSaveResponse implements Response {
     private static final long serialVersionUID = 1L;
 
     private final Status status;
-
     private final WebFile file;
 
     public static FileSaveResponse success(WebFile file) {

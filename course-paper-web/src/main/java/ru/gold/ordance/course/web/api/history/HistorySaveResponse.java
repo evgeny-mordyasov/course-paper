@@ -1,25 +1,25 @@
-package ru.gold.ordance.course.web.api.client;
+package ru.gold.ordance.course.web.api.history;
 
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
-import ru.gold.ordance.course.web.api.Response;
 import ru.gold.ordance.course.common.api.Status;
 import ru.gold.ordance.course.common.api.StatusCode;
+import ru.gold.ordance.course.web.api.Response;
 
 @Builder
 @Getter
 @ToString
-public class ClientUpdateResponse implements Response {
+public class HistorySaveResponse implements Response {
     private static final long serialVersionUID = 1L;
 
     private final Status status;
-    private final WebClient client;
+    private final WebHistory history;
 
-    public static ClientUpdateResponse success(WebClient client) {
-        return ClientUpdateResponse.builder()
+    public static HistorySaveResponse success(WebHistory history) {
+        return HistorySaveResponse.builder()
                 .status(new Status().withCode(StatusCode.SUCCESS))
-                .client(client)
+                .history(history)
                 .build();
     }
 }

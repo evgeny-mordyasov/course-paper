@@ -14,10 +14,7 @@ public class WebFile implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private final WebDocument document;
-
     private final WebLanguage language;
-
     private final String urn;
-
     private final String url;
 }

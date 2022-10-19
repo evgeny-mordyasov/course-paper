@@ -14,7 +14,6 @@ public class ClassificationSaveResponse implements Response {
     private static final long serialVersionUID = 1L;
 
     private final Status status;
-
     private final WebClassification classification;
 
     public static ClassificationSaveResponse success(WebClassification classification) {

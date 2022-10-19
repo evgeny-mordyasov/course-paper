@@ -15,20 +15,12 @@ public class WebClient implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private final Long entityId;
-
     private final String surname;
-
     private final String name;
-
     private final String patronymic;
-
     private final String email;
-
     private final LocalDateTime createdDate;
-
     private final LocalDateTime lastModifiedDate;
-
     private final Role role;
-
     private final boolean isActive;
 }

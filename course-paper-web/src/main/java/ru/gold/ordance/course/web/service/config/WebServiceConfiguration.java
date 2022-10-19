@@ -6,10 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import ru.gold.ordance.course.base.service.core.sub.*;
-import ru.gold.ordance.course.web.mapper.ClassificationMapper;
-import ru.gold.ordance.course.web.mapper.ClientMapper;
-import ru.gold.ordance.course.web.mapper.FileMapper;
-import ru.gold.ordance.course.web.mapper.LanguageMapper;
+import ru.gold.ordance.course.web.mapper.*;
 import ru.gold.ordance.course.web.service.web.authorization.AuthorizationWebService;
 import ru.gold.ordance.course.web.service.web.authorization.config.JwtConfig;
 import ru.gold.ordance.course.web.service.web.authorization.config.JwtConfigImpl;
@@ -24,6 +21,8 @@ import ru.gold.ordance.course.web.service.web.file.FileWebService;
 import ru.gold.ordance.course.web.service.web.file.FileWebServiceImpl;
 import ru.gold.ordance.course.web.service.web.file.helper.FileDatabaseHelper;
 import ru.gold.ordance.course.web.service.web.file.helper.FileSystemHelper;
+import ru.gold.ordance.course.web.service.web.history.HistoryWebService;
+import ru.gold.ordance.course.web.service.web.history.HistoryWebServiceImpl;
 import ru.gold.ordance.course.web.service.web.language.LanguageWebService;
 import ru.gold.ordance.course.web.service.web.language.LanguageWebServiceImpl;
 
@@ -60,6 +59,11 @@ public class WebServiceConfiguration {
     @Bean
     public FileWebService fileWebService(FileDatabaseHelper databaseHelper, FileSystemHelper systemHelper) {
         return new FileWebServiceImpl(databaseHelper, systemHelper);
+    }
+
+    @Bean
+    public HistoryWebService historyWebService(HistoryService service, HistoryMapper mapper) {
+        return new HistoryWebServiceImpl(service, mapper);
     }
 
     @Bean

@@ -16,9 +16,7 @@ public class ClientGetListResponse implements Response {
     private static final long serialVersionUID = 1L;
 
     private final Status status;
-
     private final List<WebClient> list;
-
     private final Integer total;
 
     public static ClientGetListResponse success(List<WebClient> list) {

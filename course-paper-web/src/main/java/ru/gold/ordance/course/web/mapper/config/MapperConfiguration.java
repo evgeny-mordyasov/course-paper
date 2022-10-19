@@ -2,14 +2,8 @@ package ru.gold.ordance.course.web.mapper.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import ru.gold.ordance.course.web.mapper.ClassificationMapper;
-import ru.gold.ordance.course.web.mapper.ClientMapper;
-import ru.gold.ordance.course.web.mapper.FileMapper;
-import ru.gold.ordance.course.web.mapper.LanguageMapper;
-import ru.gold.ordance.course.web.mapper.impl.ClassificationMapperImpl;
-import ru.gold.ordance.course.web.mapper.impl.ClientMapperImpl;
-import ru.gold.ordance.course.web.mapper.impl.FileMapperImpl;
-import ru.gold.ordance.course.web.mapper.impl.LanguageMapperImpl;
+import ru.gold.ordance.course.web.mapper.*;
+import ru.gold.ordance.course.web.mapper.impl.*;
 
 @Configuration
 public class MapperConfiguration {
@@ -32,5 +26,10 @@ public class MapperConfiguration {
     @Bean
     public ClientMapper clientMapper() {
         return new ClientMapperImpl();
+    }
+
+    @Bean
+    public HistoryMapper historyMapper() {
+        return new HistoryMapperImpl();
     }
 }

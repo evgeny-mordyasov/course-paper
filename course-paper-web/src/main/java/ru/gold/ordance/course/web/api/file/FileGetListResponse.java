@@ -16,9 +16,7 @@ public class FileGetListResponse implements Response {
     private static final long serialVersionUID = 1L;
 
     private final Status status;
-
     private final List<WebFile> list;
-
     private final Integer total;
 
     public static FileGetListResponse success(List<WebFile> list) {

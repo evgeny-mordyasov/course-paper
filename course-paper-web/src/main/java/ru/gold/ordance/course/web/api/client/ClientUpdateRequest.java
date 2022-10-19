@@ -15,13 +15,9 @@ public class ClientUpdateRequest implements UpdateRequest {
     private static final long serialVersionUID = 1L;
 
     private final Long entityId;
-
     private final String surname;
-
     private final String name;
-
     private final String patronymic;
-
     private final String password;
 
     @Override

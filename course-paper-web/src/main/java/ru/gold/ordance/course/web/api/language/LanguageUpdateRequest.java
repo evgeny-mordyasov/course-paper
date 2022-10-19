@@ -15,7 +15,6 @@ public class LanguageUpdateRequest implements UpdateRequest {
     private static final long serialVersionUID = 1L;
 
     private final Long entityId;
-
     private final String name;
 
     @Override

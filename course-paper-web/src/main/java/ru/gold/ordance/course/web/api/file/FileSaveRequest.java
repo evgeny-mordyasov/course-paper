@@ -18,9 +18,7 @@ public class FileSaveRequest implements SaveRequest {
     private static final long serialVersionUID = 1L;
 
     private final MultipartFile file;
-
     private final Long classificationId;
-
     private final Long languageId;
 
     @JsonIgnore
