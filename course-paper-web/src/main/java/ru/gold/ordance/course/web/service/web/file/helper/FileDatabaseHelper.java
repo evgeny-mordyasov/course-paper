@@ -1,8 +1,8 @@
 package ru.gold.ordance.course.web.service.web.file.helper;
 
 import ru.gold.ordance.course.base.entity.LnkDocumentLanguage;
-import ru.gold.ordance.course.base.service.DocumentService;
-import ru.gold.ordance.course.base.service.LnkDocumentLanguageService;
+import ru.gold.ordance.course.base.service.core.sub.DocumentService;
+import ru.gold.ordance.course.base.service.core.sub.LnkDocumentLanguageService;
 import ru.gold.ordance.course.web.api.file.*;
 import ru.gold.ordance.course.web.mapper.FileMapper;
 

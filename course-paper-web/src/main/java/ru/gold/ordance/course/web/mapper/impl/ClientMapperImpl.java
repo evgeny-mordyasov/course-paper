@@ -41,7 +41,7 @@ public class ClientMapperImpl implements ClientMapper {
                 .createdDate(client.getCreatedDate())
                 .lastModifiedDate(client.getLastModifiedDate())
                 .role(client.getRole())
-                .isActive(client.isActive())
+                .isActive(client.getIsActive())
                 .build();
     }
 }

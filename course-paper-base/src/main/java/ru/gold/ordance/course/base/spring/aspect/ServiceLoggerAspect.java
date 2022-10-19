@@ -15,7 +15,7 @@ public class ServiceLoggerAspect {
     private ServiceLoggerAspect() {
     }
 
-    @Pointcut("target(ru.gold.ordance.course.base.service.AbstractService)")
+    @Pointcut("target(ru.gold.ordance.course.base.service.core.BaseSearchService)")
     public void classesThatAreService() {
     }
 

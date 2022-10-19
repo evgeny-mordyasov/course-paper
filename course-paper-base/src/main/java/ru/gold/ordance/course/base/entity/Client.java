@@ -54,18 +54,18 @@ public class Client implements AbstractEntity {
     private final String password;
 
     @Generated(value = GenerationTime.INSERT)
-    @Column(name = "ROLE")
+    @Column(name = "ROLE", insertable = false)
     private final Role role;
 
     @Generated(value = GenerationTime.INSERT)
-    @Column(name = "CREATED_DATE")
+    @Column(name = "CREATED_DATE", insertable = false)
     private final LocalDateTime createdDate;
 
     @Generated(value = GenerationTime.INSERT)
-    @Column(name = "LAST_MODIFIED_DATE")
+    @Column(name = "LAST_MODIFIED_DATE", insertable = false)
     private final LocalDateTime lastModifiedDate;
 
     @Generated(value = GenerationTime.INSERT)
-    @Column(name = "IS_ACTIVE")
-    private final boolean isActive;
+    @Column(name = "IS_ACTIVE", insertable = false)
+    private final Boolean isActive;
 }

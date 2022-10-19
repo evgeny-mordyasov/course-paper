@@ -8,6 +8,7 @@ import ru.gold.ordance.course.base.TestConfiguration;
 import ru.gold.ordance.course.base.entity.Classification;
 import ru.gold.ordance.course.base.exception.EntityNotFoundException;
 import ru.gold.ordance.course.base.persistence.repository.ClassificationRepository;
+import ru.gold.ordance.course.base.service.core.sub.ClassificationService;
 
 import java.util.List;
 import java.util.Optional;

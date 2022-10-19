@@ -1,7 +1,7 @@
 package ru.gold.ordance.course.web.service.web.classification;
 
 import ru.gold.ordance.course.base.entity.Classification;
-import ru.gold.ordance.course.base.service.ClassificationService;
+import ru.gold.ordance.course.base.service.core.sub.ClassificationService;
 import ru.gold.ordance.course.web.api.classification.*;
 import ru.gold.ordance.course.web.mapper.ClassificationMapper;
 

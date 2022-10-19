@@ -11,6 +11,7 @@ import ru.gold.ordance.course.base.entity.Document;
 import ru.gold.ordance.course.base.exception.EntityNotFoundException;
 import ru.gold.ordance.course.base.persistence.repository.ClassificationRepository;
 import ru.gold.ordance.course.base.persistence.repository.DocumentRepository;
+import ru.gold.ordance.course.base.service.core.sub.DocumentService;
 
 import java.util.List;
 import java.util.Optional;

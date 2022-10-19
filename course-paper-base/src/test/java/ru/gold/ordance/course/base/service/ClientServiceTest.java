@@ -9,6 +9,7 @@ import ru.gold.ordance.course.base.TestConfiguration;
 import ru.gold.ordance.course.base.entity.Client;
 import ru.gold.ordance.course.base.exception.EntityNotFoundException;
 import ru.gold.ordance.course.base.persistence.repository.ClientRepository;
+import ru.gold.ordance.course.base.service.core.sub.ClientService;
 
 import java.util.List;
 import java.util.Optional;
@@ -120,7 +121,7 @@ public class ClientServiceTest {
         assertTrue(encoder.matches(newObj.getPassword(), updatedClient.getPassword()));
         assertEquals(saved.getEmail(), updatedClient.getEmail());
         assertEquals(saved.getRole(), updatedClient.getRole());
-        assertEquals(saved.isActive(), updatedClient.isActive());
+        assertEquals(saved.getIsActive(), updatedClient.getIsActive());
     }
 
     @Test
@@ -139,6 +140,6 @@ public class ClientServiceTest {
         Optional<Client> found = repository.findById(entityId);
 
         assertTrue(found.isPresent());
-        assertFalse(found.get().isActive());
+        assertFalse(found.get().getIsActive());
     }
 }

@@ -2,7 +2,7 @@ package ru.gold.ordance.course.web.service.web.authorization.impl;
 
 import org.springframework.security.authentication.*;
 import ru.gold.ordance.course.base.entity.Client;
-import ru.gold.ordance.course.base.service.ClientService;
+import ru.gold.ordance.course.base.service.core.sub.ClientService;
 import ru.gold.ordance.course.web.api.authorization.*;
 import ru.gold.ordance.course.web.exception.BannedException;
 import ru.gold.ordance.course.web.exception.UnauthorizedException;

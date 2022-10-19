@@ -6,8 +6,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.scrypt.SCryptPasswordEncoder;
 import ru.gold.ordance.course.base.persistence.PersistenceHelper;
 import ru.gold.ordance.course.base.persistence.repository.*;
-import ru.gold.ordance.course.base.service.*;
-import ru.gold.ordance.course.base.service.impl.*;
+import ru.gold.ordance.course.base.service.core.sub.*;
+import ru.gold.ordance.course.base.service.core.sub.impl.*;
 import ru.gold.ordance.course.base.spring.annotation.JpaContext;
 
 import javax.persistence.EntityManager;

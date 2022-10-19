@@ -8,8 +8,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.scrypt.SCryptPasswordEncoder;
 import ru.gold.ordance.course.base.persistence.spring.PersistenceConfiguration;
 import ru.gold.ordance.course.base.persistence.repository.*;
-import ru.gold.ordance.course.base.service.*;
-import ru.gold.ordance.course.base.service.impl.*;
+import ru.gold.ordance.course.base.service.core.sub.*;
+import ru.gold.ordance.course.base.service.core.sub.impl.*;
 import ru.gold.ordance.course.common.utils.PackageBeanContext;
 
 @Configuration

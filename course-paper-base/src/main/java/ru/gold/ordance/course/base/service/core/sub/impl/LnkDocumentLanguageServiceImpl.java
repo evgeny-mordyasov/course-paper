@@ -1,15 +1,13 @@
-package ru.gold.ordance.course.base.service.impl;
+package ru.gold.ordance.course.base.service.core.sub.impl;
 
 import com.sun.istack.NotNull;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import ru.gold.ordance.course.base.entity.LnkDocumentLanguage;
-import ru.gold.ordance.course.base.exception.EntityNotFoundException;
 import ru.gold.ordance.course.base.persistence.repository.LnkDocumentLanguageRepository;
-import ru.gold.ordance.course.base.service.LnkDocumentLanguageService;
+import ru.gold.ordance.course.base.service.core.sub.LnkDocumentLanguageService;
 
 import java.util.List;
-import java.util.Optional;
 
 @Transactional(isolation = Isolation.READ_COMMITTED)
 public class LnkDocumentLanguageServiceImpl implements LnkDocumentLanguageService {
@@ -42,11 +40,6 @@ public class LnkDocumentLanguageServiceImpl implements LnkDocumentLanguageServic
     @Override
     public LnkDocumentLanguage save(@NotNull LnkDocumentLanguage lnk) {
         return repository.preserve(lnk);
-    }
-
-    @Override
-    public LnkDocumentLanguage update(@NotNull LnkDocumentLanguage lnk) {
-        return repository.update(lnk);
     }
 
     @Override

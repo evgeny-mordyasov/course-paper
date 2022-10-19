@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import ru.gold.ordance.course.base.service.*;
+import ru.gold.ordance.course.base.service.core.sub.*;
 import ru.gold.ordance.course.web.mapper.ClassificationMapper;
 import ru.gold.ordance.course.web.mapper.ClientMapper;
 import ru.gold.ordance.course.web.mapper.FileMapper;

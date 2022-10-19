@@ -5,7 +5,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import ru.gold.ordance.course.base.entity.Client;
-import ru.gold.ordance.course.base.service.ClientService;
+import ru.gold.ordance.course.base.service.core.sub.ClientService;
 
 import java.util.Collections;
 
@@ -25,7 +25,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 client.getEntityId(),
                 client.getEmail(),
                 client.getPassword(),
-                client.isActive(),
+                client.getIsActive(),
                 Collections.singleton(new SimpleGrantedAuthority(client.getRole().name())));
     }
 }

@@ -26,11 +26,6 @@ public interface LnkDocumentLanguageRepository extends EntityRepository<LnkDocum
         return EntityRepository.super.preserve(fillEntity(entity));
     }
 
-    @Override
-    default LnkDocumentLanguage update(LnkDocumentLanguage entity) {
-        throw new UnsupportedOperationException("The update method not supported.");
-    }
-
     default void deleteByUrn(String urn) {
         Optional<LnkDocumentLanguage> lnk = findLnkDocumentLanguageByUrn(urn);
 

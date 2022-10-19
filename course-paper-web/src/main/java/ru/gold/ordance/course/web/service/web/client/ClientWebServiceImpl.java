@@ -1,7 +1,7 @@
 package ru.gold.ordance.course.web.service.web.client;
 
 import ru.gold.ordance.course.base.entity.Client;
-import ru.gold.ordance.course.base.service.ClientService;
+import ru.gold.ordance.course.base.service.core.sub.ClientService;
 import ru.gold.ordance.course.web.api.client.*;
 import ru.gold.ordance.course.web.mapper.ClientMapper;
 

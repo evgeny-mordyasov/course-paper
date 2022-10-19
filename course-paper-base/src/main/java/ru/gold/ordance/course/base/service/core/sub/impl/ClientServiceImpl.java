@@ -1,4 +1,4 @@
-package ru.gold.ordance.course.base.service.impl;
+package ru.gold.ordance.course.base.service.core.sub.impl;
 
 import com.sun.istack.NotNull;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import ru.gold.ordance.course.base.entity.Client;
 import ru.gold.ordance.course.base.persistence.repository.ClientRepository;
-import ru.gold.ordance.course.base.service.ClientService;
+import ru.gold.ordance.course.base.service.core.sub.ClientService;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;

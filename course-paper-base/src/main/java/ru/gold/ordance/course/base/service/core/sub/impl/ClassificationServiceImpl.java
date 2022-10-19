@@ -1,15 +1,13 @@
-package ru.gold.ordance.course.base.service.impl;
+package ru.gold.ordance.course.base.service.core.sub.impl;
 
 import com.sun.istack.NotNull;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import ru.gold.ordance.course.base.entity.Classification;
-import ru.gold.ordance.course.base.exception.EntityNotFoundException;
 import ru.gold.ordance.course.base.persistence.repository.ClassificationRepository;
-import ru.gold.ordance.course.base.service.ClassificationService;
+import ru.gold.ordance.course.base.service.core.sub.ClassificationService;
 
 import java.util.List;
-import java.util.Optional;
 
 @Transactional(isolation = Isolation.READ_COMMITTED)
 public class ClassificationServiceImpl implements ClassificationService {
