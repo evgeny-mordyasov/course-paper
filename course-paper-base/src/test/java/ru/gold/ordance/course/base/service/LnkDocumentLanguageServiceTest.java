@@ -194,7 +194,7 @@ public class LnkDocumentLanguageServiceTest {
         repository.preserve(createLnk(document, language, URN));
         service.deleteByUrn(URN);
 
-        Optional<LnkDocumentLanguage> found = repository.findLnkDocumentLanguageByUrn(URN);
+        Optional<LnkDocumentLanguage> found = repository.findByUrn(URN);
 
         assertFalse(found.isPresent());
     }

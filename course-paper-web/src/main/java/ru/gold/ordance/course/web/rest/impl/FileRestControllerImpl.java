@@ -6,9 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.gold.ordance.course.web.api.Response;
-import ru.gold.ordance.course.web.api.file.FileDeleteByUrnRequest;
-import ru.gold.ordance.course.web.api.file.FileGetByIdRequest;
-import ru.gold.ordance.course.web.api.file.FileSaveRequest;
+import ru.gold.ordance.course.web.api.file.*;
 import ru.gold.ordance.course.web.rest.FileRestController;
 import ru.gold.ordance.course.web.service.web.file.FileWebService;
 
@@ -55,9 +53,30 @@ public class FileRestControllerImpl implements FileRestController {
     }
 
     @Override
-    @GetMapping(value = "/resource/{entityId}")
-    public ResponseEntity<?> findResourceById(@PathVariable("entityId") Long entityId) {
-        FileGetByIdRequest rq = new FileGetByIdRequest(entityId);
+    @PatchMapping(produces = JSON)
+    public Response patch(@RequestParam("file") MultipartFile file,
+                          @RequestParam("documentId") Long documentId,
+                          @RequestParam("languageId") Long languageId) {
+        FilePatchRequest rq = FilePatchRequest.builder()
+                .file(file)
+                .documentId(documentId)
+                .languageId(languageId)
+                .build();
+
+        return execute(() -> {
+            try {
+                return service.patch(rq);
+            } catch (IOException e) {
+                return createFrom(e);
+            }
+        });
+    }
+
+    @Override
+    @GetMapping(value = "/resource")
+    public ResponseEntity<?> findResourceById(@RequestParam(name = "documentId") Long documentId,
+                                              @RequestParam(name = "languageId") Long languageId) {
+        FileGetByIdAndLanguageIdRequest rq = new FileGetByIdAndLanguageIdRequest(documentId, languageId);
 
         try {
             Resource file = service.load(rq);

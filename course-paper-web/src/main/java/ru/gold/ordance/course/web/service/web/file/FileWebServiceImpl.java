@@ -8,8 +8,7 @@ import ru.gold.ordance.course.web.service.web.file.helper.FileSystemHelper;
 
 import java.io.IOException;
 
-import static ru.gold.ordance.course.base.persistence.PersistenceHelper.getClassificationById;
-import static ru.gold.ordance.course.base.persistence.PersistenceHelper.getLanguageById;
+import static ru.gold.ordance.course.base.persistence.PersistenceHelper.*;
 import static ru.gold.ordance.course.common.utils.FileUtils.createUrn;
 
 public class FileWebServiceImpl implements FileWebService {
@@ -37,15 +36,23 @@ public class FileWebServiceImpl implements FileWebService {
     public FileSaveResponse save(FileSaveRequest rq) throws IOException {
         setUrn(rq);
 
-        fileSystemHelper.save(rq);
+        fileSystemHelper.save(rq.getFile(), rq.getUrn());
         return databaseHelper.save(rq);
     }
 
     @Override
-    public Resource load(FileGetByIdRequest rq) throws Exception {
-        FileGetEntityResponse rs = databaseHelper.findById(rq);
+    public FileSaveResponse patch(FilePatchRequest rq) throws IOException {
+        setUrn(rq);
 
-        return fileSystemHelper.getResource(rs.getFile().getUrn());
+        fileSystemHelper.save(rq.getFile(), rq.getUrn());
+        return databaseHelper.patch(rq);
+    }
+
+    @Override
+    public Resource load(FileGetByIdAndLanguageIdRequest rq) throws Exception {
+        FileGetEntityResponse rs = databaseHelper.findByDocumentIdAndLanguageId(rq.getDocumentId(), rq.getLanguageId());
+
+        return fileSystemHelper.getResource(rs.getFile().getLanguages().get(0).getUrn());
     }
 
     private void setUrn(FileSaveRequest rq) {
@@ -53,6 +60,13 @@ public class FileWebServiceImpl implements FileWebService {
                getClassificationById(rq.getClassificationId()).getName(),
                getLanguageById(rq.getLanguageId()).getName(),
                rq.getFile().getOriginalFilename()));
+    }
+
+    private void setUrn(FilePatchRequest rq) {
+        rq.setUrn(createUrn(
+                getDocumentById(rq.getDocumentId()).getClassification().getName(),
+                getLanguageById(rq.getLanguageId()).getName(),
+                rq.getFile().getOriginalFilename()));
     }
 
     @Override

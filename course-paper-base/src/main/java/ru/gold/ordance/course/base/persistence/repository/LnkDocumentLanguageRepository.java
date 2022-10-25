@@ -6,19 +6,28 @@ import ru.gold.ordance.course.base.entity.Language;
 import ru.gold.ordance.course.base.entity.LnkDocumentLanguage;
 import ru.gold.ordance.course.base.exception.EntityNotFoundException;
 
+import java.util.List;
 import java.util.Optional;
 
-import static ru.gold.ordance.course.base.persistence.PersistenceHelper.getDocumentById;
-import static ru.gold.ordance.course.base.persistence.PersistenceHelper.getEntity;
-import static ru.gold.ordance.course.base.persistence.PersistenceHelper.getLanguageById;
+import static ru.gold.ordance.course.base.persistence.PersistenceHelper.*;
 
 @Repository
 public interface LnkDocumentLanguageRepository extends EntityRepository<LnkDocumentLanguage> {
-    Optional<LnkDocumentLanguage> findLnkDocumentLanguageByUrn(String URN);
+    List<LnkDocumentLanguage> findByDocument_EntityId(Long documentId);
+    Optional<LnkDocumentLanguage> findByUrn(String URN);
+    Optional<LnkDocumentLanguage> findByDocument_EntityIdAndLanguage_EntityId(Long documentId, Long languageId);
     Long countLnkDocumentLanguagesByDocument_EntityId(Long documentId);
 
-    default LnkDocumentLanguage getLnkDocumentLanguageByUrn(String URN) {
-        return getEntity(findLnkDocumentLanguageByUrn(URN));
+    default List<LnkDocumentLanguage> getByDocumentId(Long documentId) {
+        return getEntities(findByDocument_EntityId(documentId));
+    }
+
+    default LnkDocumentLanguage getByUrn(String URN) {
+        return getEntity(findByUrn(URN));
+    }
+
+    default LnkDocumentLanguage getByDocumentIdAndLanguageId(Long documentId, Long languageId) {
+        return getEntity(findByDocument_EntityIdAndLanguage_EntityId(documentId, languageId));
     }
 
     @Override
@@ -27,7 +36,7 @@ public interface LnkDocumentLanguageRepository extends EntityRepository<LnkDocum
     }
 
     default void deleteByUrn(String urn) {
-        Optional<LnkDocumentLanguage> lnk = findLnkDocumentLanguageByUrn(urn);
+        Optional<LnkDocumentLanguage> lnk = findByUrn(urn);
 
         if (lnk.isEmpty()) {
             throw new EntityNotFoundException();

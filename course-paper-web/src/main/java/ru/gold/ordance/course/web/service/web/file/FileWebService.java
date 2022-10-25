@@ -10,6 +10,7 @@ public interface FileWebService extends WebService {
     FileGetListResponse findAll();
     FileGetEntityResponse findById(FileGetByIdRequest rq);
     FileSaveResponse save(FileSaveRequest rq) throws IOException;
-    Resource load(FileGetByIdRequest rq) throws Exception;
+    FileSaveResponse patch(FilePatchRequest rq) throws IOException;
+    Resource load(FileGetByIdAndLanguageIdRequest rq) throws Exception;
     FileDeleteResponse deleteByUrn(FileDeleteByUrnRequest rq) throws IOException;
 }

@@ -1,13 +1,15 @@
 package ru.gold.ordance.course.web.service.web.file.helper;
 
+import one.util.streamex.StreamEx;
+import ru.gold.ordance.course.base.entity.Document;
 import ru.gold.ordance.course.base.entity.LnkDocumentLanguage;
 import ru.gold.ordance.course.base.service.core.sub.DocumentService;
 import ru.gold.ordance.course.base.service.core.sub.LnkDocumentLanguageService;
 import ru.gold.ordance.course.web.api.file.*;
 import ru.gold.ordance.course.web.mapper.FileMapper;
 
+import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class FileDatabaseHelper {
     private final DocumentService documentService;
@@ -24,25 +26,41 @@ public class FileDatabaseHelper {
 
     public FileGetListResponse findAll() {
         List<LnkDocumentLanguage> allFiles = lnkService.findAll();
+        var documentAndLanguages = StreamEx.of(allFiles)
+                .groupingBy(f -> f.getDocument().getEntityId())
+                .entrySet();
 
-        return FileGetListResponse.success(
-                allFiles.stream()
-                        .map(mapper::toWebFile)
-                        .collect(Collectors.toList()));
+        return FileGetListResponse.success(mapper.toWebFile(documentAndLanguages));
     }
 
     public FileGetEntityResponse findById(FileGetByIdRequest rq) {
-        LnkDocumentLanguage foundLnk = lnkService.findByEntityId(rq.getEntityId());
+        List<LnkDocumentLanguage> documentLanguages = lnkService.findByDocumentId(rq.getEntityId());
+        Document document = documentLanguages.get(0).getDocument();
 
-        return FileGetEntityResponse.success(mapper.toWebFile(foundLnk));
+        return FileGetEntityResponse.success(mapper.toWebFile(document, documentLanguages));
+    }
+
+    public FileGetEntityResponse findByDocumentIdAndLanguageId(Long documentId, Long languageId) {
+        LnkDocumentLanguage lnk = lnkService.findByDocumentIdAndLanguageId(documentId, languageId);
+        Document document = lnk.getDocument();
+
+        return FileGetEntityResponse.success(mapper.toWebFile(document, Collections.singletonList(lnk)));
     }
 
     public FileSaveResponse save(FileSaveRequest rq) {
-        Long documentId = documentService.save(mapper.toDocument(rq)).getEntityId();
+        Document document = documentService.save(mapper.toDocument(rq));
         LnkDocumentLanguage lnk = lnkService.save(
-                mapper.toLnk(documentId, rq.getLanguageId(), rq.getUrn()));
+                mapper.toLnk(document.getEntityId(), rq.getLanguageId(), rq.getUrn()));
 
-        return FileSaveResponse.success(mapper.toWebFile(lnk));
+        return FileSaveResponse.success(mapper.toWebFile(document, Collections.singletonList(lnk)));
+    }
+
+    public FileSaveResponse patch(FilePatchRequest rq) {
+        Document document = documentService.findByEntityId(rq.getDocumentId());
+        LnkDocumentLanguage lnk = lnkService.save(
+                mapper.toLnk(rq.getDocumentId(), rq.getLanguageId(), rq.getUrn()));
+
+        return FileSaveResponse.success(mapper.toWebFile(document, Collections.singletonList(lnk)));
     }
 
     public void deleteByUrn(FileDeleteByUrnRequest rq) {

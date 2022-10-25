@@ -28,8 +28,18 @@ public class LnkDocumentLanguageServiceImpl implements LnkDocumentLanguageServic
     }
 
     @Override
+    public List<LnkDocumentLanguage> findByDocumentId(Long documentId) {
+        return repository.getByDocumentId(documentId);
+    }
+
+    @Override
     public LnkDocumentLanguage findByUrn(@NotNull String URN) {
-        return repository.getLnkDocumentLanguageByUrn(URN);
+        return repository.getByUrn(URN);
+    }
+
+    @Override
+    public LnkDocumentLanguage findByDocumentIdAndLanguageId(Long documentId, Long languageId) {
+        return repository.getByDocumentIdAndLanguageId(documentId, languageId);
     }
 
     @Override

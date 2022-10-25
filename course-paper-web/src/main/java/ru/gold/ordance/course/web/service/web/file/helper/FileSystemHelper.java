@@ -4,7 +4,6 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.web.multipart.MultipartFile;
 import ru.gold.ordance.course.web.api.file.FileDeleteByUrnRequest;
-import ru.gold.ordance.course.web.api.file.FileSaveRequest;
 import ru.gold.ordance.course.web.exception.FileAlreadyExistsException;
 
 import java.io.File;
@@ -23,10 +22,10 @@ public class FileSystemHelper {
         this.storagePath = storagePath;
     }
 
-    public void save(FileSaveRequest rq) throws IOException {
-        throwExceptionIfFileExistsBy(rq.getUrn());
+    public void save(MultipartFile file, String urn) throws IOException {
+        throwExceptionIfFileExistsBy(urn);
 
-        moveFileTo(rq.getUrn(), rq.getFile());
+        moveFileTo(urn, file);
     }
 
     private void throwExceptionIfFileExistsBy(String urn) {

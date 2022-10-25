@@ -5,6 +5,7 @@ import ru.gold.ordance.course.base.exception.EntityNotFoundException;
 import ru.gold.ordance.course.base.exception.ViolatesConstraintException;
 
 import javax.persistence.EntityManager;
+import java.util.List;
 import java.util.Optional;
 
 @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
@@ -19,6 +20,14 @@ public class PersistenceHelper {
         Optional<T> entity = Optional.ofNullable(manager.find(clazz, entityId));
 
         return getEntity(entity);
+    }
+
+    public static <ENTITY> List<ENTITY> getEntities(List<ENTITY> entities) {
+        if (entities.isEmpty()) {
+            throw new EntityNotFoundException();
+        }
+
+        return entities;
     }
 
     public static <ENTITY> ENTITY getEntity(Optional<ENTITY> entity) {
