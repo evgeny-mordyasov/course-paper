@@ -1,6 +1,5 @@
 package ru.gold.ordance.course.web.api.file;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.gold.ordance.course.web.api.SaveRequest;
@@ -20,10 +19,6 @@ public class FilePatchRequest implements SaveRequest {
     private final MultipartFile file;
     private final Long documentId;
     private final Long languageId;
-
-    @JsonIgnore
-    @Setter
-    private String urn;
 
     @Override
     public void validate() {

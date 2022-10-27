@@ -35,32 +35,32 @@ public class FileDatabaseHelper {
 
     public FileGetEntityResponse findById(FileGetByIdRequest rq) {
         List<LnkDocumentLanguage> documentLanguages = lnkService.findByDocumentId(rq.getEntityId());
-        Document document = documentLanguages.get(0).getDocument();
+        Document document = documentService.findByEntityId(rq.getEntityId());
 
         return FileGetEntityResponse.success(mapper.toWebFile(document, documentLanguages));
     }
 
-    public FileGetEntityResponse findByDocumentIdAndLanguageId(Long documentId, Long languageId) {
+    public String getUrn(Long documentId, Long languageId) {
         LnkDocumentLanguage lnk = lnkService.findByDocumentIdAndLanguageId(documentId, languageId);
-        Document document = lnk.getDocument();
 
-        return FileGetEntityResponse.success(mapper.toWebFile(document, Collections.singletonList(lnk)));
+        return lnk.getUrn();
     }
 
-    public FileSaveResponse save(FileSaveRequest rq) {
+    public FileSaveResponse save(FileSaveRequest rq, String urn) {
         Document document = documentService.save(mapper.toDocument(rq));
         LnkDocumentLanguage lnk = lnkService.save(
-                mapper.toLnk(document.getEntityId(), rq.getLanguageId(), rq.getUrn()));
+                mapper.toLnk(document.getEntityId(), rq.getLanguageId(), urn));
 
         return FileSaveResponse.success(mapper.toWebFile(document, Collections.singletonList(lnk)));
     }
 
-    public FileSaveResponse patch(FilePatchRequest rq) {
+    public FileSaveResponse patch(FilePatchRequest rq, String urn) {
         Document document = documentService.findByEntityId(rq.getDocumentId());
-        LnkDocumentLanguage lnk = lnkService.save(
-                mapper.toLnk(rq.getDocumentId(), rq.getLanguageId(), rq.getUrn()));
+        lnkService.save(mapper.toLnk(rq.getDocumentId(), rq.getLanguageId(), urn));
 
-        return FileSaveResponse.success(mapper.toWebFile(document, Collections.singletonList(lnk)));
+        List<LnkDocumentLanguage> lnk = lnkService.findByDocumentId(document.getEntityId());
+
+        return FileSaveResponse.success(mapper.toWebFile(document, lnk));
     }
 
     public void deleteByUrn(FileDeleteByUrnRequest rq) {

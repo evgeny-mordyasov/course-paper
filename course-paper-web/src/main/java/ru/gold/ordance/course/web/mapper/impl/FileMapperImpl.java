@@ -26,7 +26,9 @@ public class FileMapperImpl implements FileMapper {
     @Override
     public Document toDocument(FileSaveRequest rq) {
         return Document.builder()
-                .withClassification(Classification.builder().withEntityId(rq.getClassificationId()).build())
+                .withClassification(Classification.builder()
+                        .withEntityId(rq.getClassificationId())
+                        .build())
                 .withFullName(rq.getFile().getOriginalFilename())
                 .withName(getFileName(rq.getFile().getOriginalFilename()))
                 .withExtension(getFileExtension(rq.getFile().getOriginalFilename()))
@@ -36,8 +38,12 @@ public class FileMapperImpl implements FileMapper {
     @Override
     public LnkDocumentLanguage toLnk(Long documentId, Long languageId, String URN) {
         return LnkDocumentLanguage.builder()
-                .withDocument(Document.builder().withEntityId(documentId).build())
-                .withLanguage(Language.builder().withEntityId(languageId).build())
+                .withDocument(Document.builder()
+                        .withEntityId(documentId)
+                        .build())
+                .withLanguage(Language.builder()
+                        .withEntityId(languageId)
+                        .build())
                 .withUrn(URN)
                 .build();
     }

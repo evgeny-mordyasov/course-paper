@@ -3,7 +3,6 @@ package ru.gold.ordance.course.web.service.web.file.helper;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.web.multipart.MultipartFile;
-import ru.gold.ordance.course.web.api.file.FileDeleteByUrnRequest;
 import ru.gold.ordance.course.web.exception.FileAlreadyExistsException;
 
 import java.io.File;
@@ -13,6 +12,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import static ru.gold.ordance.course.common.utils.FileUtils.createUrn;
 import static ru.gold.ordance.course.common.utils.FileUtils.urnWithoutFileName;
 
 public class FileSystemHelper {
@@ -22,34 +22,36 @@ public class FileSystemHelper {
         this.storagePath = storagePath;
     }
 
-    public void save(MultipartFile file, String urn) throws IOException {
+    public String save(MultipartFile file, String classification, String language) throws IOException {
+        String urn = storagePath + createUrn(classification, language, file.getOriginalFilename());
         throwExceptionIfFileExistsBy(urn);
 
         moveFileTo(urn, file);
+
+        return urn;
     }
 
     private void throwExceptionIfFileExistsBy(String urn) {
-        if (Files.isRegularFile(Paths.get(storagePath + urn))) {
+        if (Files.isRegularFile(Paths.get(urn))) {
             throw new FileAlreadyExistsException("The file '" + urn + "' already exists.");
         }
     }
 
     public void moveFileTo(String urn, MultipartFile file) throws IOException {
         creatingDirectoriesFor(urn);
-        file.transferTo(new File(storagePath + urn));
+        file.transferTo(new File(urn));
     }
 
     private void creatingDirectoriesFor(String urn) throws IOException {
-        Path fullPath = Path.of(storagePath + urnWithoutFileName(urn));
+        Path fullPath = Path.of(urnWithoutFileName(urn));
         Files.createDirectories(fullPath);
     }
 
-    public void deleteByUrn(FileDeleteByUrnRequest rq) throws IOException {
-        Files.deleteIfExists(Path.of(storagePath + rq.getUrn()));
+    public void deleteByUrn(String urn) throws IOException {
+        Files.deleteIfExists(Path.of(urn));
     }
 
     public Resource getResource(String urn) throws MalformedURLException {
-        Path file = Paths.get(storagePath + urn);
-        return new UrlResource(file.toUri());
+        return new UrlResource(Paths.get(urn).toUri());
     }
 }

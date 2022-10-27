@@ -82,7 +82,7 @@ public class FileRestControllerImpl implements FileRestController {
             Resource file = service.load(rq);
 
             return ResponseEntity.ok()
-                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"")
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename = \"" + file.getFilename() + "\"")
                     .body(file);
         } catch (Exception e) {
             return ResponseEntity.of(Optional.of(createFrom(e)));
@@ -96,7 +96,7 @@ public class FileRestControllerImpl implements FileRestController {
     }
 
     @Override
-    @PostMapping(produces = JSON, consumes = JSON)
+    @DeleteMapping(produces = JSON, consumes = JSON)
     public Response deleteByUrn(@RequestBody FileDeleteByUrnRequest rq) {
         return execute(() -> {
             try {

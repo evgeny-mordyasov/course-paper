@@ -1,0 +1,2 @@
+INSERT INTO LANGUAGE(name)
+VALUES ('RU'), ('KZ'), ('EN');

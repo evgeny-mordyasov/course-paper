@@ -9,7 +9,6 @@ import ru.gold.ordance.course.web.service.web.file.helper.FileSystemHelper;
 import java.io.IOException;
 
 import static ru.gold.ordance.course.base.persistence.PersistenceHelper.*;
-import static ru.gold.ordance.course.common.utils.FileUtils.createUrn;
 
 public class FileWebServiceImpl implements FileWebService {
     private final FileDatabaseHelper databaseHelper;
@@ -34,46 +33,35 @@ public class FileWebServiceImpl implements FileWebService {
     @Override
     @Transactional
     public FileSaveResponse save(FileSaveRequest rq) throws IOException {
-        setUrn(rq);
+        String language = getLanguageById(rq.getLanguageId()).getName();
+        String classification = getClassificationById(rq.getClassificationId()).getName();
 
-        fileSystemHelper.save(rq.getFile(), rq.getUrn());
-        return databaseHelper.save(rq);
+        String urn = fileSystemHelper.save(rq.getFile(), classification, language);
+        return databaseHelper.save(rq, urn);
     }
 
     @Override
+    @Transactional
     public FileSaveResponse patch(FilePatchRequest rq) throws IOException {
-        setUrn(rq);
+        String language = getLanguageById(rq.getLanguageId()).getName();
+        String classification = getDocumentById(rq.getDocumentId()).getClassification().getName();
 
-        fileSystemHelper.save(rq.getFile(), rq.getUrn());
-        return databaseHelper.patch(rq);
+        String urn = fileSystemHelper.save(rq.getFile(), classification, language);
+        return databaseHelper.patch(rq, urn);
     }
 
     @Override
     public Resource load(FileGetByIdAndLanguageIdRequest rq) throws Exception {
-        FileGetEntityResponse rs = databaseHelper.findByDocumentIdAndLanguageId(rq.getDocumentId(), rq.getLanguageId());
+        String urn = databaseHelper.getUrn(rq.getDocumentId(), rq.getLanguageId());
 
-        return fileSystemHelper.getResource(rs.getFile().getLanguages().get(0).getUrn());
-    }
-
-    private void setUrn(FileSaveRequest rq) {
-       rq.setUrn(createUrn(
-               getClassificationById(rq.getClassificationId()).getName(),
-               getLanguageById(rq.getLanguageId()).getName(),
-               rq.getFile().getOriginalFilename()));
-    }
-
-    private void setUrn(FilePatchRequest rq) {
-        rq.setUrn(createUrn(
-                getDocumentById(rq.getDocumentId()).getClassification().getName(),
-                getLanguageById(rq.getLanguageId()).getName(),
-                rq.getFile().getOriginalFilename()));
+        return fileSystemHelper.getResource(urn);
     }
 
     @Override
     @Transactional
     public FileDeleteResponse deleteByUrn(FileDeleteByUrnRequest rq) throws IOException {
         databaseHelper.deleteByUrn(rq);
-        fileSystemHelper.deleteByUrn(rq);
+        fileSystemHelper.deleteByUrn(rq.getUrn());
 
         return FileDeleteResponse.success();
     }
