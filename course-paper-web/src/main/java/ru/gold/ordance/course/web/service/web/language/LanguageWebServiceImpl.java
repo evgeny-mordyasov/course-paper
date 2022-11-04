@@ -29,14 +29,14 @@ public class LanguageWebServiceImpl implements LanguageWebService {
 
     @Override
     public LanguageGetEntityResponse findById(LanguageGetByIdRequest rq) {
-        Language foundLanguage = service.findByEntityId(rq.getEntityId());
+        Language foundLanguage = service.getByEntityId(rq.getEntityId());
 
         return search(foundLanguage);
     }
 
     @Override
     public LanguageGetEntityResponse findByName(LanguageGetByNameRequest rq) {
-        Language foundLanguage = service.findByName(rq.getName());
+        Language foundLanguage = service.getByName(rq.getName());
 
         return search(foundLanguage);
     }

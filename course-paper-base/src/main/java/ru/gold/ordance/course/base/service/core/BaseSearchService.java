@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface BaseSearchService<ENTITY extends AbstractEntity> {
     List<ENTITY> findAll();
-    ENTITY findByEntityId(Long entityId);
+    ENTITY getByEntityId(Long entityId);
 }

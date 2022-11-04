@@ -8,6 +8,7 @@ import ru.gold.ordance.course.base.persistence.repository.LnkDocumentLanguageRep
 import ru.gold.ordance.course.base.service.core.sub.LnkDocumentLanguageService;
 
 import java.util.List;
+import java.util.Optional;
 
 @Transactional(isolation = Isolation.READ_COMMITTED)
 public class LnkDocumentLanguageServiceImpl implements LnkDocumentLanguageService {
@@ -23,23 +24,28 @@ public class LnkDocumentLanguageServiceImpl implements LnkDocumentLanguageServic
     }
 
     @Override
-    public LnkDocumentLanguage findByEntityId(@NotNull Long entityId) {
+    public LnkDocumentLanguage getByEntityId(@NotNull Long entityId) {
         return repository.getByEntityId(entityId);
     }
 
     @Override
-    public List<LnkDocumentLanguage> findByDocumentId(Long documentId) {
+    public List<LnkDocumentLanguage> getByDocumentId(Long documentId) {
         return repository.getByDocumentId(documentId);
     }
 
     @Override
-    public LnkDocumentLanguage findByUrn(@NotNull String URN) {
+    public LnkDocumentLanguage getByUrn(@NotNull String URN) {
         return repository.getByUrn(URN);
     }
 
     @Override
-    public LnkDocumentLanguage findByDocumentIdAndLanguageId(Long documentId, Long languageId) {
+    public LnkDocumentLanguage getByDocumentIdAndLanguageId(Long documentId, Long languageId) {
         return repository.getByDocumentIdAndLanguageId(documentId, languageId);
+    }
+
+    @Override
+    public Optional<LnkDocumentLanguage> findByDocumentIdAndLanguageId(Long documentId, Long languageId) {
+        return repository.findByDocument_EntityIdAndLanguage_EntityId(documentId, languageId);
     }
 
     @Override

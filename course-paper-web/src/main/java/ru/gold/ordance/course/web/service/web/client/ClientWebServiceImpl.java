@@ -29,14 +29,14 @@ public class ClientWebServiceImpl implements ClientWebService {
 
     @Override
     public ClientGetEntityResponse findById(ClientGetByIdRequest rq) {
-        Client foundClient = service.findByEntityId(rq.getEntityId());
+        Client foundClient = service.getByEntityId(rq.getEntityId());
 
         return search(foundClient);
     }
 
     @Override
     public ClientGetEntityResponse findByEmail(ClientGetByEmailRequest rq) {
-        Client foundClient = service.findByEmail(rq.getEmail());
+        Client foundClient = service.getByEmail(rq.getEmail());
 
         return search(foundClient);
     }

@@ -1,5 +1,7 @@
 package ru.gold.ordance.course.common.utils;
 
+import java.util.UUID;
+
 public final class FileUtils {
     private FileUtils() {
     }
@@ -12,11 +14,7 @@ public final class FileUtils {
         return fullFileName.substring(0, fullFileName.indexOf("."));
     }
 
-    public static String urnWithoutFileName(String urn) {
-        return urn.substring(0, urn.lastIndexOf("/"));
-    }
-
-    public static String createUrn(String classificationName, String languageName, String fullFileName) {
-        return String.format("/%s/%s/%s", classificationName, languageName, fullFileName);
+    public static String randomFileName() {
+        return UUID.randomUUID().toString();
     }
 }

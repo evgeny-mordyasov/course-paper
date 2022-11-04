@@ -3,17 +3,15 @@ package ru.gold.ordance.course.web.service.web.file.helper;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.web.multipart.MultipartFile;
-import ru.gold.ordance.course.web.exception.FileAlreadyExistsException;
+import ru.gold.ordance.course.web.dto.File;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import static ru.gold.ordance.course.common.utils.FileUtils.createUrn;
-import static ru.gold.ordance.course.common.utils.FileUtils.urnWithoutFileName;
+import static ru.gold.ordance.course.common.utils.FileUtils.*;
 
 public class FileSystemHelper {
     private final String storagePath;
@@ -22,29 +20,21 @@ public class FileSystemHelper {
         this.storagePath = storagePath;
     }
 
-    public String save(MultipartFile file, String classification, String language) throws IOException {
-        String urn = storagePath + createUrn(classification, language, file.getOriginalFilename());
-        throwExceptionIfFileExistsBy(urn);
+    public File save(MultipartFile file) throws IOException {
+        String fileName = randomFileName();
+        String extension = getFileExtension(file.getOriginalFilename());
+        String systemFullFileName = fileName + "." + extension;
 
-        moveFileTo(urn, file);
+        File stored = File.builder()
+                .withUrn(storagePath + systemFullFileName)
+                .withFullFileName(file.getOriginalFilename())
+                .withFileName(getFileName(file.getOriginalFilename()))
+                .withExtension(extension)
+                .build();
 
-        return urn;
-    }
+        Files.copy(file.getInputStream(), Paths.get(stored.getUrn()));
 
-    private void throwExceptionIfFileExistsBy(String urn) {
-        if (Files.isRegularFile(Paths.get(urn))) {
-            throw new FileAlreadyExistsException("The file '" + urn + "' already exists.");
-        }
-    }
-
-    public void moveFileTo(String urn, MultipartFile file) throws IOException {
-        creatingDirectoriesFor(urn);
-        file.transferTo(new File(urn));
-    }
-
-    private void creatingDirectoriesFor(String urn) throws IOException {
-        Path fullPath = Path.of(urnWithoutFileName(urn));
-        Files.createDirectories(fullPath);
+        return stored;
     }
 
     public void deleteByUrn(String urn) throws IOException {

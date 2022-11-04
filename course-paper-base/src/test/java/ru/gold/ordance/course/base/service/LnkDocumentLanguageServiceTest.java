@@ -96,14 +96,14 @@ public class LnkDocumentLanguageServiceTest {
     public void findByUrn_found() {
         LnkDocumentLanguage saved = repository.preserve(createLnk(document, language));
 
-        assertDoesNotThrow(() -> service.findByEntityId(saved.getEntityId()));
+        assertDoesNotThrow(() -> service.getByEntityId(saved.getEntityId()));
     }
 
     @Test
     public void findByUrn_notFound() {
         long fakeURN = generateId();
 
-        assertThrows(EntityNotFoundException.class, () -> service.findByEntityId(fakeURN));
+        assertThrows(EntityNotFoundException.class, () -> service.getByEntityId(fakeURN));
     }
 
     @Test
@@ -111,7 +111,7 @@ public class LnkDocumentLanguageServiceTest {
         final String URN = randomString();
 
         LnkDocumentLanguage saved = repository.preserve(createLnk(document, language, URN));
-        assertDoesNotThrow(() -> service.findByUrn(saved.getUrn()));
+        assertDoesNotThrow(() -> service.getByUrn(saved.getUrn()));
     }
 
     @Test

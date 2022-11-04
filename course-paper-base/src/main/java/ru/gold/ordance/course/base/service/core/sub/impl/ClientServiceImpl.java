@@ -31,12 +31,12 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public Client findByEntityId(@NotNull Long entityId) {
+    public Client getByEntityId(@NotNull Long entityId) {
         return repository.getByEntityId(entityId);
     }
 
     @Override
-    public Client findByEmail(@NotNull String email) {
+    public Client getByEmail(@NotNull String email) {
         return repository.getByEmail(email);
     }
 

@@ -29,14 +29,14 @@ public class ClassificationWebServiceImpl implements ClassificationWebService {
 
     @Override
     public ClassificationGetEntityResponse findById(ClassificationGetByIdRequest rq) {
-        Classification foundClassification = service.findByEntityId(rq.getEntityId());
+        Classification foundClassification = service.getByEntityId(rq.getEntityId());
 
         return search(foundClassification);
     }
 
     @Override
     public ClassificationGetEntityResponse findByName(ClassificationGetByNameRequest rq) {
-        Classification foundClassification = service.findByName(rq.getName());
+        Classification foundClassification = service.getByName(rq.getName());
 
         return search(foundClassification);
     }

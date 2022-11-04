@@ -19,7 +19,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Client client = service.findByEmail(email);
+        Client client = service.getByEmail(email);
 
         return new UserDetailsImpl(
                 client.getEntityId(),

@@ -22,7 +22,7 @@ public class HistoryServiceImpl implements HistoryService {
     }
 
     @Override
-    public History findByEntityId(Long entityId) {
+    public History getByEntityId(Long entityId) {
         return repository.getByEntityId(entityId);
     }
 

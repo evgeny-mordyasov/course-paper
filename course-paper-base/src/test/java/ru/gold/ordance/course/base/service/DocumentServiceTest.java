@@ -82,7 +82,7 @@ public class DocumentServiceTest {
     public void findById_found() {
         Document saved = repository.preserve(createDocument(classification));
 
-        assertDoesNotThrow(() -> service.findByEntityId(saved.getEntityId()));
+        assertDoesNotThrow(() -> service.getByEntityId(saved.getEntityId()));
     }
 
     @Test

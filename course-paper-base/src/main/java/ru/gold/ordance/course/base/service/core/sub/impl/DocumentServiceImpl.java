@@ -23,7 +23,7 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     @Override
-    public Document findByEntityId(@NotNull Long entityId) {
+    public Document getByEntityId(@NotNull Long entityId) {
         return repository.getByEntityId(entityId);
     }
 

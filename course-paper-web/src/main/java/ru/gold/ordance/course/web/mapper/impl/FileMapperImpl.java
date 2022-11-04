@@ -5,11 +5,11 @@ import ru.gold.ordance.course.base.entity.Document;
 import ru.gold.ordance.course.base.entity.Language;
 import ru.gold.ordance.course.base.entity.LnkDocumentLanguage;
 import ru.gold.ordance.course.web.api.classification.WebClassification;
-import ru.gold.ordance.course.web.api.file.FileSaveRequest;
 import ru.gold.ordance.course.web.api.file.WebDocument;
 import ru.gold.ordance.course.web.api.file.WebDocumentLanguage;
 import ru.gold.ordance.course.web.api.file.WebFile;
 import ru.gold.ordance.course.web.api.language.WebLanguage;
+import ru.gold.ordance.course.web.dto.File;
 import ru.gold.ordance.course.web.mapper.FileMapper;
 
 import java.util.List;
@@ -24,19 +24,19 @@ public class FileMapperImpl implements FileMapper {
     private static final String RESOURCE_URL = "http://localhost:8090/api/v1/files/resource?documentId=%s&languageId=%s";
 
     @Override
-    public Document toDocument(FileSaveRequest rq) {
+    public Document toDocument(File stored, Long classificationId) {
         return Document.builder()
                 .withClassification(Classification.builder()
-                        .withEntityId(rq.getClassificationId())
+                        .withEntityId(classificationId)
                         .build())
-                .withFullName(rq.getFile().getOriginalFilename())
-                .withName(getFileName(rq.getFile().getOriginalFilename()))
-                .withExtension(getFileExtension(rq.getFile().getOriginalFilename()))
+                .withFullName(stored.getFullFileName())
+                .withName(stored.getFileName())
+                .withExtension(stored.getExtension())
                 .build();
     }
 
     @Override
-    public LnkDocumentLanguage toLnk(Long documentId, Long languageId, String URN) {
+    public LnkDocumentLanguage toLnk(Long documentId, Long languageId, String urn) {
         return LnkDocumentLanguage.builder()
                 .withDocument(Document.builder()
                         .withEntityId(documentId)
@@ -44,7 +44,7 @@ public class FileMapperImpl implements FileMapper {
                 .withLanguage(Language.builder()
                         .withEntityId(languageId)
                         .build())
-                .withUrn(URN)
+                .withUrn(urn)
                 .build();
     }
 

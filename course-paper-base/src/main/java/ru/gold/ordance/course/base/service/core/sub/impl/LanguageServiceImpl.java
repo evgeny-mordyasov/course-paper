@@ -23,12 +23,12 @@ public class LanguageServiceImpl implements LanguageService {
     }
 
     @Override
-    public Language findByEntityId(@NotNull Long entityId) {
+    public Language getByEntityId(@NotNull Long entityId) {
         return repository.getByEntityId(entityId);
     }
 
     @Override
-    public Language findByName(@NotNull String name) {
+    public Language getByName(@NotNull String name) {
         return repository.getByName(name);
     }
 
