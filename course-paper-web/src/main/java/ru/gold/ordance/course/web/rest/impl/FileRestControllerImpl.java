@@ -106,4 +106,16 @@ public class FileRestControllerImpl implements FileRestController {
             }
         });
     }
+
+    @Override
+    @DeleteMapping(value = "/{entityId}", produces = JSON)
+    public Response deleteById(@PathVariable Long entityId) {
+        return execute(() -> {
+            try {
+                return service.deleteById(new FileDeleteByIdRequest(entityId));
+            } catch (IOException e) {
+                return createFrom(e);
+            }
+        });
+    }
 }

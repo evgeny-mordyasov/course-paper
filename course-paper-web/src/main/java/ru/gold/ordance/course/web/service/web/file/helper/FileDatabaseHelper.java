@@ -12,6 +12,7 @@ import ru.gold.ordance.course.web.mapper.FileMapper;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class FileDatabaseHelper {
     private final DocumentService documentService;
@@ -75,6 +76,15 @@ public class FileDatabaseHelper {
         LnkDocumentLanguage foundLnk = lnkService.getByUrn(rq.getUrn());
 
         deleteRecordInDatabase(foundLnk);
+    }
+
+    public List<String> deleteById(FileDeleteByIdRequest rq) {
+        List<LnkDocumentLanguage> foundLnk = lnkService.getByDocumentId(rq.getEntityId());
+        foundLnk.forEach(this::deleteRecordInDatabase);
+
+        return foundLnk.stream()
+                .map(LnkDocumentLanguage::getUrn)
+                .collect(Collectors.toList());
     }
 
     private void deleteRecordInDatabase(LnkDocumentLanguage lnk) {

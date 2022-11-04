@@ -10,6 +10,7 @@ import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
 import static ru.gold.ordance.course.common.utils.FileUtils.*;
 
@@ -39,6 +40,12 @@ public class FileSystemHelper {
 
     public void deleteByUrn(String urn) throws IOException {
         Files.deleteIfExists(Path.of(urn));
+    }
+
+    public void deleteByUrn(List<String> urns) throws IOException {
+        for(String urn : urns) {
+            deleteByUrn(urn);
+        }
     }
 
     public Resource getResource(String urn) throws MalformedURLException {

@@ -9,6 +9,7 @@ import ru.gold.ordance.course.web.service.web.file.helper.FileDatabaseHelper;
 import ru.gold.ordance.course.web.service.web.file.helper.FileSystemHelper;
 
 import java.io.IOException;
+import java.util.List;
 
 
 public class FileWebServiceImpl implements FileWebService {
@@ -61,6 +62,14 @@ public class FileWebServiceImpl implements FileWebService {
     public FileDeleteResponse deleteByUrn(FileDeleteByUrnRequest rq) throws IOException {
         databaseHelper.deleteByUrn(rq);
         fileSystemHelper.deleteByUrn(rq.getUrn());
+
+        return FileDeleteResponse.success();
+    }
+
+    @Override
+    public FileDeleteResponse deleteById(FileDeleteByIdRequest rq) throws IOException {
+        List<String> urns = databaseHelper.deleteById(rq);
+        fileSystemHelper.deleteByUrn(urns);
 
         return FileDeleteResponse.success();
     }
