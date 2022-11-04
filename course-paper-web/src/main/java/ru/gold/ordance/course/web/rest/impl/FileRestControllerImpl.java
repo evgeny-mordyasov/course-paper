@@ -96,6 +96,12 @@ public class FileRestControllerImpl implements FileRestController {
     }
 
     @Override
+    @GetMapping(value = "/free-languages/{documentId}", produces = JSON)
+    public Response getFreeLanguages(@PathVariable Long documentId) {
+        return execute(() -> service.getFreeLanguages(new FileGetFreeLanguagesByIdRequest(documentId)));
+    }
+
+    @Override
     @DeleteMapping(produces = JSON, consumes = JSON)
     public Response deleteByUrn(@RequestBody FileDeleteByUrnRequest rq) {
         return execute(() -> {

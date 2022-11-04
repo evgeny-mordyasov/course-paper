@@ -33,6 +33,11 @@ public class FileWebServiceImpl implements FileWebService {
     }
 
     @Override
+    public FileGetFreeLanguagesByIdResponse getFreeLanguages(FileGetFreeLanguagesByIdRequest rq) {
+        return FileGetFreeLanguagesByIdResponse.success(databaseHelper.getFreeLanguages(rq));
+    }
+
+    @Override
     @Transactional
     public FileSaveResponse save(FileSaveRequest rq) throws IOException {
         File stored = fileSystemHelper.save(rq.getFile());

@@ -47,8 +47,10 @@ public class WebServiceConfiguration {
     @Bean
     public FileDatabaseHelper fileDatabaseHelper(DocumentService documentService,
                                                  LnkDocumentLanguageService lnkService,
-                                                 FileMapper mapper) {
-        return new FileDatabaseHelper(documentService, lnkService, mapper);
+                                                 LanguageService languageService,
+                                                 FileMapper mapper,
+                                                 LanguageMapper languageMapper) {
+        return new FileDatabaseHelper(documentService, lnkService, languageService, mapper, languageMapper);
     }
 
     @Bean

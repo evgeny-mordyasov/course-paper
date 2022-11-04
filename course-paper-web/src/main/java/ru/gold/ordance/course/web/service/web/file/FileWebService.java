@@ -11,6 +11,7 @@ import java.io.IOException;
 public interface FileWebService extends WebService {
     FileGetListResponse findAll();
     FileGetEntityResponse findById(FileGetByIdRequest rq);
+    FileGetFreeLanguagesByIdResponse getFreeLanguages(FileGetFreeLanguagesByIdRequest rq);
     FileSaveResponse save(FileSaveRequest rq) throws IOException;
     FileSaveResponse patch(FilePatchRequest rq) throws IOException;
     Resource load(FileGetByIdAndLanguageIdRequest rq) throws Exception;

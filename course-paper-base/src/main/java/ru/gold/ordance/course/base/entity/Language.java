@@ -14,6 +14,7 @@ import javax.persistence.*;
 @NoArgsConstructor(force = true)
 @Builder(toBuilder = true, setterPrefix = "with")
 @ToString
+@EqualsAndHashCode
 public class Language implements AbstractEntity {
     private static final long serialVersionUID = 1L;
 
