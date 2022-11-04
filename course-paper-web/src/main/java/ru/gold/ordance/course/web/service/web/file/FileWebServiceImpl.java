@@ -24,12 +24,12 @@ public class FileWebServiceImpl implements FileWebService {
 
     @Override
     public FileGetListResponse findAll() {
-        return databaseHelper.findAll();
+        return FileGetListResponse.success(databaseHelper.findAll());
     }
 
     @Override
     public FileGetEntityResponse findById(FileGetByIdRequest rq) {
-        return databaseHelper.findById(rq);
+        return FileGetEntityResponse.success(databaseHelper.findById(rq));
     }
 
     @Override
@@ -41,7 +41,7 @@ public class FileWebServiceImpl implements FileWebService {
     @Transactional
     public FileSaveResponse save(FileSaveRequest rq) throws IOException {
         File stored = fileSystemHelper.save(rq.getFile());
-        return databaseHelper.save(stored, rq.getClassificationId(), rq.getLanguageId());
+        return FileSaveResponse.success(databaseHelper.save(stored, rq.getClassificationId(), rq.getLanguageId()));
     }
 
     @Override
@@ -52,7 +52,7 @@ public class FileWebServiceImpl implements FileWebService {
         }
 
         File stored = fileSystemHelper.save(rq.getFile());
-        return databaseHelper.patch(rq, stored.getUrn());
+        return FileSaveResponse.success(databaseHelper.patch(rq, stored.getUrn()));
     }
 
     @Override

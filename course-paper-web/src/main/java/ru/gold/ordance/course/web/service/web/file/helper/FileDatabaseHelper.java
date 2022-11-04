@@ -37,20 +37,20 @@ public class FileDatabaseHelper {
         this.languageMapper = languageMapper;
     }
 
-    public FileGetListResponse findAll() {
+    public List<WebFile> findAll() {
         List<LnkDocumentLanguage> allFiles = lnkService.findAll();
         var documentAndLanguages = StreamEx.of(allFiles)
                 .groupingBy(f -> f.getDocument().getEntityId())
                 .entrySet();
 
-        return FileGetListResponse.success(fileMapper.toWebFile(documentAndLanguages));
+        return fileMapper.toWebFile(documentAndLanguages);
     }
 
-    public FileGetEntityResponse findById(FileGetByIdRequest rq) {
+    public WebFile findById(FileGetByIdRequest rq) {
         List<LnkDocumentLanguage> documentLanguages = lnkService.getByDocumentId(rq.getEntityId());
         Document document = documentService.getByEntityId(rq.getEntityId());
 
-        return FileGetEntityResponse.success(fileMapper.toWebFile(document, documentLanguages));
+        return fileMapper.toWebFile(document, documentLanguages);
     }
 
     public String getUrn(Long documentId, Long languageId) {
@@ -74,21 +74,21 @@ public class FileDatabaseHelper {
                 .collect(Collectors.toList());
     }
 
-    public FileSaveResponse save(File stored, Long classificationId, Long languageId) {
+    public WebFile save(File stored, Long classificationId, Long languageId) {
         Document document = documentService.save(fileMapper.toDocument(stored, classificationId));
         LnkDocumentLanguage lnk = lnkService.save(
                 fileMapper.toLnk(document.getEntityId(), languageId, stored.getUrn()));
 
-        return FileSaveResponse.success(fileMapper.toWebFile(document, Collections.singletonList(lnk)));
+        return fileMapper.toWebFile(document, Collections.singletonList(lnk));
     }
 
-    public FileSaveResponse patch(FilePatchRequest rq, String urn) {
+    public WebFile patch(FilePatchRequest rq, String urn) {
         Document document = documentService.getByEntityId(rq.getDocumentId());
         lnkService.save(fileMapper.toLnk(rq.getDocumentId(), rq.getLanguageId(), urn));
 
         List<LnkDocumentLanguage> lnk = lnkService.getByDocumentId(document.getEntityId());
 
-        return FileSaveResponse.success(fileMapper.toWebFile(document, lnk));
+        return fileMapper.toWebFile(document, lnk);
     }
 
     public boolean isExistsLanguageForDocument(Long languageId, Long documentId) {
