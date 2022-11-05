@@ -4,9 +4,11 @@ server:
 spring:
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
     open-in-view: false
-
+  sql:
+    init:
+      mode: never
   servlet:
     multipart:
       location: /usr/local/storage

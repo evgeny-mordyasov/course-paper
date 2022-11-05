@@ -1,5 +1,7 @@
+CREATE SEQUENCE client_sequence;
+
 CREATE TABLE CLIENT (
-    ENTITY_ID          BIGINT PRIMARY KEY,
+    ENTITY_ID          BIGINT PRIMARY KEY DEFAULT nextval('client_sequence'),
     SURNAME            VARCHAR(128) NOT NULL,
     NAME               VARCHAR(128) NOT NULL,
     PATRONYMIC         VARCHAR(128) NOT NULL,
@@ -14,8 +16,6 @@ CREATE TABLE CLIENT (
 CREATE UNIQUE INDEX client_email_idx
     ON CLIENT (EMAIL)
     TABLESPACE ${tbsIdx};
-
-CREATE SEQUENCE client_sequence;
 
 GRANT SELECT, INSERT, UPDATE, DELETE ON CLIENT TO ${appRole};
 GRANT SELECT ON CLIENT TO ${readerRole};
