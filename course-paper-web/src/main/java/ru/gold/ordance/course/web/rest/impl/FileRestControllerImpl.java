@@ -7,8 +7,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.gold.ordance.course.web.api.Response;
 import ru.gold.ordance.course.web.api.file.*;
+import ru.gold.ordance.course.web.api.history.HistorySaveRequest;
 import ru.gold.ordance.course.web.rest.FileRestController;
 import ru.gold.ordance.course.web.service.web.file.FileWebService;
+import ru.gold.ordance.course.web.service.web.history.HistoryWebService;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -20,16 +22,18 @@ import static ru.gold.ordance.course.web.utils.RequestUtils.execute;
 @RestController
 @RequestMapping("/api/v1/files")
 public class FileRestControllerImpl implements FileRestController {
-    private final FileWebService service;
+    private final FileWebService fileService;
+    private final HistoryWebService historyService;
 
-    public FileRestControllerImpl(FileWebService service) {
-        this.service = service;
+    public FileRestControllerImpl(FileWebService fileService, HistoryWebService historyService) {
+        this.fileService = fileService;
+        this.historyService = historyService;
     }
 
     @Override
     @GetMapping(produces = JSON)
     public Response findAll() {
-        return execute(service::findAll);
+        return execute(fileService::findAll);
     }
 
     @Override
@@ -45,7 +49,7 @@ public class FileRestControllerImpl implements FileRestController {
 
         return execute(() -> {
             try {
-                return service.save(rq);
+                return fileService.save(rq);
             } catch (IOException e) {
                 return createFrom(e);
             }
@@ -65,7 +69,7 @@ public class FileRestControllerImpl implements FileRestController {
 
         return execute(() -> {
             try {
-                return service.patch(rq);
+                return fileService.patch(rq);
             } catch (IOException e) {
                 return createFrom(e);
             }
@@ -74,12 +78,12 @@ public class FileRestControllerImpl implements FileRestController {
 
     @Override
     @GetMapping(value = "/resource")
-    public ResponseEntity<?> findResourceById(@RequestParam(name = "documentId") Long documentId,
-                                              @RequestParam(name = "languageId") Long languageId) {
-        FileGetByIdAndLanguageIdRequest rq = new FileGetByIdAndLanguageIdRequest(documentId, languageId);
-
+    public ResponseEntity<?> findResource(@RequestParam(name = "clientId") Long clientId,
+                                          @RequestParam(name = "documentId") Long documentId,
+                                          @RequestParam(name = "languageId") Long languageId) {
         try {
-            Resource file = service.load(rq);
+            Resource file = fileService.load(new FileGetByIdAndLanguageIdRequest(documentId, languageId));
+            historyService.save(new HistorySaveRequest(clientId, documentId, languageId));
 
             return ResponseEntity.ok()
                     .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename = \"" + file.getFilename() + "\"")
@@ -92,13 +96,13 @@ public class FileRestControllerImpl implements FileRestController {
     @Override
     @GetMapping(value = "/{entityId}", produces = JSON)
     public Response findById(@PathVariable Long entityId) {
-        return execute(() -> service.findById(new FileGetByIdRequest(entityId)));
+        return execute(() -> fileService.findById(new FileGetByIdRequest(entityId)));
     }
 
     @Override
     @GetMapping(value = "/free-languages/{documentId}", produces = JSON)
     public Response getFreeLanguages(@PathVariable Long documentId) {
-        return execute(() -> service.getFreeLanguages(new FileGetFreeLanguagesByIdRequest(documentId)));
+        return execute(() -> fileService.getFreeLanguages(new FileGetFreeLanguagesByIdRequest(documentId)));
     }
 
     @Override
@@ -106,7 +110,7 @@ public class FileRestControllerImpl implements FileRestController {
     public Response deleteByUrn(@RequestBody FileDeleteByUrnRequest rq) {
         return execute(() -> {
             try {
-                return service.deleteByUrn(rq);
+                return fileService.deleteByUrn(rq);
             } catch (IOException e) {
                 return createFrom(e);
             }
@@ -118,7 +122,7 @@ public class FileRestControllerImpl implements FileRestController {
     public Response deleteById(@PathVariable Long entityId) {
         return execute(() -> {
             try {
-                return service.deleteById(new FileDeleteByIdRequest(entityId));
+                return fileService.deleteById(new FileDeleteByIdRequest(entityId));
             } catch (IOException e) {
                 return createFrom(e);
             }

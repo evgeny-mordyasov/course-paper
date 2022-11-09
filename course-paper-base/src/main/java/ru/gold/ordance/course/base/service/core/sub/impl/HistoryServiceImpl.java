@@ -27,6 +27,11 @@ public class HistoryServiceImpl implements HistoryService {
     }
 
     @Override
+    public List<History> findByDocumentId(Long documentId) {
+        return repository.findByDocument_EntityId(documentId);
+    }
+
+    @Override
     public History save(History entity) {
         return repository.preserve(entity);
     }

@@ -2,7 +2,7 @@ package ru.gold.ordance.course.web.rest.impl;
 
 import org.springframework.web.bind.annotation.*;
 import ru.gold.ordance.course.web.api.Response;
-import ru.gold.ordance.course.web.api.history.HistorySaveRequest;
+import ru.gold.ordance.course.web.api.history.HistoryGetNumberOfDownloadsRequest;
 import ru.gold.ordance.course.web.rest.HistoryRestController;
 import ru.gold.ordance.course.web.service.web.history.HistoryWebService;
 
@@ -25,8 +25,8 @@ public class HistoryRestControllerImpl implements HistoryRestController {
     }
 
     @Override
-    @PostMapping(consumes = JSON, produces = JSON)
-    public Response save(@RequestBody HistorySaveRequest rq) {
-        return execute(() -> service.save(rq));
+    @GetMapping(value = "/{documentId}", produces = JSON)
+    public Response getNumberOfDownloadsByDocumentId(@PathVariable Long documentId) {
+        return execute(() -> service.getNumberOfDownloads(new HistoryGetNumberOfDownloadsRequest(documentId)));
     }
 }

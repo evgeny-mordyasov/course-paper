@@ -9,7 +9,7 @@ public interface FileRestController {
     Response findAll();
     Response save(MultipartFile file, Long languageId, Long classificationId);
     Response patch(MultipartFile file, Long documentId, Long languageId);
-    ResponseEntity<?> findResourceById(Long documentId, Long LanguageId);
+    ResponseEntity<?> findResource(Long clientId, Long documentId, Long LanguageId);
     Response findById(Long entityId);
     Response getFreeLanguages(Long documentId);
     Response deleteByUrn(FileDeleteByUrnRequest rq);

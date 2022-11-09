@@ -2,9 +2,7 @@ package ru.gold.ordance.course.web.service.web.history;
 
 import ru.gold.ordance.course.base.entity.History;
 import ru.gold.ordance.course.base.service.core.sub.HistoryService;
-import ru.gold.ordance.course.web.api.history.HistoryGetListResponse;
-import ru.gold.ordance.course.web.api.history.HistorySaveRequest;
-import ru.gold.ordance.course.web.api.history.HistorySaveResponse;
+import ru.gold.ordance.course.web.api.history.*;
 import ru.gold.ordance.course.web.mapper.HistoryMapper;
 
 import java.util.List;
@@ -35,5 +33,16 @@ public class HistoryWebServiceImpl implements HistoryWebService {
         History history = service.save(mapper.toHistory(rq));
 
         return HistorySaveResponse.success(mapper.fromHistory(history));
+    }
+
+    @Override
+    public HistoryGetNumberOfDownloadsResponse getNumberOfDownloads(HistoryGetNumberOfDownloadsRequest rq) {
+        List<History> histories = service.findByDocumentId(rq.getDocumentId());
+        int downloads = histories.stream()
+                .map(h -> h.getClient().getEntityId())
+                .collect(Collectors.toSet())
+                .size();
+
+        return HistoryGetNumberOfDownloadsResponse.success(downloads);
     }
 }

@@ -6,10 +6,13 @@ import ru.gold.ordance.course.base.entity.Document;
 import ru.gold.ordance.course.base.entity.History;
 import ru.gold.ordance.course.base.entity.Language;
 
+import java.util.List;
+
 import static ru.gold.ordance.course.base.persistence.PersistenceHelper.*;
 
 @Repository
 public interface HistoryRepository extends EntityRepository<History> {
+    List<History> findByDocument_EntityId(Long documentId);
 
     @Override
     default History preserve(History entity) {
