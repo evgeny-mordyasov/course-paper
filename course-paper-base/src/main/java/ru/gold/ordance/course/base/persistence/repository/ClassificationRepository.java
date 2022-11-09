@@ -8,7 +8,7 @@ import java.util.Optional;
 import static ru.gold.ordance.course.base.persistence.PersistenceHelper.getEntity;
 
 @Repository
-public interface ClassificationRepository extends EntityDuplicateRepository<Classification> {
+public interface ClassificationRepository extends NonDuplicateEntityRepository<Classification> {
     Optional<Classification> findByName(String name);
 
     default Classification getByName(String name) {

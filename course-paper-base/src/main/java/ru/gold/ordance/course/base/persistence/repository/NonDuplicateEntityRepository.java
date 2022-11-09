@@ -9,7 +9,7 @@ import java.util.function.Supplier;
 import static ru.gold.ordance.course.base.persistence.PersistenceHelper.throwExceptionIfDuplicate;
 
 @NoRepositoryBean
-public interface EntityDuplicateRepository<ENTITY extends AbstractEntity> extends EntityRepository<ENTITY> {
+public interface NonDuplicateEntityRepository<ENTITY extends AbstractEntity> extends EntityRepository<ENTITY> {
 
     default ENTITY preserve(ENTITY entity, Supplier<Optional<ENTITY>> entityFromStorage) {
         throwExceptionIfDuplicate(entity, entityFromStorage.get());

@@ -8,7 +8,7 @@ import java.util.Optional;
 import static ru.gold.ordance.course.base.persistence.PersistenceHelper.getEntity;
 
 @Repository
-public interface ClientRepository extends EntityDuplicateRepository<Client> {
+public interface ClientRepository extends NonDuplicateEntityRepository<Client> {
     Optional<Client> findByEmail(String email);
 
     default Client getByEmail(String email) {

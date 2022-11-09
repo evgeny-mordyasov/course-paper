@@ -8,7 +8,7 @@ import java.util.Optional;
 import static ru.gold.ordance.course.base.persistence.PersistenceHelper.getEntity;
 
 @Repository
-public interface LanguageRepository extends EntityDuplicateRepository<Language> {
+public interface LanguageRepository extends NonDuplicateEntityRepository<Language> {
     Optional<Language> findByName(String name);
 
     default Language getByName(String name) {
