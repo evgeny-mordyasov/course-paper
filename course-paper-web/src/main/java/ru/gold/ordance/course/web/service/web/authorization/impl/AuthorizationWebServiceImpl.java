@@ -49,9 +49,4 @@ public class AuthorizationWebServiceImpl implements AuthorizationWebService {
             throw new BannedException();
         }
     }
-
-    @Override
-    public AuthorizationTokenLifeResponse tokenLife(AuthorizationTokenLifeRequest rq) {
-        return AuthorizationTokenLifeResponse.success(provider.tokenIsValid(rq.getToken()));
-    }
 }

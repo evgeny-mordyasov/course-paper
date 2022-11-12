@@ -6,5 +6,4 @@ import ru.gold.ordance.course.web.api.authorization.*;
 public interface AuthorizationRestController {
     Response signUp(AuthorizationSignUpRequest rq);
     Response signIn(AuthorizationSignInRequest rq);
-    Response tokenLife(AuthorizationTokenLifeRequest rq);
 }

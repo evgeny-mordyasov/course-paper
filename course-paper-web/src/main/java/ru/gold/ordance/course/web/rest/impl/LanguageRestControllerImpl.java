@@ -1,6 +1,7 @@
 package ru.gold.ordance.course.web.rest.impl;
 
 import org.springframework.web.bind.annotation.*;
+import ru.gold.ordance.course.web.service.web.authorization.jwt.rule.Endpoint;
 import ru.gold.ordance.course.web.api.Response;
 import ru.gold.ordance.course.web.api.language.*;
 import ru.gold.ordance.course.web.rest.LanguageRestController;
@@ -10,7 +11,7 @@ import static ru.gold.ordance.course.web.utils.RequestUtils.JSON;
 import static ru.gold.ordance.course.web.utils.RequestUtils.execute;
 
 @RestController
-@RequestMapping("/api/v1/languages")
+@RequestMapping(Endpoint.Language.BASE_URL)
 public class LanguageRestControllerImpl implements LanguageRestController {
     private final LanguageWebService service;
 
@@ -25,7 +26,7 @@ public class LanguageRestControllerImpl implements LanguageRestController {
     }
 
     @Override
-    @GetMapping(value = "/{entityId}", produces = JSON)
+    @GetMapping(value = Endpoint.ENTITY_ID_VARIABLE, produces = JSON)
     public Response findById(@PathVariable Long entityId) {
         return execute(() ->
                 service.findById(new LanguageGetByIdRequest(entityId)));
@@ -51,7 +52,7 @@ public class LanguageRestControllerImpl implements LanguageRestController {
     }
 
     @Override
-    @DeleteMapping(value = "/{entityId}", produces = JSON)
+    @DeleteMapping(value = Endpoint.ENTITY_ID_VARIABLE, produces = JSON)
     public Response deleteById(@PathVariable Long entityId) {
         return execute(() ->
                 service.deleteById(new LanguageDeleteByIdRequest(entityId)));

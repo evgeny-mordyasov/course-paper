@@ -1,6 +1,7 @@
 package ru.gold.ordance.course.web.rest.impl;
 
 import org.springframework.web.bind.annotation.*;
+import ru.gold.ordance.course.web.service.web.authorization.jwt.rule.Endpoint;
 import ru.gold.ordance.course.web.api.Response;
 import ru.gold.ordance.course.web.api.history.HistoryGetNumberOfDownloadsRequest;
 import ru.gold.ordance.course.web.rest.HistoryRestController;
@@ -10,7 +11,7 @@ import static ru.gold.ordance.course.web.utils.RequestUtils.JSON;
 import static ru.gold.ordance.course.web.utils.RequestUtils.execute;
 
 @RestController
-@RequestMapping("/api/v1/history")
+@RequestMapping(Endpoint.History.BASE_URL)
 public class HistoryRestControllerImpl implements HistoryRestController {
     private final HistoryWebService service;
 
@@ -25,7 +26,7 @@ public class HistoryRestControllerImpl implements HistoryRestController {
     }
 
     @Override
-    @GetMapping(value = "/{documentId}", produces = JSON)
+    @GetMapping(value = Endpoint.History.DOCUMENT_ID_VARIABLE, produces = JSON)
     public Response getNumberOfDownloadsByDocumentId(@PathVariable Long documentId) {
         return execute(() -> service.getNumberOfDownloads(new HistoryGetNumberOfDownloadsRequest(documentId)));
     }

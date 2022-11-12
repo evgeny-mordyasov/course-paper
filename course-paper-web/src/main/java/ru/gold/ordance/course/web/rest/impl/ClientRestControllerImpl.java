@@ -1,6 +1,7 @@
 package ru.gold.ordance.course.web.rest.impl;
 
 import org.springframework.web.bind.annotation.*;
+import ru.gold.ordance.course.web.service.web.authorization.jwt.rule.Endpoint;
 import ru.gold.ordance.course.web.api.Response;
 import ru.gold.ordance.course.web.api.client.ClientDeleteByIdRequest;
 import ru.gold.ordance.course.web.api.client.ClientGetByEmailRequest;
@@ -13,7 +14,7 @@ import static ru.gold.ordance.course.web.utils.RequestUtils.JSON;
 import static ru.gold.ordance.course.web.utils.RequestUtils.execute;
 
 @RestController
-@RequestMapping("/api/v1/clients")
+@RequestMapping(Endpoint.Client.BASE_URL)
 public class ClientRestControllerImpl implements ClientRestController {
     private final ClientWebService service;
 
@@ -28,7 +29,7 @@ public class ClientRestControllerImpl implements ClientRestController {
     }
 
     @Override
-    @GetMapping(value = "/{entityId}", produces = JSON)
+    @GetMapping(value = Endpoint.ENTITY_ID_VARIABLE, produces = JSON)
     public Response findById(@PathVariable Long entityId) {
         return execute(() ->
                 service.findById(new ClientGetByIdRequest(entityId)));
@@ -48,7 +49,7 @@ public class ClientRestControllerImpl implements ClientRestController {
     }
 
     @Override
-    @DeleteMapping(value = "/{entityId}", produces = JSON)
+    @DeleteMapping(value = Endpoint.ENTITY_ID_VARIABLE, produces = JSON)
     public Response deleteById(@PathVariable Long entityId) {
         return execute(() -> service.deleteById(new ClientDeleteByIdRequest(entityId)));
     }
