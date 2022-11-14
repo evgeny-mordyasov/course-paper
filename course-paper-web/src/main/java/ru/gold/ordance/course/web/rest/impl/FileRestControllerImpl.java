@@ -16,7 +16,7 @@ import ru.gold.ordance.course.web.service.web.history.HistoryWebService;
 import java.io.IOException;
 import java.util.Optional;
 
-import static ru.gold.ordance.course.web.api.BaseErrorResponse.createFrom;
+import static ru.gold.ordance.course.web.api.BaseErrorResponse.handleException;
 import static ru.gold.ordance.course.web.utils.RequestUtils.JSON;
 import static ru.gold.ordance.course.web.utils.RequestUtils.execute;
 
@@ -52,7 +52,7 @@ public class FileRestControllerImpl implements FileRestController {
             try {
                 return fileService.save(rq);
             } catch (IOException e) {
-                return createFrom(e);
+                return handleException(e);
             }
         });
     }
@@ -72,7 +72,7 @@ public class FileRestControllerImpl implements FileRestController {
             try {
                 return fileService.patch(rq);
             } catch (IOException e) {
-                return createFrom(e);
+                return handleException(e);
             }
         });
     }
@@ -90,7 +90,7 @@ public class FileRestControllerImpl implements FileRestController {
                     .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename = \"" + file.getFilename() + "\"")
                     .body(file);
         } catch (Exception e) {
-            return ResponseEntity.of(Optional.of(createFrom(e)));
+            return ResponseEntity.of(Optional.of(handleException(e)));
         }
     }
 
@@ -113,7 +113,7 @@ public class FileRestControllerImpl implements FileRestController {
             try {
                 return fileService.deleteByUrn(rq);
             } catch (IOException e) {
-                return createFrom(e);
+                return handleException(e);
             }
         });
     }
@@ -125,7 +125,7 @@ public class FileRestControllerImpl implements FileRestController {
             try {
                 return fileService.deleteById(new FileDeleteByIdRequest(entityId));
             } catch (IOException e) {
-                return createFrom(e);
+                return handleException(e);
             }
         });
     }

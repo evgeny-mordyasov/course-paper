@@ -1,50 +1,20 @@
 package ru.gold.ordance.course.web.utils;
 
-import org.apache.logging.log4j.util.Strings;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import ru.gold.ordance.course.web.api.Request;
-import ru.gold.ordance.course.web.api.Response;
-import ru.gold.ordance.course.common.api.StatusCode;
 
 import static ru.gold.ordance.course.common.utils.StringWebLoggerUtils.getRequestTextFor;
 
+@Slf4j
 public final class WebLoggerUtils {
-    private static final Logger LOGGER = LoggerFactory.getLogger(WebLoggerUtils.class);
-
     private WebLoggerUtils() {
     }
 
     public static void loggingReceivedRequest(Request rq, String methodName) {
-        LOGGER.info(getRequestTextFor(methodName) + " request received: {}", rq);
+        log.info(getRequestTextFor(methodName) + " request received: {}", rq);
     }
 
     public static void loggingReceivedRequest(String methodName) {
-        LOGGER.info(getRequestTextFor(methodName) + " request received.");
-    }
-
-    public static void loggingSuccessResponse(Response rs) {
-        LOGGER.info(getErrorMessage(rs) + " response: {}", rs);
-    }
-
-    public static void loggingSuccessResponse(Response rs, Request rq) {
-        LOGGER.info(getErrorMessage(rs) + " response: {}, request: {}", rs, rq);
-    }
-
-    public static void loggingErrorResponse(Response rs, Exception e) {
-        loggingErrorResponseCommon(rs, null, e);
-    }
-
-    public static void loggingErrorResponse(Response rs, Request rq, Exception e) {
-        loggingErrorResponseCommon(rs, rq, e);
-    }
-
-    private static void loggingErrorResponseCommon(Response rs, Request rq, Exception e) {
-        LOGGER.info(getErrorMessage(rs) + " response: {}, request: {}", rs, rq,
-                rs.getStatus().getCode() == StatusCode.CALL_ERROR ? e : Strings.EMPTY);
-    }
-
-    private static String getErrorMessage(Response rs) {
-        return rs.getStatus().getDescription();
+        log.info(getRequestTextFor(methodName) + " request received.");
     }
 }

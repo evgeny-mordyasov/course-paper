@@ -15,7 +15,7 @@ public class BaseErrorResponse implements Response {
         this.status = status;
     }
 
-    public static BaseErrorResponse createFrom(Exception e) {
+    public static BaseErrorResponse handleException(Exception e) {
         if (e instanceof BaseException) {
             BaseException exc = (BaseException) e;
             return new BaseErrorResponse(new Status().withCode(exc.statusCode()).withDescription(exc.getMessage()));
