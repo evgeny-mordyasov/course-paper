@@ -4,6 +4,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.scrypt.SCryptPasswordEncoder;
 import ru.gold.ordance.course.base.persistence.spring.PersistenceConfiguration;
@@ -11,6 +13,8 @@ import ru.gold.ordance.course.base.persistence.repository.*;
 import ru.gold.ordance.course.base.service.core.sub.*;
 import ru.gold.ordance.course.base.service.core.sub.impl.*;
 import ru.gold.ordance.course.common.utils.PackageBeanContext;
+
+import java.util.Properties;
 
 @Configuration
 @ComponentScan(PackageBeanContext.HELPERS_PACKAGE)
@@ -45,6 +49,35 @@ public class ServiceConfiguration {
     @Bean
     public HistoryService documentReadingHistoryService(HistoryRepository repository) {
         return new HistoryServiceImpl(repository);
+    }
+
+    @Bean
+    public ConfirmationTokenService confirmationTokenService(ConfirmationTokenRepository repository) {
+        return new ConfirmationTokenServiceImpl(repository);
+    }
+
+    @Bean
+    public EmailSenderService emailSenderService(JavaMailSender javaMailSender) {
+        return new EmailSenderServiceImpl(javaMailSender);
+    }
+
+    @Bean
+    public JavaMailSender getJavaMailSender() {
+        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+        mailSender.setHost("smtp.gmail.com");
+        mailSender.setPort(465);
+        mailSender.setProtocol("smtps");
+
+        mailSender.setUsername("course.paper.asu@gmail.com");
+        mailSender.setPassword("uypoivxwoatjocsw");
+
+        Properties props = mailSender.getJavaMailProperties();
+        props.put("mail.transport.protocol", "smtps");
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.debug", "false");
+
+        return mailSender;
     }
 
     @Bean

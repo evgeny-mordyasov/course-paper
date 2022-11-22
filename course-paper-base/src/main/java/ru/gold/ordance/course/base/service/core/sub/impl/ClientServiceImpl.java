@@ -59,13 +59,15 @@ public class ClientServiceImpl implements ClientService {
                 .withPatronymic(client.getPatronymic())
                 .withPassword(getNewPasswordIfChanged(client, clientFromDb))
                 .withLastModifiedDate(LocalDateTime.now(ZoneOffset.UTC))
+                .withIsActive(client.getIsActive() == null ? clientFromDb.getIsActive() : client.getIsActive())
                 .build();
 
         return repository.update(updatedClient);
     }
 
     private String getNewPasswordIfChanged(Client newClient, Client fromDatabase) {
-        if (not(encoder.matches(newClient.getPassword(), fromDatabase.getPassword()))) {
+        if (not(encoder.matches(newClient.getPassword(), fromDatabase.getPassword()))
+                && not(newClient.getPassword().equals(fromDatabase.getPassword()))) {
             return encoder.encode(newClient.getPassword());
         }
 

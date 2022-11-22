@@ -6,7 +6,7 @@ public enum StatusCode {
     ENTITY_NOT_FOUND("The entity was not found."),
     VIOLATES_CONSTRAINT("The request violates the database constraint."),
     UNAUTHORIZED("The request contains invalid user data."),
-    BANNED("The user was banned."),
+    BANNED("The user is not activated."),
     CALL_ERROR("The request failed.");
 
     private final String errorMessage;

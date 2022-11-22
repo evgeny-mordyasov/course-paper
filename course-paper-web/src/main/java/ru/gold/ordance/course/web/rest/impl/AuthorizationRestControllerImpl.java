@@ -1,9 +1,7 @@
 package ru.gold.ordance.course.web.rest.impl;
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import ru.gold.ordance.course.web.api.authorization.AuthorizationConfirmAccountRequest;
 import ru.gold.ordance.course.web.service.web.authorization.jwt.rule.Endpoint;
 import ru.gold.ordance.course.web.api.Response;
 import ru.gold.ordance.course.web.api.authorization.AuthorizationSignInRequest;
@@ -33,5 +31,11 @@ public class AuthorizationRestControllerImpl implements AuthorizationRestControl
     @PostMapping(value = Endpoint.Authorization.SIGN_IN, consumes = JSON, produces = JSON)
     public Response signIn(@RequestBody AuthorizationSignInRequest rq) {
         return execute(() -> service.signIn(rq));
+    }
+
+    @Override
+    @GetMapping(value = Endpoint.Authorization.CONFIRM_ACCOUNT, params = "token", produces = JSON)
+    public Response confirmAccount(@RequestParam("token") String token) {
+        return execute(() -> service.confirmAccount(new AuthorizationConfirmAccountRequest(token)));
     }
 }

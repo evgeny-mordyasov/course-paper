@@ -2,6 +2,7 @@ package ru.gold.ordance.course.web.api;
 
 import lombok.Getter;
 import lombok.ToString;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import ru.gold.ordance.course.base.exception.BaseException;
 import ru.gold.ordance.course.common.api.Status;
 import ru.gold.ordance.course.common.api.StatusCode;
@@ -21,6 +22,6 @@ public class BaseErrorResponse implements Response {
             return new BaseErrorResponse(new Status().withCode(exc.statusCode()).withDescription(exc.getMessage()));
         }
 
-        return new BaseErrorResponse(new Status().withCode(StatusCode.CALL_ERROR).withDescription(e.toString()));
+        return new BaseErrorResponse(new Status().withCode(StatusCode.CALL_ERROR).withDescription(ExceptionUtils.getStackTrace(e)));
     }
 }

@@ -16,13 +16,11 @@ public class AuthorizationSignUpResponse implements Response {
 
     private final Status status;
     private final WebClient client;
-    private final String token;
 
-    public static AuthorizationSignUpResponse success(WebClient client, String token) {
+    public static AuthorizationSignUpResponse success(WebClient client) {
         return AuthorizationSignUpResponse.builder()
                 .status(new Status().withCode(StatusCode.SUCCESS))
                 .client(client)
-                .token(token)
                 .build();
     }
 }

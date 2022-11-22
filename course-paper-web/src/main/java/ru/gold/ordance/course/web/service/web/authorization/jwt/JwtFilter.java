@@ -10,10 +10,10 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
-public class JwtTokenFilter extends GenericFilterBean {
+public class JwtFilter extends GenericFilterBean {
     private final JwtProvider jwtProvider;
 
-    public JwtTokenFilter(JwtProvider jwtProvider) {
+    public JwtFilter(JwtProvider jwtProvider) {
         this.jwtProvider = jwtProvider;
     }
 

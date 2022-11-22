@@ -8,9 +8,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import ru.gold.ordance.course.base.service.core.sub.*;
 import ru.gold.ordance.course.web.mapper.*;
 import ru.gold.ordance.course.web.service.web.authorization.AuthorizationWebService;
+import ru.gold.ordance.course.web.service.web.authorization.EmailSenderWebService;
 import ru.gold.ordance.course.web.service.web.authorization.config.JwtConfig;
 import ru.gold.ordance.course.web.service.web.authorization.config.JwtConfigImpl;
 import ru.gold.ordance.course.web.service.web.authorization.impl.AuthorizationWebServiceImpl;
+import ru.gold.ordance.course.web.service.web.authorization.impl.EmailSenderWebServiceImpl;
 import ru.gold.ordance.course.web.service.web.authorization.jwt.JwtProvider;
 import ru.gold.ordance.course.web.service.web.authorization.userdetails.UserDetailsServiceImpl;
 import ru.gold.ordance.course.web.service.web.classification.ClassificationWebService;
@@ -69,11 +71,18 @@ public class WebServiceConfiguration {
     }
 
     @Bean
-    public AuthorizationWebService authorizationWebService(ClientService service,
+    public AuthorizationWebService authorizationWebService(ClientService clientService,
                                                            ClientMapper mapper,
                                                            AuthenticationManager manager,
-                                                           JwtProvider jwtProvider) {
-        return new AuthorizationWebServiceImpl(service, mapper, manager, jwtProvider);
+                                                           JwtProvider jwtProvider,
+                                                           EmailSenderWebService emailSenderService) {
+        return new AuthorizationWebServiceImpl(clientService, mapper, manager, jwtProvider, emailSenderService);
+    }
+
+    @Bean
+    public EmailSenderWebService emailSenderWebService(EmailSenderService emailSenderService,
+                                                       ConfirmationTokenService confirmationTokenService) {
+        return new EmailSenderWebServiceImpl(emailSenderService, confirmationTokenService);
     }
 
     @Bean
