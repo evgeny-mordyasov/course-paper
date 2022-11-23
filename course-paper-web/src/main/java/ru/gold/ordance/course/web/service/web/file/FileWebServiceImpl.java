@@ -38,7 +38,6 @@ public class FileWebServiceImpl implements FileWebService {
     }
 
     @Override
-    @Transactional
     public FileSaveResponse save(FileSaveRequest rq) throws IOException {
         File stored = fileSystemHelper.save(rq.getFile());
         return FileSaveResponse.success(databaseHelper.save(stored, rq.getClassificationId(), rq.getLanguageId()));
@@ -77,5 +76,16 @@ public class FileWebServiceImpl implements FileWebService {
         fileSystemHelper.deleteByUrn(urns);
 
         return FileDeleteResponse.success();
+    }
+
+    public List<String> getFilesByClassificationId(Long classificationId) {
+        return databaseHelper.getUrns(classificationId);
+    }
+
+    @Override
+    public void deleteSystemFiles(List<String> urns) {
+        try {
+            fileSystemHelper.deleteByUrn(urns);
+        } catch (Exception ignored) {}
     }
 }

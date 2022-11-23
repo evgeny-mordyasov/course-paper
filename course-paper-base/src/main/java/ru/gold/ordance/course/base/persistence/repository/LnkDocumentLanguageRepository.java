@@ -16,6 +16,7 @@ public interface LnkDocumentLanguageRepository extends EntityRepository<LnkDocum
     List<LnkDocumentLanguage> findByDocument_EntityId(Long documentId);
     Optional<LnkDocumentLanguage> findByUrn(String URN);
     Optional<LnkDocumentLanguage> findByDocument_EntityIdAndLanguage_EntityId(Long documentId, Long languageId);
+    List<LnkDocumentLanguage> findByDocument_Classification_EntityId(Long classificationId);
     Long countLnkDocumentLanguagesByDocument_EntityId(Long documentId);
 
     default List<LnkDocumentLanguage> getByDocumentId(Long documentId) {

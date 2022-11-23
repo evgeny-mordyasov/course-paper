@@ -53,6 +53,14 @@ public class FileDatabaseHelper {
         return fileMapper.toWebFile(document, documentLanguages);
     }
 
+    public List<String> getUrns(Long classificationId) {
+        List<LnkDocumentLanguage> list = lnkService.findByClassificationId(classificationId);
+
+        return list.stream()
+                .map(LnkDocumentLanguage::getUrn)
+                .collect(Collectors.toList());
+    }
+
     public String getUrn(Long documentId, Long languageId) {
         LnkDocumentLanguage lnk = lnkService.getByDocumentIdAndLanguageId(documentId, languageId);
 

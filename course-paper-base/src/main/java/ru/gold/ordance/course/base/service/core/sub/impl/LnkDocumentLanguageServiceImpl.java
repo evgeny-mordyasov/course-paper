@@ -49,6 +49,11 @@ public class LnkDocumentLanguageServiceImpl implements LnkDocumentLanguageServic
     }
 
     @Override
+    public List<LnkDocumentLanguage> findByClassificationId(Long classificationId) {
+        return repository.findByDocument_Classification_EntityId(classificationId);
+    }
+
+    @Override
     public Long getQuantityByDocumentId(Long documentId) {
         return repository.countLnkDocumentLanguagesByDocument_EntityId(documentId);
     }

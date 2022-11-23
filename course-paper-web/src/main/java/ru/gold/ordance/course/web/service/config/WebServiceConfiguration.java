@@ -3,7 +3,6 @@ package ru.gold.ordance.course.web.service.config;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import ru.gold.ordance.course.base.service.core.sub.*;
 import ru.gold.ordance.course.web.mapper.*;
@@ -37,8 +36,8 @@ public class WebServiceConfiguration {
     }
 
     @Bean
-    public ClassificationWebService classificationWebService(ClassificationService service, ClassificationMapper mapper) {
-        return new ClassificationWebServiceImpl(service, mapper);
+    public ClassificationWebService classificationWebService(ClassificationService service, ClassificationMapper mapper, FileWebService fileService) {
+        return new ClassificationWebServiceImpl(service, mapper, fileService);
     }
 
     @Bean

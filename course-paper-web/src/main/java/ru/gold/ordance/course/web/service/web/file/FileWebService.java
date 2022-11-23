@@ -1,12 +1,11 @@
 package ru.gold.ordance.course.web.service.web.file;
 
 import org.springframework.core.io.Resource;
-import org.springframework.web.bind.annotation.PathVariable;
-import ru.gold.ordance.course.web.api.Response;
 import ru.gold.ordance.course.web.api.file.*;
 import ru.gold.ordance.course.web.service.web.WebService;
 
 import java.io.IOException;
+import java.util.List;
 
 public interface FileWebService extends WebService {
     FileGetListResponse findAll();
@@ -17,4 +16,6 @@ public interface FileWebService extends WebService {
     Resource load(FileGetByIdAndLanguageIdRequest rq) throws Exception;
     FileDeleteResponse deleteByUrn(FileDeleteByUrnRequest rq) throws IOException;
     FileDeleteResponse deleteById(FileDeleteByIdRequest rq) throws IOException;
+    List<String> getFilesByClassificationId(Long classificationId);
+    void deleteSystemFiles(List<String> urns);
 }

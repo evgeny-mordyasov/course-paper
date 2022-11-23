@@ -1,6 +1,6 @@
 package ru.gold.ordance.course.common.utils;
 
-import java.util.UUID;
+import java.time.Instant;
 
 public final class FileUtils {
     private FileUtils() {
@@ -15,6 +15,6 @@ public final class FileUtils {
     }
 
     public static String randomFileName() {
-        return UUID.randomUUID().toString();
+        return "" + Instant.now().toEpochMilli();
     }
 }

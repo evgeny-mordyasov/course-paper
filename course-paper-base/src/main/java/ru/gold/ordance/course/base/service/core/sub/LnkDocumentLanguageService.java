@@ -11,6 +11,7 @@ public interface LnkDocumentLanguageService extends NotUpdatableEntityService<Ln
     LnkDocumentLanguage getByUrn(String URN);
     LnkDocumentLanguage getByDocumentIdAndLanguageId(Long documentId, Long languageId);
     Optional<LnkDocumentLanguage> findByDocumentIdAndLanguageId(Long documentId, Long languageId);
+    List<LnkDocumentLanguage> findByClassificationId(Long classificationId);
     Long getQuantityByDocumentId(Long documentId);
     void deleteByUrn(String URN);
 }
