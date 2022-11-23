@@ -43,8 +43,4 @@ public class Document implements AbstractEntity {
     @ManyToOne
     @JoinColumn(name = "CLASSIFICATION_ID")
     private final Classification classification;
-
-    @ToString.Exclude
-    @OneToMany(cascade = { CascadeType.REMOVE }, mappedBy = "document")
-    private Set<LnkDocumentLanguage> lnkDocumentLanguages;
 }
