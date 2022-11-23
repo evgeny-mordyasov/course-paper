@@ -16,7 +16,7 @@ public class EmailSenderServiceImpl implements EmailSenderService {
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setTo(token.getClient().getEmail());
         mailMessage.setSubject("Complete Registration!");
-        mailMessage.setFrom("course.paper.asu@gmail.com");
+        mailMessage.setFrom("course.paper.asu@mail.ru");
         mailMessage.setText("To confirm your account, please click here: "
                 + "http://localhost:8090/api/v1/authorizations/confirm-account?token=" + token.getToken());
 

@@ -64,12 +64,12 @@ public class ServiceConfiguration {
     @Bean
     public JavaMailSender getJavaMailSender() {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-        mailSender.setHost("smtp.gmail.com");
+        mailSender.setHost("smtp.mail.ru");
         mailSender.setPort(465);
         mailSender.setProtocol("smtps");
 
-        mailSender.setUsername("course.paper.asu@gmail.com");
-        mailSender.setPassword("uypoivxwoatjocsw");
+        mailSender.setUsername("course.paper.asu@mail.ru");
+        mailSender.setPassword("XZENJHxwW3hpf3i4DXnX");
 
         Properties props = mailSender.getJavaMailProperties();
         props.put("mail.transport.protocol", "smtps");

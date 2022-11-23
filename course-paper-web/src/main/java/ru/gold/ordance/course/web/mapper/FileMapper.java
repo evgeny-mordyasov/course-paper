@@ -2,7 +2,6 @@ package ru.gold.ordance.course.web.mapper;
 
 import ru.gold.ordance.course.base.entity.Document;
 import ru.gold.ordance.course.base.entity.LnkDocumentLanguage;
-import ru.gold.ordance.course.web.api.file.FileSaveRequest;
 import ru.gold.ordance.course.web.api.file.WebFile;
 import ru.gold.ordance.course.web.dto.File;
 
