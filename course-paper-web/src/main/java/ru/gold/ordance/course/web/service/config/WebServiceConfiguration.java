@@ -73,21 +73,15 @@ public class WebServiceConfiguration {
     @Bean
     public AuthorizationWebService authorizationWebService(ClientService clientService,
                                                            ClientMapper mapper,
-                                                           AuthenticationManager manager,
                                                            JwtProvider jwtProvider,
                                                            EmailSenderWebService emailSenderService) {
-        return new AuthorizationWebServiceImpl(clientService, mapper, manager, jwtProvider, emailSenderService);
+        return new AuthorizationWebServiceImpl(clientService, mapper, jwtProvider, emailSenderService);
     }
 
     @Bean
     public EmailSenderWebService emailSenderWebService(EmailSenderService emailSenderService,
                                                        ConfirmationTokenService confirmationTokenService) {
         return new EmailSenderWebServiceImpl(emailSenderService, confirmationTokenService);
-    }
-
-    @Bean
-    public JwtProvider jwtProvider(UserDetailsService service, JwtConfig config) {
-        return new JwtProvider(service, config);
     }
 
     @Bean

@@ -1,5 +1,6 @@
 package ru.gold.ordance.course.web.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -9,8 +10,10 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import ru.gold.ordance.course.base.entity.Role;
 import ru.gold.ordance.course.base.service.config.ServiceConfiguration;
+import ru.gold.ordance.course.web.service.web.authorization.config.JwtConfig;
 import ru.gold.ordance.course.web.service.web.authorization.jwt.rule.Authority;
 import ru.gold.ordance.course.web.service.web.authorization.jwt.rule.EndpointPermit;
 import ru.gold.ordance.course.web.service.web.authorization.jwt.JwtConfigurer;
@@ -23,10 +26,12 @@ import java.util.Arrays;
 @EnableWebSecurity
 @Import(ServiceConfiguration.class)
 public class WebConfiguration extends WebSecurityConfigurerAdapter {
-    private final JwtProvider jwtTokenProvider;
+    private final UserDetailsService service;
+    private final JwtConfig config;
 
-    public WebConfiguration(JwtProvider jwtTokenProvider) {
-        this.jwtTokenProvider = jwtTokenProvider;
+    public WebConfiguration(UserDetailsService service, JwtConfig config) {
+        this.service = service;
+        this.config = config;
     }
 
     @Bean
@@ -35,11 +40,16 @@ public class WebConfiguration extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
+    @Bean
+    public JwtProvider jwtProvider(UserDetailsService service, JwtConfig config, AuthenticationManager manager) {
+        return new JwtProvider(service, config, manager);
+    }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         configureBase(http);
         configureRequests(http);
-        http.apply(new JwtConfigurer(jwtTokenProvider));
+        http.apply(new JwtConfigurer(jwtProvider(service, config, authenticationManagerBean())));
     }
 
     private void configureBase(HttpSecurity http) throws Exception {

@@ -1,13 +1,10 @@
 package ru.gold.ordance.course.web.service.web.authorization.impl;
 
-import org.springframework.security.authentication.*;
 import org.springframework.transaction.annotation.Transactional;
 import ru.gold.ordance.course.base.entity.Client;
 import ru.gold.ordance.course.base.entity.ConfirmationToken;
 import ru.gold.ordance.course.base.service.core.sub.ClientService;
 import ru.gold.ordance.course.web.api.authorization.*;
-import ru.gold.ordance.course.web.exception.BannedException;
-import ru.gold.ordance.course.web.exception.UnauthorizedException;
 import ru.gold.ordance.course.web.mapper.ClientMapper;
 import ru.gold.ordance.course.web.service.web.authorization.AuthorizationWebService;
 import ru.gold.ordance.course.web.service.web.authorization.EmailSenderWebService;
@@ -16,18 +13,15 @@ import ru.gold.ordance.course.web.service.web.authorization.jwt.JwtProvider;
 public class AuthorizationWebServiceImpl implements AuthorizationWebService {
     private final ClientService clientService;
     private final ClientMapper mapper;
-    private final AuthenticationManager manager;
     private final JwtProvider provider;
     private final EmailSenderWebService emailSenderService;
 
     public AuthorizationWebServiceImpl(ClientService clientService,
                                        ClientMapper mapper,
-                                       AuthenticationManager manager,
                                        JwtProvider provider,
                                        EmailSenderWebService emailSenderService) {
         this.clientService = clientService;
         this.mapper = mapper;
-        this.manager = manager;
         this.provider = provider;
         this.emailSenderService = emailSenderService;
     }
@@ -43,18 +37,10 @@ public class AuthorizationWebServiceImpl implements AuthorizationWebService {
 
     @Override
     public AuthorizationSignInResponse signIn(AuthorizationSignInRequest rq) {
-        try {
-            manager.authenticate(
-                    new UsernamePasswordAuthenticationToken(rq.getEmail(), rq.getPassword()));
+        provider.authenticate(rq);
+        Client client = clientService.getByEmail(rq.getEmail());
 
-            Client client = clientService.getByEmail(rq.getEmail());
-
-            return AuthorizationSignInResponse.success(mapper.fromClient(client), provider.createToken(rq.getEmail()));
-        } catch (BadCredentialsException | InternalAuthenticationServiceException e) {
-            throw new UnauthorizedException();
-        } catch (LockedException e) {
-            throw new BannedException();
-        }
+        return AuthorizationSignInResponse.success(mapper.fromClient(client), provider.createToken(rq.getEmail()));
     }
 
     @Override

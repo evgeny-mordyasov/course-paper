@@ -1,6 +1,5 @@
 package ru.gold.ordance.course.web.service.web.authorization.impl;
 
-import org.springframework.scheduling.annotation.Async;
 import ru.gold.ordance.course.base.entity.Client;
 import ru.gold.ordance.course.base.entity.ConfirmationToken;
 import ru.gold.ordance.course.base.service.core.sub.ConfirmationTokenService;

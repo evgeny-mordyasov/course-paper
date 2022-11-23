@@ -2,10 +2,13 @@ package ru.gold.ordance.course.web.service.web.authorization.jwt;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import ru.gold.ordance.course.web.api.authorization.AuthorizationSignInRequest;
+import ru.gold.ordance.course.web.exception.BannedException;
+import ru.gold.ordance.course.web.exception.UnauthorizedException;
 import ru.gold.ordance.course.web.service.web.authorization.config.JwtConfig;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,10 +19,12 @@ public class JwtProvider {
 
     private final UserDetailsService service;
     private final JwtConfig jwtConfig;
+    private final AuthenticationManager manager;
 
-    public JwtProvider(UserDetailsService service, JwtConfig jwtConfig) {
+    public JwtProvider(UserDetailsService service, JwtConfig jwtConfig, AuthenticationManager manager) {
         this.service = service;
         this.jwtConfig = jwtConfig;
+        this.manager = manager;
     }
 
     public String createToken(String email) {
@@ -62,6 +67,18 @@ public class JwtProvider {
                     .isEnabled();
         } catch (Exception ignored) {
             return false;
+        }
+    }
+
+    public void authenticate(AuthorizationSignInRequest rq) {
+        try {
+            manager.authenticate(
+                    new UsernamePasswordAuthenticationToken(rq.getEmail(), rq.getPassword()));
+
+        } catch (BadCredentialsException | InternalAuthenticationServiceException e) {
+            throw new UnauthorizedException();
+        } catch (LockedException e) {
+            throw new BannedException();
         }
     }
 }
