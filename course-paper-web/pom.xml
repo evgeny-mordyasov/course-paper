@@ -18,6 +18,10 @@
             <groupId>ru.gold.ordance</groupId>
             <artifactId>course-paper-base</artifactId>
         </dependency>
+        <dependency>
+            <groupId>ru.gold.ordance</groupId>
+            <artifactId>course-paper-internal-api</artifactId>
+        </dependency>
         <!-- self modules -->
 
         <!-- spring -->
@@ -26,13 +30,6 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         <!-- spring -->
-
-        <!-- lombok -->
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-        </dependency>
-        <!-- lombok -->
 
         <!-- secondary -->
         <dependency>

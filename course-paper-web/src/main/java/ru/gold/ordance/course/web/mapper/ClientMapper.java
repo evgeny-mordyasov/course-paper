@@ -1,9 +1,9 @@
 package ru.gold.ordance.course.web.mapper;
 
+import ru.gold.ordance.course.internal.api.request.authorization.AuthorizationSignUpRequest;
+import ru.gold.ordance.course.internal.api.request.client.ClientUpdateRequest;
+import ru.gold.ordance.course.internal.api.request.client.WebClient;
 import ru.gold.ordance.course.persistence.entity.Client;
-import ru.gold.ordance.course.web.api.authorization.AuthorizationSignUpRequest;
-import ru.gold.ordance.course.web.api.client.ClientUpdateRequest;
-import ru.gold.ordance.course.web.api.client.WebClient;
 
 public interface ClientMapper {
     Client toClient(ClientUpdateRequest rq);

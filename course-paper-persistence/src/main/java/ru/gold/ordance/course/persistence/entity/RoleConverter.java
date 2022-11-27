@@ -1,5 +1,7 @@
 package ru.gold.ordance.course.persistence.entity;
 
+import ru.gold.ordance.course.common.constants.Role;
+
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 import java.util.stream.Stream;

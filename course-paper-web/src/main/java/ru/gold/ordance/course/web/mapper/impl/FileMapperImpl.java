@@ -1,24 +1,21 @@
 package ru.gold.ordance.course.web.mapper.impl;
 
+import ru.gold.ordance.course.internal.api.dto.File;
+import ru.gold.ordance.course.internal.api.request.classification.WebClassification;
+import ru.gold.ordance.course.internal.api.request.file.WebDocument;
+import ru.gold.ordance.course.internal.api.request.file.WebDocumentLanguage;
+import ru.gold.ordance.course.internal.api.request.file.WebFile;
+import ru.gold.ordance.course.internal.api.request.language.WebLanguage;
 import ru.gold.ordance.course.persistence.entity.Classification;
 import ru.gold.ordance.course.persistence.entity.Document;
 import ru.gold.ordance.course.persistence.entity.Language;
 import ru.gold.ordance.course.persistence.entity.LnkDocumentLanguage;
-import ru.gold.ordance.course.web.api.classification.WebClassification;
-import ru.gold.ordance.course.web.api.file.WebDocument;
-import ru.gold.ordance.course.web.api.file.WebDocumentLanguage;
-import ru.gold.ordance.course.web.api.file.WebFile;
-import ru.gold.ordance.course.web.api.language.WebLanguage;
-import ru.gold.ordance.course.web.dto.File;
 import ru.gold.ordance.course.web.mapper.FileMapper;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import static ru.gold.ordance.course.common.utils.FileUtils.getFileExtension;
-import static ru.gold.ordance.course.common.utils.FileUtils.getFileName;
 
 public class FileMapperImpl implements FileMapper {
     private static final String RESOURCE_URL = "http://localhost:8090/api/v1/files/resource?documentId=%s&languageId=%s";

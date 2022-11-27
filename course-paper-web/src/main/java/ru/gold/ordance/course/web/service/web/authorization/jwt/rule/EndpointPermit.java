@@ -1,12 +1,12 @@
 package ru.gold.ordance.course.web.service.web.authorization.jwt.rule;
 
-import ru.gold.ordance.course.persistence.entity.Role;
+import ru.gold.ordance.course.common.constants.Role;
 
 public enum EndpointPermit {
     ALL(new EndpointRule[] {
             EndpointRule.all(Endpoint.Authorization.BASE_URL),
             EndpointRule.all(Endpoint.History.BASE_URL)
-    }, Role.NONE),
+    }, Role.ANONYMOUS),
     ADMIN(new EndpointRule[] {
             EndpointRule.post(Endpoint.Classification.BASE_URL),
             EndpointRule.post(Endpoint.File.BASE_URL),

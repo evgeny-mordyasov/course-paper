@@ -5,10 +5,11 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import ru.gold.ordance.course.internal.api.dto.CustomMultipartFile;
+import ru.gold.ordance.course.internal.api.request.file.*;
+import ru.gold.ordance.course.internal.api.request.history.HistorySaveRequest;
 import ru.gold.ordance.course.web.service.web.authorization.jwt.rule.Endpoint;
-import ru.gold.ordance.course.web.api.Response;
-import ru.gold.ordance.course.web.api.file.*;
-import ru.gold.ordance.course.web.api.history.HistorySaveRequest;
+import ru.gold.ordance.course.internal.api.request.Response;
 import ru.gold.ordance.course.web.rest.FileRestController;
 import ru.gold.ordance.course.web.service.web.file.FileWebService;
 import ru.gold.ordance.course.web.service.web.history.HistoryWebService;
@@ -16,7 +17,7 @@ import ru.gold.ordance.course.web.service.web.history.HistoryWebService;
 import java.io.IOException;
 import java.util.Optional;
 
-import static ru.gold.ordance.course.web.api.BaseErrorResponse.handleException;
+import static ru.gold.ordance.course.internal.api.request.BaseErrorResponse.handleException;
 import static ru.gold.ordance.course.web.utils.RequestUtils.JSON;
 import static ru.gold.ordance.course.web.utils.RequestUtils.execute;
 
@@ -42,14 +43,19 @@ public class FileRestControllerImpl implements FileRestController {
     public Response save(@RequestParam("file") MultipartFile file,
                          @RequestParam("languageId") Long languageId,
                          @RequestParam("classificationId") Long classificationId) {
-        FileSaveRequest rq = FileSaveRequest.builder()
-                .file(file)
-                .languageId(languageId)
-                .classificationId(classificationId)
-                .build();
-
         return execute(() -> {
             try {
+                FileSaveRequest rq = FileSaveRequest.builder()
+                        .file(CustomMultipartFile.builder()
+                                .withOriginalFilename(file.getOriginalFilename())
+                                .withInputStream(file.getInputStream())
+                                .withIsEmpty(file.isEmpty())
+                                .withSize(file.getSize())
+                                .build())
+                        .languageId(languageId)
+                        .classificationId(classificationId)
+                        .build();
+
                 return fileService.save(rq);
             } catch (IOException e) {
                 return handleException(e);
@@ -62,14 +68,19 @@ public class FileRestControllerImpl implements FileRestController {
     public Response patch(@RequestParam("file") MultipartFile file,
                           @RequestParam("documentId") Long documentId,
                           @RequestParam("languageId") Long languageId) {
-        FilePatchRequest rq = FilePatchRequest.builder()
-                .file(file)
-                .documentId(documentId)
-                .languageId(languageId)
-                .build();
-
         return execute(() -> {
             try {
+                FilePatchRequest rq = FilePatchRequest.builder()
+                        .file(CustomMultipartFile.builder()
+                                .withOriginalFilename(file.getOriginalFilename())
+                                .withInputStream(file.getInputStream())
+                                .withIsEmpty(file.isEmpty())
+                                .withSize(file.getSize())
+                                .build())
+                        .documentId(documentId)
+                        .languageId(languageId)
+                        .build();
+
                 return fileService.patch(rq);
             } catch (IOException e) {
                 return handleException(e);

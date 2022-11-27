@@ -5,7 +5,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
-import ru.gold.ordance.course.web.api.Request;
+import ru.gold.ordance.course.internal.api.request.Request;
 
 import static ru.gold.ordance.course.web.utils.WebLoggerUtils.loggingReceivedRequest;
 

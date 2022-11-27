@@ -2,8 +2,8 @@ package ru.gold.ordance.course.web.service.web.file.helper;
 
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
-import org.springframework.web.multipart.MultipartFile;
-import ru.gold.ordance.course.web.dto.File;
+import ru.gold.ordance.course.internal.api.dto.CustomMultipartFile;
+import ru.gold.ordance.course.internal.api.dto.File;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -11,8 +11,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 import static ru.gold.ordance.course.common.utils.FileUtils.*;
 
@@ -23,7 +21,7 @@ public class FileSystemHelper {
         this.storagePath = storagePath;
     }
 
-    public File getFile(MultipartFile file) {
+    public File getFile(CustomMultipartFile file) {
         String fileName = randomFileName();
         String extension = getFileExtension(file.getOriginalFilename());
         String systemFullFileName = fileName + "." + extension;
@@ -36,7 +34,7 @@ public class FileSystemHelper {
                 .build();
     }
 
-    public void save(MultipartFile file, File stored) throws IOException {
+    public void save(CustomMultipartFile file, File stored) throws IOException {
         Files.copy(file.getInputStream(), Paths.get(stored.getUrn()));
     }
 

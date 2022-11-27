@@ -2,10 +2,10 @@ package ru.gold.ordance.course.web.service.web.authorization.impl;
 
 import org.springframework.transaction.annotation.Transactional;
 import ru.gold.ordance.course.common.exception.EntityNotFoundException;
+import ru.gold.ordance.course.internal.api.request.authorization.*;
 import ru.gold.ordance.course.persistence.entity.Client;
 import ru.gold.ordance.course.persistence.entity.ConfirmationToken;
 import ru.gold.ordance.course.base.service.core.sub.ClientService;
-import ru.gold.ordance.course.web.api.authorization.*;
 import ru.gold.ordance.course.web.mapper.ClientMapper;
 import ru.gold.ordance.course.web.service.web.authorization.AuthorizationWebService;
 import ru.gold.ordance.course.web.service.web.authorization.EmailSenderWebService;

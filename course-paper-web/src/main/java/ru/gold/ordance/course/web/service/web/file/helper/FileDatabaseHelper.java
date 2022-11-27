@@ -2,15 +2,15 @@ package ru.gold.ordance.course.web.service.web.file.helper;
 
 import one.util.streamex.StreamEx;
 import ru.gold.ordance.course.common.exception.EntityNotFoundException;
+import ru.gold.ordance.course.internal.api.dto.File;
+import ru.gold.ordance.course.internal.api.request.file.*;
+import ru.gold.ordance.course.internal.api.request.language.WebLanguage;
 import ru.gold.ordance.course.persistence.entity.Document;
 import ru.gold.ordance.course.persistence.entity.Language;
 import ru.gold.ordance.course.persistence.entity.LnkDocumentLanguage;
 import ru.gold.ordance.course.base.service.core.sub.DocumentService;
 import ru.gold.ordance.course.base.service.core.sub.LanguageService;
 import ru.gold.ordance.course.base.service.core.sub.LnkDocumentLanguageService;
-import ru.gold.ordance.course.web.api.file.*;
-import ru.gold.ordance.course.web.api.language.WebLanguage;
-import ru.gold.ordance.course.web.dto.File;
 import ru.gold.ordance.course.web.mapper.FileMapper;
 import ru.gold.ordance.course.web.mapper.LanguageMapper;
 

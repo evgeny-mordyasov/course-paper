@@ -1,6 +1,5 @@
 package ru.gold.ordance.course.web.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -11,7 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import ru.gold.ordance.course.persistence.entity.Role;
+import ru.gold.ordance.course.common.constants.Role;
 import ru.gold.ordance.course.base.service.config.ServiceConfiguration;
 import ru.gold.ordance.course.web.service.web.authorization.config.JwtConfig;
 import ru.gold.ordance.course.web.service.web.authorization.jwt.rule.Authority;
@@ -68,7 +67,7 @@ public class WebConfiguration extends WebSecurityConfigurerAdapter {
             setPermit(endpointPermit, rule -> {
                 var conf = resolveHttpMethod(configurer, rule);
 
-                if (endpointPermit.getRole().equals(Role.NONE)) {
+                if (endpointPermit.getRole().equals(Role.ANONYMOUS)) {
                     conf.permitAll();
                 } else {
                     conf.hasAuthority(endpointPermit.getRole().name());

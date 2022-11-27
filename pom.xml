@@ -23,6 +23,7 @@
         <module>course-paper-common</module>
         <module>course-paper-db-migration</module>
         <module>course-paper-persistence</module>
+        <module>course-paper-internal-api</module>
     </modules>
 
     <properties>
@@ -56,6 +57,11 @@
             <dependency>
                 <groupId>ru.gold.ordance</groupId>
                 <artifactId>course-paper-common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ru.gold.ordance</groupId>
+                <artifactId>course-paper-internal-api</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -104,7 +110,6 @@
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
                 <version>${lombok.version}</version>
-                <scope>provided</scope>
             </dependency>
             <!-- lombok -->
 

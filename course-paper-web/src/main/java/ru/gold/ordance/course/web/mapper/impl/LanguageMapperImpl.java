@@ -1,9 +1,9 @@
 package ru.gold.ordance.course.web.mapper.impl;
 
+import ru.gold.ordance.course.internal.api.request.language.LanguageSaveRequest;
+import ru.gold.ordance.course.internal.api.request.language.LanguageUpdateRequest;
+import ru.gold.ordance.course.internal.api.request.language.WebLanguage;
 import ru.gold.ordance.course.persistence.entity.Language;
-import ru.gold.ordance.course.web.api.language.LanguageSaveRequest;
-import ru.gold.ordance.course.web.api.language.LanguageUpdateRequest;
-import ru.gold.ordance.course.web.api.language.WebLanguage;
 import ru.gold.ordance.course.web.mapper.LanguageMapper;
 
 public class LanguageMapperImpl implements LanguageMapper {

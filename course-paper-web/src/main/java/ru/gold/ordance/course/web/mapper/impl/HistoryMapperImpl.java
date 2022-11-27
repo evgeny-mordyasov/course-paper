@@ -1,15 +1,15 @@
 package ru.gold.ordance.course.web.mapper.impl;
 
+import ru.gold.ordance.course.internal.api.request.classification.WebClassification;
+import ru.gold.ordance.course.internal.api.request.client.WebClient;
+import ru.gold.ordance.course.internal.api.request.file.WebDocument;
+import ru.gold.ordance.course.internal.api.request.history.HistorySaveRequest;
+import ru.gold.ordance.course.internal.api.request.history.WebHistory;
+import ru.gold.ordance.course.internal.api.request.language.WebLanguage;
 import ru.gold.ordance.course.persistence.entity.Client;
 import ru.gold.ordance.course.persistence.entity.Document;
 import ru.gold.ordance.course.persistence.entity.History;
 import ru.gold.ordance.course.persistence.entity.Language;
-import ru.gold.ordance.course.web.api.classification.WebClassification;
-import ru.gold.ordance.course.web.api.client.WebClient;
-import ru.gold.ordance.course.web.api.file.WebDocument;
-import ru.gold.ordance.course.web.api.history.HistorySaveRequest;
-import ru.gold.ordance.course.web.api.history.WebHistory;
-import ru.gold.ordance.course.web.api.language.WebLanguage;
 import ru.gold.ordance.course.web.mapper.HistoryMapper;
 
 public class HistoryMapperImpl implements HistoryMapper {

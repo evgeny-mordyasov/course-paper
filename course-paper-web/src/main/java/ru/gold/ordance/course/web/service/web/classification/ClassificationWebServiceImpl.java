@@ -1,11 +1,11 @@
 package ru.gold.ordance.course.web.service.web.classification;
 
 import org.springframework.transaction.annotation.Transactional;
+import ru.gold.ordance.course.internal.api.request.EmptyResponse;
+import ru.gold.ordance.course.internal.api.request.classification.*;
 import ru.gold.ordance.course.persistence.entity.Classification;
 import ru.gold.ordance.course.base.service.core.sub.ClassificationService;
-import ru.gold.ordance.course.web.api.EmptyResponse;
-import ru.gold.ordance.course.web.api.Response;
-import ru.gold.ordance.course.web.api.classification.*;
+import ru.gold.ordance.course.internal.api.request.Response;
 import ru.gold.ordance.course.web.mapper.ClassificationMapper;
 import ru.gold.ordance.course.web.service.web.file.FileWebService;
 

@@ -6,9 +6,9 @@ import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import ru.gold.ordance.course.web.api.authorization.AuthorizationSignInRequest;
-import ru.gold.ordance.course.web.exception.BannedException;
-import ru.gold.ordance.course.web.exception.UnauthorizedException;
+import ru.gold.ordance.course.common.exception.BannedException;
+import ru.gold.ordance.course.common.exception.UnauthorizedException;
+import ru.gold.ordance.course.internal.api.request.authorization.AuthorizationSignInRequest;
 import ru.gold.ordance.course.web.service.web.authorization.config.JwtConfig;
 
 import javax.servlet.http.HttpServletRequest;

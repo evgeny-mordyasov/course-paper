@@ -1,11 +1,11 @@
 package ru.gold.ordance.course.web.rest.impl;
 
 import org.springframework.web.bind.annotation.*;
-import ru.gold.ordance.course.web.api.authorization.AuthorizationConfirmAccountRequest;
+import ru.gold.ordance.course.internal.api.request.authorization.AuthorizationConfirmAccountRequest;
+import ru.gold.ordance.course.internal.api.request.authorization.AuthorizationSignInRequest;
+import ru.gold.ordance.course.internal.api.request.authorization.AuthorizationSignUpRequest;
 import ru.gold.ordance.course.web.service.web.authorization.jwt.rule.Endpoint;
-import ru.gold.ordance.course.web.api.Response;
-import ru.gold.ordance.course.web.api.authorization.AuthorizationSignInRequest;
-import ru.gold.ordance.course.web.api.authorization.AuthorizationSignUpRequest;
+import ru.gold.ordance.course.internal.api.request.Response;
 import ru.gold.ordance.course.web.rest.AuthorizationRestController;
 import ru.gold.ordance.course.web.service.web.authorization.AuthorizationWebService;
 

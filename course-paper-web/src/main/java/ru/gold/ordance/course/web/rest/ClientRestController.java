@@ -1,7 +1,7 @@
 package ru.gold.ordance.course.web.rest;
 
-import ru.gold.ordance.course.web.api.Response;
-import ru.gold.ordance.course.web.api.client.*;
+import ru.gold.ordance.course.internal.api.request.Response;
+import ru.gold.ordance.course.internal.api.request.client.ClientUpdateRequest;
 
 public interface ClientRestController {
     Response findAll();

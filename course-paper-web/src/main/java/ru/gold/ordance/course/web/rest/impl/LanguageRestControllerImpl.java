@@ -1,9 +1,9 @@
 package ru.gold.ordance.course.web.rest.impl;
 
 import org.springframework.web.bind.annotation.*;
+import ru.gold.ordance.course.internal.api.request.language.*;
 import ru.gold.ordance.course.web.service.web.authorization.jwt.rule.Endpoint;
-import ru.gold.ordance.course.web.api.Response;
-import ru.gold.ordance.course.web.api.language.*;
+import ru.gold.ordance.course.internal.api.request.Response;
 import ru.gold.ordance.course.web.rest.LanguageRestController;
 import ru.gold.ordance.course.web.service.web.language.LanguageWebService;
 

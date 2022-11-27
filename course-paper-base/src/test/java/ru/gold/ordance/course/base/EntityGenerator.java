@@ -1,5 +1,6 @@
 package ru.gold.ordance.course.base;
 
+import ru.gold.ordance.course.common.constants.Role;
 import ru.gold.ordance.course.persistence.entity.*;
 
 import static ru.gold.ordance.course.common.utils.TestUtils.randomString;
