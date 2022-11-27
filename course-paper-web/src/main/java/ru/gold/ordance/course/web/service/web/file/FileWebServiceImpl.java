@@ -92,6 +92,11 @@ public class FileWebServiceImpl implements FileWebService {
     }
 
     @Override
+    public FileGetListResponse getFilesByClassificationId(FileGetByClassificationIdRequest rq) {
+        return FileGetListResponse.success(databaseHelper.findByClassificationId(rq.getClassificationId()));
+    }
+
+    @Override
     public void deleteSystemFiles(List<String> urns) {
         try {
             fileSystemHelper.deleteByUrn(urns);

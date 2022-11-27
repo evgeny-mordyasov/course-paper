@@ -40,7 +40,12 @@ public class FileDatabaseHelper {
 
     public List<WebFile> findAll() {
         List<LnkDocumentLanguage> allFiles = lnkService.findAll();
-        var documentAndLanguages = StreamEx.of(allFiles)
+
+        return getFiles(allFiles);
+    }
+
+    private List<WebFile> getFiles(List<LnkDocumentLanguage> files) {
+        var documentAndLanguages = StreamEx.of(files)
                 .groupingBy(f -> f.getDocument().getEntityId())
                 .entrySet();
 
@@ -53,6 +58,12 @@ public class FileDatabaseHelper {
                 .orElseThrow(EntityNotFoundException::new);
 
         return fileMapper.toWebFile(document, documentLanguages);
+    }
+
+    public List<WebFile> findByClassificationId(Long classificationId) {
+        List<LnkDocumentLanguage> list = lnkService.findByClassificationId(classificationId);
+
+        return getFiles(list);
     }
 
     public List<String> getUrns(Long classificationId) {

@@ -17,5 +17,6 @@ public interface FileWebService extends WebService {
     FileDeleteResponse deleteByUrn(FileDeleteByUrnRequest rq) throws IOException;
     FileDeleteResponse deleteById(FileDeleteByIdRequest rq) throws IOException;
     List<String> getFilesByClassificationId(Long classificationId);
+    FileGetListResponse getFilesByClassificationId(FileGetByClassificationIdRequest rq);
     void deleteSystemFiles(List<String> urns);
 }

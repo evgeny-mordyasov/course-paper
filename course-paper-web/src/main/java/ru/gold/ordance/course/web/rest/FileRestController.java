@@ -11,6 +11,7 @@ public interface FileRestController {
     Response patch(MultipartFile file, Long documentId, Long languageId);
     ResponseEntity<?> findResource(Long clientId, Long documentId, Long LanguageId);
     Response findById(Long entityId);
+    Response findByClassificationId(Long classificationId);
     Response getFreeLanguages(Long documentId);
     Response deleteByUrn(FileDeleteByUrnRequest rq);
     Response deleteById(Long entityId);

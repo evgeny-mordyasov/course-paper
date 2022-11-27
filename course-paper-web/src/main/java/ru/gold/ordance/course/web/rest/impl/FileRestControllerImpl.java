@@ -112,6 +112,12 @@ public class FileRestControllerImpl implements FileRestController {
     }
 
     @Override
+    @GetMapping(params = "classificationId", produces = JSON)
+    public Response findByClassificationId(@RequestParam("classificationId") Long classificationId) {
+        return execute(() -> fileService.getFilesByClassificationId(new FileGetByClassificationIdRequest(classificationId)));
+    }
+
+    @Override
     @GetMapping(value = Endpoint.File.FREE_LANGUAGES, produces = JSON)
     public Response getFreeLanguages(@PathVariable Long documentId) {
         return execute(() -> fileService.getFreeLanguages(new FileGetFreeLanguagesByIdRequest(documentId)));
