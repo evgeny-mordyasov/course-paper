@@ -1,8 +1,11 @@
 package ru.gold.ordance.course.base.service.core.sub;
 
-import ru.gold.ordance.course.base.entity.Classification;
+
 import ru.gold.ordance.course.base.service.core.UpdatableEntityService;
+import ru.gold.ordance.course.persistence.entity.Classification;
+
+import java.util.Optional;
 
 public interface ClassificationService extends UpdatableEntityService<Classification> {
-    Classification getByName(String name);
+    Optional<Classification> findByName(String name);
 }

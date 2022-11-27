@@ -1,7 +1,7 @@
 package ru.gold.ordance.course.web.api.language;
 
 import lombok.*;
-import ru.gold.ordance.course.base.entity.Language;
+import ru.gold.ordance.course.persistence.entity.Language;
 import ru.gold.ordance.course.web.api.UpdateRequest;
 
 import static ru.gold.ordance.course.web.utils.ValidatorUtils.*;

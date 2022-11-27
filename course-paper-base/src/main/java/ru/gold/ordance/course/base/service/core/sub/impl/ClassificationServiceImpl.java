@@ -3,11 +3,12 @@ package ru.gold.ordance.course.base.service.core.sub.impl;
 import com.sun.istack.NotNull;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
-import ru.gold.ordance.course.base.entity.Classification;
-import ru.gold.ordance.course.base.persistence.repository.ClassificationRepository;
 import ru.gold.ordance.course.base.service.core.sub.ClassificationService;
+import ru.gold.ordance.course.persistence.entity.Classification;
+import ru.gold.ordance.course.persistence.repository.sub.ClassificationRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Transactional(isolation = Isolation.READ_COMMITTED)
 public class ClassificationServiceImpl implements ClassificationService {
@@ -23,13 +24,13 @@ public class ClassificationServiceImpl implements ClassificationService {
     }
 
     @Override
-    public Classification getByEntityId(@NotNull Long entityId) {
-        return repository.getByEntityId(entityId);
+    public Optional<Classification> findByEntityId(@NotNull Long entityId) {
+        return repository.findByEntityId(entityId);
     }
 
     @Override
-    public Classification getByName(@NotNull String name) {
-        return repository.getByName(name);
+    public Optional<Classification> findByName(@NotNull String name) {
+        return repository.findByName(name);
     }
 
     @Override

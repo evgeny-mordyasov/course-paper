@@ -14,12 +14,12 @@ public class FileGetEntityResponse implements Response {
     private static final long serialVersionUID = 1L;
 
     private final Status status;
-    private final WebFile file;
+    private final WebFile object;
 
     public static FileGetEntityResponse success(WebFile file) {
         return FileGetEntityResponse.builder()
                 .status(new Status().withCode(StatusCode.SUCCESS))
-                .file(file)
+                .object(file)
                 .build();
     }
 }

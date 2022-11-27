@@ -8,11 +8,11 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.scrypt.SCryptPasswordEncoder;
-import ru.gold.ordance.course.base.persistence.spring.PersistenceConfiguration;
-import ru.gold.ordance.course.base.persistence.repository.*;
 import ru.gold.ordance.course.base.service.core.sub.*;
 import ru.gold.ordance.course.base.service.core.sub.impl.*;
 import ru.gold.ordance.course.common.utils.PackageBeanContext;
+import ru.gold.ordance.course.persistence.repository.sub.*;
+import ru.gold.ordance.course.persistence.spring.PersistenceConfiguration;
 
 import java.util.Properties;
 
@@ -69,7 +69,7 @@ public class ServiceConfiguration {
         mailSender.setProtocol("smtps");
 
         mailSender.setUsername("course.paper.asu@mail.ru");
-        mailSender.setPassword("XZENJHxwW3hpf3i4DXnX");
+        mailSender.setPassword("vXX6Aas5ErCy9ndrTVPU");
 
         Properties props = mailSender.getJavaMailProperties();
         props.put("mail.transport.protocol", "smtps");

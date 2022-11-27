@@ -1,8 +1,11 @@
 package ru.gold.ordance.course.base.service.core.sub;
 
-import ru.gold.ordance.course.base.entity.Client;
+
 import ru.gold.ordance.course.base.service.core.UpdatableEntityService;
+import ru.gold.ordance.course.persistence.entity.Client;
+
+import java.util.Optional;
 
 public interface ClientService extends UpdatableEntityService<Client> {
-    Client getByEmail(String email);
+    Optional<Client> findByEmail(String email);
 }

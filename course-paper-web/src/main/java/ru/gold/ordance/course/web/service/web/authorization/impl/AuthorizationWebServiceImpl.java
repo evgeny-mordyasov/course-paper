@@ -1,8 +1,9 @@
 package ru.gold.ordance.course.web.service.web.authorization.impl;
 
 import org.springframework.transaction.annotation.Transactional;
-import ru.gold.ordance.course.base.entity.Client;
-import ru.gold.ordance.course.base.entity.ConfirmationToken;
+import ru.gold.ordance.course.common.exception.EntityNotFoundException;
+import ru.gold.ordance.course.persistence.entity.Client;
+import ru.gold.ordance.course.persistence.entity.ConfirmationToken;
 import ru.gold.ordance.course.base.service.core.sub.ClientService;
 import ru.gold.ordance.course.web.api.authorization.*;
 import ru.gold.ordance.course.web.mapper.ClientMapper;
@@ -38,7 +39,8 @@ public class AuthorizationWebServiceImpl implements AuthorizationWebService {
     @Override
     public AuthorizationSignInResponse signIn(AuthorizationSignInRequest rq) {
         provider.authenticate(rq);
-        Client client = clientService.getByEmail(rq.getEmail());
+        Client client = clientService.findByEmail(rq.getEmail())
+                .orElseThrow(EntityNotFoundException::new);
 
         return AuthorizationSignInResponse.success(mapper.fromClient(client), provider.createToken(rq.getEmail()));
     }

@@ -15,10 +15,6 @@ public final class TestUtils {
         return UUID.randomUUID().toString();
     }
 
-    public static String randomFullFileName() {
-        return String.format("%s.%s", randomString(), "txt");
-    }
-
     public static boolean not(boolean condition) {
         return !condition;
     }

@@ -1,10 +1,7 @@
 package ru.gold.ordance.course.base.service.core.sub;
 
-import ru.gold.ordance.course.base.entity.Document;
-import ru.gold.ordance.course.base.service.core.UpdatableEntityService;
+import ru.gold.ordance.course.base.service.core.NotUpdatableEntityService;
+import ru.gold.ordance.course.persistence.entity.Document;
 
-import java.util.List;
-
-public interface DocumentService extends UpdatableEntityService<Document> {
-    List<Document> findByName(String name);
+public interface DocumentService extends NotUpdatableEntityService<Document> {
 }

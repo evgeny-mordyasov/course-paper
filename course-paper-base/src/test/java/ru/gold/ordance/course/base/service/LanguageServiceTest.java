@@ -5,9 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ContextConfiguration;
 import ru.gold.ordance.course.base.TestConfiguration;
-import ru.gold.ordance.course.base.entity.Language;
-import ru.gold.ordance.course.base.exception.EntityNotFoundException;
-import ru.gold.ordance.course.base.persistence.repository.LanguageRepository;
+import ru.gold.ordance.course.persistence.entity.Language;
+import ru.gold.ordance.course.common.exception.EntityNotFoundException;
+import ru.gold.ordance.course.persistence.repository.sub.LanguageRepository;
 import ru.gold.ordance.course.base.service.core.sub.LanguageService;
 
 import java.util.List;
@@ -61,28 +61,36 @@ public class LanguageServiceTest {
     public void findById_notFound() {
         long fakeId = generateId();
 
-        assertThrows(EntityNotFoundException.class, () -> service.deleteByEntityId(fakeId));
+        Optional<Language> language = service.findByEntityId(fakeId);
+
+        assertTrue(language.isEmpty());
     }
 
     @Test
     public void findById_found() {
         Language saved = repository.preserve(createLanguage());
 
-        assertDoesNotThrow(() -> service.getByEntityId(saved.getEntityId()));
+        Optional<Language> language = service.findByEntityId(saved.getEntityId());
+
+        assertTrue(language.isPresent());
     }
 
     @Test
     public void findByName_notFound() {
         String fakeName = randomString();
 
-        assertThrows(EntityNotFoundException.class, () -> service.getByName(fakeName));
+        Optional<Language> language = service.findByName(fakeName);
+
+        assertTrue(language.isEmpty());
     }
 
     @Test
     public void findByName_found() {
         Language saved = repository.preserve(createLanguage());
 
-        assertDoesNotThrow(() -> service.getByName(saved.getName()));
+        Optional<Language> language = service.findByName(saved.getName());
+
+        assertTrue(language.isPresent());
     }
 
     @Test

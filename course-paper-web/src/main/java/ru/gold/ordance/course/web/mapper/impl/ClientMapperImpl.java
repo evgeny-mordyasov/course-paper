@@ -1,6 +1,6 @@
 package ru.gold.ordance.course.web.mapper.impl;
 
-import ru.gold.ordance.course.base.entity.Client;
+import ru.gold.ordance.course.persistence.entity.Client;
 import ru.gold.ordance.course.web.api.authorization.AuthorizationSignUpRequest;
 import ru.gold.ordance.course.web.api.client.ClientUpdateRequest;
 import ru.gold.ordance.course.web.api.client.WebClient;

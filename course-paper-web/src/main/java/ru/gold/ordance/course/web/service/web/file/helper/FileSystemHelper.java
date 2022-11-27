@@ -23,21 +23,21 @@ public class FileSystemHelper {
         this.storagePath = storagePath;
     }
 
-    public File save(MultipartFile file) throws IOException {
+    public File getFile(MultipartFile file) {
         String fileName = randomFileName();
         String extension = getFileExtension(file.getOriginalFilename());
         String systemFullFileName = fileName + "." + extension;
 
-        File stored = File.builder()
+        return File.builder()
                 .withUrn(storagePath + systemFullFileName)
                 .withFullFileName(file.getOriginalFilename())
                 .withFileName(getFileName(file.getOriginalFilename()))
                 .withExtension(extension)
                 .build();
+    }
 
+    public void save(MultipartFile file, File stored) throws IOException {
         Files.copy(file.getInputStream(), Paths.get(stored.getUrn()));
-
-        return stored;
     }
 
     public void deleteByUrn(String urn) throws IOException {

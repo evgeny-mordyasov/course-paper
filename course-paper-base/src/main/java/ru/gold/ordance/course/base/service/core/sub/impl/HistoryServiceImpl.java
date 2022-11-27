@@ -2,11 +2,12 @@ package ru.gold.ordance.course.base.service.core.sub.impl;
 
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
-import ru.gold.ordance.course.base.entity.History;
-import ru.gold.ordance.course.base.persistence.repository.HistoryRepository;
+import ru.gold.ordance.course.persistence.entity.History;
+import ru.gold.ordance.course.persistence.repository.sub.HistoryRepository;
 import ru.gold.ordance.course.base.service.core.sub.HistoryService;
 
 import java.util.List;
+import java.util.Optional;
 
 @Transactional(isolation = Isolation.READ_COMMITTED)
 public class HistoryServiceImpl implements HistoryService {
@@ -22,8 +23,8 @@ public class HistoryServiceImpl implements HistoryService {
     }
 
     @Override
-    public History getByEntityId(Long entityId) {
-        return repository.getByEntityId(entityId);
+    public Optional<History> findByEntityId(Long entityId) {
+        return repository.findByEntityId(entityId);
     }
 
     @Override

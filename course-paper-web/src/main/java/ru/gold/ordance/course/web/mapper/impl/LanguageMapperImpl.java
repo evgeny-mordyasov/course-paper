@@ -1,6 +1,6 @@
 package ru.gold.ordance.course.web.mapper.impl;
 
-import ru.gold.ordance.course.base.entity.Language;
+import ru.gold.ordance.course.persistence.entity.Language;
 import ru.gold.ordance.course.web.api.language.LanguageSaveRequest;
 import ru.gold.ordance.course.web.api.language.LanguageUpdateRequest;
 import ru.gold.ordance.course.web.api.language.WebLanguage;

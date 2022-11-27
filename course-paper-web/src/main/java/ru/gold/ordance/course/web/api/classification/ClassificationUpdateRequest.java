@@ -1,7 +1,6 @@
 package ru.gold.ordance.course.web.api.classification;
 
 import lombok.*;
-import ru.gold.ordance.course.base.entity.Classification;
 import ru.gold.ordance.course.web.api.UpdateRequest;
 
 import static ru.gold.ordance.course.web.utils.ValidatorUtils.*;

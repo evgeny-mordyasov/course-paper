@@ -1,7 +1,7 @@
 package ru.gold.ordance.course.web.api.client;
 
 import lombok.*;
-import ru.gold.ordance.course.base.entity.Role;
+import ru.gold.ordance.course.persistence.entity.Role;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;

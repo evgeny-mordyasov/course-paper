@@ -11,7 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import ru.gold.ordance.course.base.entity.Role;
+import ru.gold.ordance.course.persistence.entity.Role;
 import ru.gold.ordance.course.base.service.config.ServiceConfiguration;
 import ru.gold.ordance.course.web.service.web.authorization.config.JwtConfig;
 import ru.gold.ordance.course.web.service.web.authorization.jwt.rule.Authority;

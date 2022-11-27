@@ -1,9 +1,9 @@
 package ru.gold.ordance.course.web.mapper.impl;
 
-import ru.gold.ordance.course.base.entity.Client;
-import ru.gold.ordance.course.base.entity.Document;
-import ru.gold.ordance.course.base.entity.History;
-import ru.gold.ordance.course.base.entity.Language;
+import ru.gold.ordance.course.persistence.entity.Client;
+import ru.gold.ordance.course.persistence.entity.Document;
+import ru.gold.ordance.course.persistence.entity.History;
+import ru.gold.ordance.course.persistence.entity.Language;
 import ru.gold.ordance.course.web.api.classification.WebClassification;
 import ru.gold.ordance.course.web.api.client.WebClient;
 import ru.gold.ordance.course.web.api.file.WebDocument;

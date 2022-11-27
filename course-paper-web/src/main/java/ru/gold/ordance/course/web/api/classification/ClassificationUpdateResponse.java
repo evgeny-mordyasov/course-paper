@@ -14,12 +14,12 @@ public class ClassificationUpdateResponse implements Response {
     private static final long serialVersionUID = 1L;
 
     private final Status status;
-    private final WebClassification classification;
+    private final WebClassification object;
 
     public static ClassificationUpdateResponse success(WebClassification classification) {
         return ClassificationUpdateResponse.builder()
                 .status(new Status().withCode(StatusCode.SUCCESS))
-                .classification(classification)
+                .object(classification)
                 .build();
     }
 }

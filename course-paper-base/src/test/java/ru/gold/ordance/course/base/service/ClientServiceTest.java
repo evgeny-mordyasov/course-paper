@@ -6,9 +6,9 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ContextConfiguration;
 import ru.gold.ordance.course.base.TestConfiguration;
-import ru.gold.ordance.course.base.entity.Client;
-import ru.gold.ordance.course.base.exception.EntityNotFoundException;
-import ru.gold.ordance.course.base.persistence.repository.ClientRepository;
+import ru.gold.ordance.course.persistence.entity.Client;
+import ru.gold.ordance.course.common.exception.EntityNotFoundException;
+import ru.gold.ordance.course.persistence.repository.sub.ClientRepository;
 import ru.gold.ordance.course.base.service.core.sub.ClientService;
 
 import java.util.List;
@@ -65,28 +65,36 @@ public class ClientServiceTest {
     public void findById_notFound() {
         long fakeId = generateId();
 
-        assertThrows(EntityNotFoundException.class, () -> service.deleteByEntityId(fakeId));
+        Optional<Client> client = service.findByEntityId(fakeId);
+
+        assertTrue(client.isEmpty());
     }
 
     @Test
     public void findById_found() {
         Client saved = repository.preserve(createClient());
 
-        assertDoesNotThrow(() -> service.getByEntityId(saved.getEntityId()));
+        Optional<Client> client = service.findByEntityId(saved.getEntityId());
+
+        assertTrue(client.isPresent());
     }
 
     @Test
     public void findByEmail_notFound() {
         String fakeEmail = randomString();
 
-        assertThrows(EntityNotFoundException.class, () -> service.getByEmail(fakeEmail));
+        Optional<Client> client = service.findByEmail(fakeEmail);
+
+        assertTrue(client.isEmpty());
     }
 
     @Test
     public void findByEmail_found() {
         Client saved = repository.preserve(createClient());
 
-        assertDoesNotThrow(() -> service.getByEmail(saved.getEmail()));
+        Optional<Client> client = service.findByEmail(saved.getEmail());
+
+        assertTrue(client.isPresent());
     }
 
     @Test

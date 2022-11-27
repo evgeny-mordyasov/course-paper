@@ -7,6 +7,10 @@ public class Status {
     public Status() {
     }
 
+    public Status(StatusCode code) {
+        this.code = code;
+    }
+
     public StatusCode getCode() {
         return this.code;
     }

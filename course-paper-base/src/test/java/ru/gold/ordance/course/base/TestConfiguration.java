@@ -4,13 +4,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.scrypt.SCryptPasswordEncoder;
-import ru.gold.ordance.course.base.persistence.PersistenceHelper;
-import ru.gold.ordance.course.base.persistence.repository.*;
 import ru.gold.ordance.course.base.service.core.sub.*;
 import ru.gold.ordance.course.base.service.core.sub.impl.*;
-import ru.gold.ordance.course.base.spring.annotation.JpaContext;
-
-import javax.persistence.EntityManager;
+import ru.gold.ordance.course.persistence.repository.sub.*;
+import ru.gold.ordance.course.persistence.spring.annotation.JpaContext;
 
 @JpaContext
 @Configuration
@@ -39,11 +36,6 @@ public class TestConfiguration {
     @Bean
     public LnkDocumentLanguageService lnkDocumentLanguageService(LnkDocumentLanguageRepository repository) {
         return new LnkDocumentLanguageServiceImpl(repository);
-    }
-
-    @Bean
-    public PersistenceHelper persistenceHelper(EntityManager entityManager) {
-        return new PersistenceHelper(entityManager);
     }
 
     @Bean

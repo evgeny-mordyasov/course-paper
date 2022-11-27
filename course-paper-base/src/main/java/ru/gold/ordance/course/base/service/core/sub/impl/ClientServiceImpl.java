@@ -4,13 +4,15 @@ import com.sun.istack.NotNull;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
-import ru.gold.ordance.course.base.entity.Client;
-import ru.gold.ordance.course.base.persistence.repository.ClientRepository;
 import ru.gold.ordance.course.base.service.core.sub.ClientService;
+import ru.gold.ordance.course.common.exception.EntityNotFoundException;
+import ru.gold.ordance.course.persistence.entity.Client;
+import ru.gold.ordance.course.persistence.repository.sub.ClientRepository;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.List;
+import java.util.Optional;
 
 import static ru.gold.ordance.course.common.utils.TestUtils.not;
 
@@ -31,13 +33,13 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public Client getByEntityId(@NotNull Long entityId) {
-        return repository.getByEntityId(entityId);
+    public Optional<Client> findByEntityId(@NotNull Long entityId) {
+        return repository.findByEntityId(entityId);
     }
 
     @Override
-    public Client getByEmail(@NotNull String email) {
-        return repository.getByEmail(email);
+    public Optional<Client> findByEmail(@NotNull String email) {
+        return repository.findByEmail(email);
     }
 
     @Override
@@ -51,7 +53,8 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public Client update(@NotNull Client client) {
-        Client clientFromDb = repository.getByEntityId(client.getEntityId());
+        Client clientFromDb = repository.findByEntityId(client.getEntityId())
+                .orElseThrow(EntityNotFoundException::new);
 
         Client updatedClient = clientFromDb.toBuilder()
                 .withSurname(client.getSurname())
@@ -76,7 +79,9 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public void deleteByEntityId(@NotNull Long entityId) {
-        Client clientFromDb = repository.getByEntityId(entityId);
+        Client clientFromDb = repository.findByEntityId(entityId)
+                .orElseThrow(EntityNotFoundException::new);
+
         Client updatedClient = clientFromDb.toBuilder()
                 .withLastModifiedDate(LocalDateTime.now(ZoneOffset.UTC))
                 .withIsActive(false)

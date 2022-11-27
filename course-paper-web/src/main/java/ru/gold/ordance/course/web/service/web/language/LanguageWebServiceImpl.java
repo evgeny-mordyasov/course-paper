@@ -1,11 +1,14 @@
 package ru.gold.ordance.course.web.service.web.language;
 
-import ru.gold.ordance.course.base.entity.Language;
+import ru.gold.ordance.course.persistence.entity.Language;
 import ru.gold.ordance.course.base.service.core.sub.LanguageService;
+import ru.gold.ordance.course.web.api.EmptyResponse;
+import ru.gold.ordance.course.web.api.Response;
 import ru.gold.ordance.course.web.api.language.*;
 import ru.gold.ordance.course.web.mapper.LanguageMapper;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class LanguageWebServiceImpl implements LanguageWebService {
@@ -28,17 +31,17 @@ public class LanguageWebServiceImpl implements LanguageWebService {
     }
 
     @Override
-    public LanguageGetEntityResponse findById(LanguageGetByIdRequest rq) {
-        Language foundLanguage = service.getByEntityId(rq.getEntityId());
+    public Response findById(LanguageGetByIdRequest rq) {
+        Optional<Language> foundLanguage = service.findByEntityId(rq.getEntityId());
 
-        return search(foundLanguage);
+        return process(foundLanguage);
     }
 
     @Override
-    public LanguageGetEntityResponse findByName(LanguageGetByNameRequest rq) {
-        Language foundLanguage = service.getByName(rq.getName());
+    public Response findByName(LanguageGetByNameRequest rq) {
+        Optional<Language> foundLanguage = service.findByName(rq.getName());
 
-        return search(foundLanguage);
+        return process(foundLanguage);
     }
 
     @Override
@@ -62,7 +65,9 @@ public class LanguageWebServiceImpl implements LanguageWebService {
         return LanguageDeleteResponse.success();
     }
 
-    private LanguageGetEntityResponse search(Language language) {
-        return LanguageGetEntityResponse.success(mapper.fromLanguage(language));
+    private Response process(Optional<Language> language) {
+        return language.isPresent()
+                ? LanguageGetEntityResponse.success(mapper.fromLanguage(language.get()))
+                : new EmptyResponse();
     }
 }

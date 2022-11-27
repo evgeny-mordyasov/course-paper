@@ -14,12 +14,12 @@ public class LanguageGetEntityResponse implements Response {
     private static final long serialVersionUID = 1L;
 
     private final Status status;
-    private final WebLanguage language;
+    private final WebLanguage object;
 
     public static LanguageGetEntityResponse success(WebLanguage language) {
         return LanguageGetEntityResponse.builder()
                 .status(new Status().withCode(StatusCode.SUCCESS))
-                .language(language)
+                .object(language)
                 .build();
     }
 }

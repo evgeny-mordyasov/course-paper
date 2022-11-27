@@ -1,13 +1,16 @@
 package ru.gold.ordance.course.web.service.web.classification;
 
 import org.springframework.transaction.annotation.Transactional;
-import ru.gold.ordance.course.base.entity.Classification;
+import ru.gold.ordance.course.persistence.entity.Classification;
 import ru.gold.ordance.course.base.service.core.sub.ClassificationService;
+import ru.gold.ordance.course.web.api.EmptyResponse;
+import ru.gold.ordance.course.web.api.Response;
 import ru.gold.ordance.course.web.api.classification.*;
 import ru.gold.ordance.course.web.mapper.ClassificationMapper;
 import ru.gold.ordance.course.web.service.web.file.FileWebService;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class ClassificationWebServiceImpl implements ClassificationWebService {
@@ -32,17 +35,17 @@ public class ClassificationWebServiceImpl implements ClassificationWebService {
     }
 
     @Override
-    public ClassificationGetEntityResponse findById(ClassificationGetByIdRequest rq) {
-        Classification foundClassification = service.getByEntityId(rq.getEntityId());
+    public Response findById(ClassificationGetByIdRequest rq) {
+        Optional<Classification> foundClassification = service.findByEntityId(rq.getEntityId());
 
-        return search(foundClassification);
+        return process(foundClassification);
     }
 
     @Override
-    public ClassificationGetEntityResponse findByName(ClassificationGetByNameRequest rq) {
-        Classification foundClassification = service.getByName(rq.getName());
+    public Response findByName(ClassificationGetByNameRequest rq) {
+        Optional<Classification> foundClassification = service.findByName(rq.getName());
 
-        return search(foundClassification);
+        return process(foundClassification);
     }
 
     @Override
@@ -70,7 +73,9 @@ public class ClassificationWebServiceImpl implements ClassificationWebService {
         return ClassificationDeleteResponse.success();
     }
 
-    private ClassificationGetEntityResponse search(Classification classification) {
-        return ClassificationGetEntityResponse.success(mapper.fromClassification(classification));
+    private Response process(Optional<Classification> classification) {
+        return classification.isPresent()
+                ? ClassificationGetEntityResponse.success(mapper.fromClassification(classification.get()))
+                : new EmptyResponse();
     }
 }

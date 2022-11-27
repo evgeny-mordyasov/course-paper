@@ -1,6 +1,6 @@
 package ru.gold.ordance.course.web.service.web.history;
 
-import ru.gold.ordance.course.base.entity.History;
+import ru.gold.ordance.course.persistence.entity.History;
 import ru.gold.ordance.course.base.service.core.sub.HistoryService;
 import ru.gold.ordance.course.web.api.history.*;
 import ru.gold.ordance.course.web.mapper.HistoryMapper;

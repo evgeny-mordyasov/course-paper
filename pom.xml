@@ -22,6 +22,7 @@
         <module>course-paper-web</module>
         <module>course-paper-common</module>
         <module>course-paper-db-migration</module>
+        <module>course-paper-persistence</module>
     </modules>
 
     <properties>
@@ -55,6 +56,11 @@
             <dependency>
                 <groupId>ru.gold.ordance</groupId>
                 <artifactId>course-paper-common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ru.gold.ordance</groupId>
+                <artifactId>course-paper-persistence</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

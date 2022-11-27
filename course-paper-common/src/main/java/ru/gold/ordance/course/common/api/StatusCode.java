@@ -3,7 +3,7 @@ package ru.gold.ordance.course.common.api;
 public enum StatusCode {
     SUCCESS("The request completed."),
     INVALID_RQ("The request validation failed."),
-    ENTITY_NOT_FOUND("The entity was not found."),
+    ENTITY_NOT_FOUND("The ID not found in the database."),
     VIOLATES_CONSTRAINT("The request violates the database constraint."),
     UNAUTHORIZED("The request contains invalid user data."),
     BANNED("The user is not activated."),

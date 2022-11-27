@@ -1,9 +1,9 @@
 package ru.gold.ordance.course.web.mapper.impl;
 
-import ru.gold.ordance.course.base.entity.Classification;
-import ru.gold.ordance.course.base.entity.Document;
-import ru.gold.ordance.course.base.entity.Language;
-import ru.gold.ordance.course.base.entity.LnkDocumentLanguage;
+import ru.gold.ordance.course.persistence.entity.Classification;
+import ru.gold.ordance.course.persistence.entity.Document;
+import ru.gold.ordance.course.persistence.entity.Language;
+import ru.gold.ordance.course.persistence.entity.LnkDocumentLanguage;
 import ru.gold.ordance.course.web.api.classification.WebClassification;
 import ru.gold.ordance.course.web.api.file.WebDocument;
 import ru.gold.ordance.course.web.api.file.WebDocumentLanguage;
@@ -36,10 +36,27 @@ public class FileMapperImpl implements FileMapper {
     }
 
     @Override
+    public LnkDocumentLanguage toLnk(Document document, Long languageId, String urn) {
+        return LnkDocumentLanguage.builder()
+                .withDocument(Document.builder()
+                        .withEntityId(document.getEntityId())
+                        .withClassification(Classification.builder()
+                                .withEntityId(document.getClassification().getEntityId())
+                                .build())
+                        .build())
+                .withLanguage(Language.builder()
+                        .withEntityId(languageId)
+                        .build())
+                .withUrn(urn)
+                .build();
+    }
+
+    @Override
     public LnkDocumentLanguage toLnk(Long documentId, Long languageId, String urn) {
         return LnkDocumentLanguage.builder()
                 .withDocument(Document.builder()
                         .withEntityId(documentId)
+                        .withClassification(Classification.builder().build())
                         .build())
                 .withLanguage(Language.builder()
                         .withEntityId(languageId)

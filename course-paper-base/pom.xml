@@ -18,6 +18,10 @@
             <groupId>ru.gold.ordance</groupId>
             <artifactId>course-paper-common</artifactId>
         </dependency>
+        <dependency>
+            <groupId>ru.gold.ordance</groupId>
+            <artifactId>course-paper-persistence</artifactId>
+        </dependency>
         <!-- self modules -->
 
         <!-- spring -->

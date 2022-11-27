@@ -14,12 +14,12 @@ public class ClassificationGetEntityResponse implements Response {
     private static final long serialVersionUID = 1L;
 
     private final Status status;
-    private final WebClassification classification;
+    private final WebClassification object;
 
     public static ClassificationGetEntityResponse success(WebClassification classification) {
         return ClassificationGetEntityResponse.builder()
                 .status(new Status().withCode(StatusCode.SUCCESS))
-                .classification(classification)
+                .object(classification)
                 .build();
     }
 }

@@ -3,8 +3,8 @@ package ru.gold.ordance.course.base.service.core.sub.impl;
 import com.sun.istack.NotNull;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
-import ru.gold.ordance.course.base.entity.LnkDocumentLanguage;
-import ru.gold.ordance.course.base.persistence.repository.LnkDocumentLanguageRepository;
+import ru.gold.ordance.course.persistence.entity.LnkDocumentLanguage;
+import ru.gold.ordance.course.persistence.repository.sub.LnkDocumentLanguageRepository;
 import ru.gold.ordance.course.base.service.core.sub.LnkDocumentLanguageService;
 
 import java.util.List;
@@ -24,23 +24,18 @@ public class LnkDocumentLanguageServiceImpl implements LnkDocumentLanguageServic
     }
 
     @Override
-    public LnkDocumentLanguage getByEntityId(@NotNull Long entityId) {
-        return repository.getByEntityId(entityId);
+    public Optional<LnkDocumentLanguage> findByEntityId(@NotNull Long entityId) {
+        return repository.findByEntityId(entityId);
     }
 
     @Override
-    public List<LnkDocumentLanguage> getByDocumentId(Long documentId) {
-        return repository.getByDocumentId(documentId);
+    public List<LnkDocumentLanguage> findByDocumentId(Long documentId) {
+        return repository.findByDocument_EntityId(documentId);
     }
 
     @Override
-    public LnkDocumentLanguage getByUrn(@NotNull String URN) {
-        return repository.getByUrn(URN);
-    }
-
-    @Override
-    public LnkDocumentLanguage getByDocumentIdAndLanguageId(Long documentId, Long languageId) {
-        return repository.getByDocumentIdAndLanguageId(documentId, languageId);
+    public Optional<LnkDocumentLanguage> findByUrn(@NotNull String URN) {
+        return repository.findByUrn(URN);
     }
 
     @Override

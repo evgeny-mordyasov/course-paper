@@ -3,11 +3,12 @@ package ru.gold.ordance.course.base.service.core.sub.impl;
 import com.sun.istack.NotNull;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
-import ru.gold.ordance.course.base.entity.Document;
-import ru.gold.ordance.course.base.persistence.repository.DocumentRepository;
 import ru.gold.ordance.course.base.service.core.sub.DocumentService;
+import ru.gold.ordance.course.persistence.entity.Document;
+import ru.gold.ordance.course.persistence.repository.sub.DocumentRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Transactional(isolation = Isolation.READ_COMMITTED)
 public class DocumentServiceImpl implements DocumentService {
@@ -23,23 +24,13 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     @Override
-    public Document getByEntityId(@NotNull Long entityId) {
-        return repository.getByEntityId(entityId);
-    }
-
-    @Override
-    public List<Document> findByName(@NotNull String name) {
-        return repository.findAllByName(name);
+    public Optional<Document> findByEntityId(@NotNull Long entityId) {
+        return repository.findByEntityId(entityId);
     }
 
     @Override
     public Document save(@NotNull Document document) {
         return repository.preserve(document);
-    }
-
-    @Override
-    public Document update(@NotNull Document document) {
-        return repository.update(document);
     }
 
     @Override

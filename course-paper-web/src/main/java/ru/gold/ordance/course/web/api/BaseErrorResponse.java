@@ -3,9 +3,9 @@ package ru.gold.ordance.course.web.api;
 import lombok.Getter;
 import lombok.ToString;
 import org.apache.commons.lang3.exception.ExceptionUtils;
-import ru.gold.ordance.course.base.exception.BaseException;
 import ru.gold.ordance.course.common.api.Status;
 import ru.gold.ordance.course.common.api.StatusCode;
+import ru.gold.ordance.course.common.exception.BaseException;
 
 @Getter
 @ToString

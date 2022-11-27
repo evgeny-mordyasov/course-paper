@@ -1,6 +1,6 @@
 package ru.gold.ordance.course.web.service.web.authorization.jwt.rule;
 
-import ru.gold.ordance.course.base.entity.Role;
+import ru.gold.ordance.course.persistence.entity.Role;
 
 public enum EndpointPermit {
     ALL(new EndpointRule[] {

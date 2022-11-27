@@ -11,7 +11,6 @@ import ru.gold.ordance.course.web.service.web.file.helper.FileSystemHelper;
 import java.io.IOException;
 import java.util.List;
 
-
 public class FileWebServiceImpl implements FileWebService {
     private final FileDatabaseHelper databaseHelper;
     private final FileSystemHelper fileSystemHelper;
@@ -38,9 +37,14 @@ public class FileWebServiceImpl implements FileWebService {
     }
 
     @Override
+    @Transactional
     public FileSaveResponse save(FileSaveRequest rq) throws IOException {
-        File stored = fileSystemHelper.save(rq.getFile());
-        return FileSaveResponse.success(databaseHelper.save(stored, rq.getClassificationId(), rq.getLanguageId()));
+        File stored = fileSystemHelper.getFile(rq.getFile());
+
+        WebFile webFile = databaseHelper.save(stored, rq.getClassificationId(), rq.getLanguageId());
+        fileSystemHelper.save(rq.getFile(), stored);
+
+        return FileSaveResponse.success(webFile);
     }
 
     @Override
@@ -50,8 +54,12 @@ public class FileWebServiceImpl implements FileWebService {
             throw new FileAlreadyExistsException("The language of the file already exists.");
         }
 
-        File stored = fileSystemHelper.save(rq.getFile());
-        return FileSaveResponse.success(databaseHelper.patch(rq, stored.getUrn()));
+        File stored = fileSystemHelper.getFile(rq.getFile());
+
+        WebFile webFile = databaseHelper.patch(rq, stored.getUrn());
+        fileSystemHelper.save(rq.getFile(), stored);
+
+        return FileSaveResponse.success(webFile);
     }
 
     @Override
@@ -78,6 +86,7 @@ public class FileWebServiceImpl implements FileWebService {
         return FileDeleteResponse.success();
     }
 
+    @Override
     public List<String> getFilesByClassificationId(Long classificationId) {
         return databaseHelper.getUrns(classificationId);
     }

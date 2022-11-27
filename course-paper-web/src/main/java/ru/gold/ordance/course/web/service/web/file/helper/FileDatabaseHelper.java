@@ -1,9 +1,10 @@
 package ru.gold.ordance.course.web.service.web.file.helper;
 
 import one.util.streamex.StreamEx;
-import ru.gold.ordance.course.base.entity.Document;
-import ru.gold.ordance.course.base.entity.Language;
-import ru.gold.ordance.course.base.entity.LnkDocumentLanguage;
+import ru.gold.ordance.course.common.exception.EntityNotFoundException;
+import ru.gold.ordance.course.persistence.entity.Document;
+import ru.gold.ordance.course.persistence.entity.Language;
+import ru.gold.ordance.course.persistence.entity.LnkDocumentLanguage;
 import ru.gold.ordance.course.base.service.core.sub.DocumentService;
 import ru.gold.ordance.course.base.service.core.sub.LanguageService;
 import ru.gold.ordance.course.base.service.core.sub.LnkDocumentLanguageService;
@@ -47,8 +48,9 @@ public class FileDatabaseHelper {
     }
 
     public WebFile findById(FileGetByIdRequest rq) {
-        List<LnkDocumentLanguage> documentLanguages = lnkService.getByDocumentId(rq.getEntityId());
-        Document document = documentService.getByEntityId(rq.getEntityId());
+        List<LnkDocumentLanguage> documentLanguages = lnkService.findByDocumentId(rq.getEntityId());
+        Document document = documentService.findByEntityId(rq.getEntityId())
+                .orElseThrow(EntityNotFoundException::new);
 
         return fileMapper.toWebFile(document, documentLanguages);
     }
@@ -62,16 +64,21 @@ public class FileDatabaseHelper {
     }
 
     public String getUrn(Long documentId, Long languageId) {
-        LnkDocumentLanguage lnk = lnkService.getByDocumentIdAndLanguageId(documentId, languageId);
+        LnkDocumentLanguage lnk = lnkService.findByDocumentIdAndLanguageId(documentId, languageId)
+                .orElseThrow(EntityNotFoundException::new);
 
         return lnk.getUrn();
     }
 
     public List<WebLanguage> getFreeLanguages(FileGetFreeLanguagesByIdRequest rq) {
         List<Language> languagesDocument =
-                lnkService.getByDocumentId(rq.getEntityId()).stream()
+                lnkService.findByDocumentId(rq.getEntityId()).stream()
                 .map(LnkDocumentLanguage::getLanguage)
                 .collect(Collectors.toList());
+
+        if (languagesDocument.isEmpty()) {
+            throw new EntityNotFoundException();
+        }
 
         List<Language> allLanguages = languageService.findAll();
 
@@ -85,16 +92,17 @@ public class FileDatabaseHelper {
     public WebFile save(File stored, Long classificationId, Long languageId) {
         Document document = documentService.save(fileMapper.toDocument(stored, classificationId));
         LnkDocumentLanguage lnk = lnkService.save(
-                fileMapper.toLnk(document.getEntityId(), languageId, stored.getUrn()));
+                fileMapper.toLnk(document, languageId, stored.getUrn()));
 
         return fileMapper.toWebFile(document, Collections.singletonList(lnk));
     }
 
     public WebFile patch(FilePatchRequest rq, String urn) {
-        Document document = documentService.getByEntityId(rq.getDocumentId());
+        Document document = documentService.findByEntityId(rq.getDocumentId())
+                .orElseThrow(EntityNotFoundException::new);
         lnkService.save(fileMapper.toLnk(rq.getDocumentId(), rq.getLanguageId(), urn));
 
-        List<LnkDocumentLanguage> lnk = lnkService.getByDocumentId(document.getEntityId());
+        List<LnkDocumentLanguage> lnk = lnkService.findByDocumentId(document.getEntityId());
 
         return fileMapper.toWebFile(document, lnk);
     }
@@ -106,13 +114,19 @@ public class FileDatabaseHelper {
     }
 
     public void deleteByUrn(FileDeleteByUrnRequest rq) {
-        LnkDocumentLanguage foundLnk = lnkService.getByUrn(rq.getUrn());
+        LnkDocumentLanguage foundLnk = lnkService.findByUrn(rq.getUrn())
+                .orElseThrow(EntityNotFoundException::new);
 
         deleteRecordInDatabase(foundLnk);
     }
 
     public List<String> deleteById(FileDeleteByIdRequest rq) {
-        List<LnkDocumentLanguage> foundLnk = lnkService.getByDocumentId(rq.getEntityId());
+        List<LnkDocumentLanguage> foundLnk = lnkService.findByDocumentId(rq.getEntityId());
+
+        if (foundLnk.isEmpty()) {
+            throw new EntityNotFoundException();
+        }
+
         foundLnk.forEach(this::deleteRecordInDatabase);
 
         return foundLnk.stream()

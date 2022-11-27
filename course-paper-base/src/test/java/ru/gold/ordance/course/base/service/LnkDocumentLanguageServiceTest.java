@@ -6,15 +6,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ContextConfiguration;
 import ru.gold.ordance.course.base.TestConfiguration;
-import ru.gold.ordance.course.base.entity.Classification;
-import ru.gold.ordance.course.base.entity.Document;
-import ru.gold.ordance.course.base.entity.Language;
-import ru.gold.ordance.course.base.entity.LnkDocumentLanguage;
-import ru.gold.ordance.course.base.exception.EntityNotFoundException;
-import ru.gold.ordance.course.base.persistence.repository.ClassificationRepository;
-import ru.gold.ordance.course.base.persistence.repository.DocumentRepository;
-import ru.gold.ordance.course.base.persistence.repository.LanguageRepository;
-import ru.gold.ordance.course.base.persistence.repository.LnkDocumentLanguageRepository;
+import ru.gold.ordance.course.persistence.entity.Classification;
+import ru.gold.ordance.course.persistence.entity.Document;
+import ru.gold.ordance.course.persistence.entity.Language;
+import ru.gold.ordance.course.persistence.entity.LnkDocumentLanguage;
+import ru.gold.ordance.course.common.exception.EntityNotFoundException;
+import ru.gold.ordance.course.persistence.repository.sub.ClassificationRepository;
+import ru.gold.ordance.course.persistence.repository.sub.DocumentRepository;
+import ru.gold.ordance.course.persistence.repository.sub.LanguageRepository;
+import ru.gold.ordance.course.persistence.repository.sub.LnkDocumentLanguageRepository;
 import ru.gold.ordance.course.base.service.core.sub.LnkDocumentLanguageService;
 
 import java.util.List;
@@ -89,29 +89,38 @@ public class LnkDocumentLanguageServiceTest {
     public void findById_notFound() {
         long fakeId = generateId();
 
-        assertThrows(EntityNotFoundException.class, () -> service.deleteByEntityId(fakeId));
-    }
+        Optional<LnkDocumentLanguage> lnkDocumentLanguage = service.findByEntityId(fakeId);
 
-    @Test
-    public void findByUrn_found() {
-        LnkDocumentLanguage saved = repository.preserve(createLnk(document, language));
-
-        assertDoesNotThrow(() -> service.getByEntityId(saved.getEntityId()));
-    }
-
-    @Test
-    public void findByUrn_notFound() {
-        long fakeURN = generateId();
-
-        assertThrows(EntityNotFoundException.class, () -> service.getByEntityId(fakeURN));
+        assertTrue(lnkDocumentLanguage.isEmpty());
     }
 
     @Test
     public void findById_found() {
+        LnkDocumentLanguage saved = repository.preserve(createLnk(document, language));
+
+        Optional<LnkDocumentLanguage> lnkDocumentLanguage = service.findByEntityId(saved.getEntityId());
+
+        assertTrue(lnkDocumentLanguage.isPresent());
+    }
+
+    @Test
+    public void findByUrn_notFound() {
+        String fakeURN = randomString();
+
+        Optional<LnkDocumentLanguage> lnkDocumentLanguage = service.findByUrn(fakeURN);
+
+        assertTrue(lnkDocumentLanguage.isEmpty());
+    }
+
+    @Test
+    public void findByUrn_found() {
         final String URN = randomString();
 
         LnkDocumentLanguage saved = repository.preserve(createLnk(document, language, URN));
-        assertDoesNotThrow(() -> service.getByUrn(saved.getUrn()));
+
+        Optional<LnkDocumentLanguage> lnkDocumentLanguage = service.findByUrn(saved.getUrn());
+
+        assertTrue(lnkDocumentLanguage.isPresent());
     }
 
     @Test

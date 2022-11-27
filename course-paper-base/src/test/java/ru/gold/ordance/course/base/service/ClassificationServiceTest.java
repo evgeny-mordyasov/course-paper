@@ -5,9 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ContextConfiguration;
 import ru.gold.ordance.course.base.TestConfiguration;
-import ru.gold.ordance.course.base.entity.Classification;
-import ru.gold.ordance.course.base.exception.EntityNotFoundException;
-import ru.gold.ordance.course.base.persistence.repository.ClassificationRepository;
+import ru.gold.ordance.course.persistence.entity.Classification;
+import ru.gold.ordance.course.common.exception.EntityNotFoundException;
+import ru.gold.ordance.course.persistence.repository.sub.ClassificationRepository;
 import ru.gold.ordance.course.base.service.core.sub.ClassificationService;
 
 import java.util.List;
@@ -61,28 +61,36 @@ public class ClassificationServiceTest {
     public void findById_notFound() {
         long fakeId = generateId();
 
-        assertThrows(EntityNotFoundException.class, () -> service.getByEntityId(fakeId));
+        Optional<Classification> classification = service.findByEntityId(fakeId);
+
+        assertTrue(classification.isEmpty());
     }
 
     @Test
     public void findById_found() {
         Classification saved = repository.preserve(createClassification());
 
-        assertDoesNotThrow(() -> service.getByEntityId(saved.getEntityId()));
+        Optional<Classification> classification = service.findByEntityId(saved.getEntityId());
+
+        assertTrue(classification.isPresent());
     }
 
     @Test
     public void findByName_notFound() {
         String fakeName = randomString();
 
-        assertThrows(EntityNotFoundException.class, () -> service.getByName(fakeName));
+        Optional<Classification> classification = service.findByName(fakeName);
+
+        assertTrue(classification.isEmpty());
     }
 
     @Test
     public void findByName_found() {
         Classification saved = repository.preserve(createClassification());
 
-        assertDoesNotThrow(() -> service.getByName(saved.getName()));
+        Optional<Classification> classification = service.findByName(saved.getName());
+
+        assertTrue(classification.isPresent());
     }
 
     @Test

@@ -1,7 +1,7 @@
 package ru.gold.ordance.course.base.service.core.sub;
 
-import ru.gold.ordance.course.base.entity.History;
 import ru.gold.ordance.course.base.service.core.NotUpdatableEntityService;
+import ru.gold.ordance.course.persistence.entity.History;
 
 import java.util.List;
 
