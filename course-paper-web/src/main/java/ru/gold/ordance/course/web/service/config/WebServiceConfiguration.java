@@ -1,6 +1,7 @@
 package ru.gold.ordance.course.web.service.config;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -9,7 +10,6 @@ import ru.gold.ordance.course.web.mapper.*;
 import ru.gold.ordance.course.web.service.web.authorization.AuthorizationWebService;
 import ru.gold.ordance.course.web.service.web.authorization.EmailSenderWebService;
 import ru.gold.ordance.course.web.service.web.authorization.config.JwtConfig;
-import ru.gold.ordance.course.web.service.web.authorization.config.JwtConfigImpl;
 import ru.gold.ordance.course.web.service.web.authorization.impl.AuthorizationWebServiceImpl;
 import ru.gold.ordance.course.web.service.web.authorization.impl.EmailSenderWebServiceImpl;
 import ru.gold.ordance.course.web.service.web.authorization.jwt.JwtProvider;
@@ -84,9 +84,9 @@ public class WebServiceConfiguration {
     }
 
     @Bean
-    public JwtConfig jwtConfig(@Value("${jwt.secret}") String secret,
-                               @Value("${jwt.expirationMs}") Long expirationMs) {
-        return new JwtConfigImpl(secret, expirationMs);
+    @ConfigurationProperties(prefix = "jwt")
+    public JwtConfig jwtConfig() {
+        return new JwtConfig();
     }
 
     @Bean
