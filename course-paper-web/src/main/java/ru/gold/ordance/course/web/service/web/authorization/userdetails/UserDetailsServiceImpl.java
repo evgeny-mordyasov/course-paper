@@ -5,7 +5,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import ru.gold.ordance.course.common.exception.EntityNotFoundException;
-import ru.gold.ordance.course.persistence.entity.Client;
+import ru.gold.ordance.course.persistence.entity.impl.Client;
 import ru.gold.ordance.course.base.service.core.sub.ClientService;
 
 import java.util.Collections;

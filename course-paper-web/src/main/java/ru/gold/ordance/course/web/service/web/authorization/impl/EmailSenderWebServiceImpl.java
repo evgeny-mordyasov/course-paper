@@ -1,8 +1,8 @@
 package ru.gold.ordance.course.web.service.web.authorization.impl;
 
 import ru.gold.ordance.course.common.exception.EntityNotFoundException;
-import ru.gold.ordance.course.persistence.entity.Client;
-import ru.gold.ordance.course.persistence.entity.ConfirmationToken;
+import ru.gold.ordance.course.persistence.entity.impl.Client;
+import ru.gold.ordance.course.persistence.entity.impl.ConfirmationToken;
 import ru.gold.ordance.course.base.service.core.sub.ConfirmationTokenService;
 import ru.gold.ordance.course.base.service.core.sub.EmailSenderService;
 import ru.gold.ordance.course.web.service.web.authorization.EmailSenderWebService;

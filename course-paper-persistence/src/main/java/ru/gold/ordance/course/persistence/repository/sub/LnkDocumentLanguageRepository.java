@@ -2,7 +2,7 @@ package ru.gold.ordance.course.persistence.repository.sub;
 
 import org.springframework.stereotype.Repository;
 import ru.gold.ordance.course.common.exception.EntityNotFoundException;
-import ru.gold.ordance.course.persistence.entity.LnkDocumentLanguage;
+import ru.gold.ordance.course.persistence.entity.impl.LnkDocumentLanguage;
 import ru.gold.ordance.course.persistence.repository.main.EntityRepository;
 
 import java.util.List;
@@ -17,10 +17,6 @@ public interface LnkDocumentLanguageRepository extends EntityRepository<LnkDocum
     Long countLnkDocumentLanguagesByDocument_EntityId(Long documentId);
 
     default LnkDocumentLanguage preserve(LnkDocumentLanguage lnkDocumentLanguage) {
-        exists(List.of(lnkDocumentLanguage.getLanguage(),
-                lnkDocumentLanguage.getDocument(),
-                lnkDocumentLanguage.getDocument().getClassification()));
-
         return defaultPreserve(lnkDocumentLanguage);
     }
 

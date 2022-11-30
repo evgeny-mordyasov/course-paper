@@ -6,7 +6,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ContextConfiguration;
 import ru.gold.ordance.course.base.TestConfiguration;
-import ru.gold.ordance.course.persistence.entity.Client;
+import ru.gold.ordance.course.persistence.entity.impl.Client;
 import ru.gold.ordance.course.common.exception.EntityNotFoundException;
 import ru.gold.ordance.course.persistence.repository.sub.ClientRepository;
 import ru.gold.ordance.course.base.service.core.sub.ClientService;

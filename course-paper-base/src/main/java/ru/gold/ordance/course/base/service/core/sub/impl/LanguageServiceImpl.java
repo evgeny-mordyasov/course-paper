@@ -3,7 +3,7 @@ package ru.gold.ordance.course.base.service.core.sub.impl;
 import com.sun.istack.NotNull;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
-import ru.gold.ordance.course.persistence.entity.Language;
+import ru.gold.ordance.course.persistence.entity.impl.Language;
 import ru.gold.ordance.course.persistence.repository.sub.LanguageRepository;
 import ru.gold.ordance.course.base.service.core.sub.LanguageService;
 

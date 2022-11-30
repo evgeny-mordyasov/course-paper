@@ -1,7 +1,7 @@
 package ru.gold.ordance.course.persistence.repository.sub;
 
 import org.springframework.stereotype.Repository;
-import ru.gold.ordance.course.persistence.entity.ConfirmationToken;
+import ru.gold.ordance.course.persistence.entity.impl.ConfirmationToken;
 import ru.gold.ordance.course.persistence.repository.main.EntityRepository;
 
 import java.util.Optional;

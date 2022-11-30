@@ -2,7 +2,7 @@ package ru.gold.ordance.course.base.service.core.sub.impl;
 
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
-import ru.gold.ordance.course.persistence.entity.History;
+import ru.gold.ordance.course.persistence.entity.impl.History;
 import ru.gold.ordance.course.persistence.repository.sub.HistoryRepository;
 import ru.gold.ordance.course.base.service.core.sub.HistoryService;
 

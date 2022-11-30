@@ -1,10 +1,11 @@
-package ru.gold.ordance.course.persistence.repository.main;
+package ru.gold.ordance.course.persistence.repository.main.impl;
 
 import lombok.NonNull;
 import org.springframework.data.jpa.repository.support.JpaEntityInformation;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import ru.gold.ordance.course.common.exception.EntityNotFoundException;
 import ru.gold.ordance.course.persistence.entity.AbstractEntity;
+import ru.gold.ordance.course.persistence.repository.main.RefreshedJpaRepository;
 
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -28,8 +29,7 @@ public class RefreshedJpaRepositoryImpl<ENTITY extends AbstractEntity> extends S
         entities.forEach(this::exists);
     }
 
-    @Override
-    public <T extends AbstractEntity> void exists(@NonNull T entity) {
+    private  <T extends AbstractEntity> void exists(T entity) {
         if (Objects.isNull(entity.getEntityId())) {
             return;
         }

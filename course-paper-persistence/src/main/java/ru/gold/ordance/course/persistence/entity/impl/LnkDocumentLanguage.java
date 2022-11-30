@@ -1,10 +1,13 @@
-package ru.gold.ordance.course.persistence.entity;
+package ru.gold.ordance.course.persistence.entity.impl;
 
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
+import ru.gold.ordance.course.persistence.entity.AbstractEntity;
+import ru.gold.ordance.course.persistence.entity.ContainingInternalEntity;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "DOCUMENT_LANGUAGE")
@@ -14,7 +17,7 @@ import javax.persistence.*;
 @NoArgsConstructor(force = true)
 @Builder(toBuilder = true, setterPrefix = "with")
 @ToString
-public class LnkDocumentLanguage implements AbstractEntity {
+public class LnkDocumentLanguage implements AbstractEntity, ContainingInternalEntity {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -40,4 +43,9 @@ public class LnkDocumentLanguage implements AbstractEntity {
 
     @Column(name = "URN")
     private final String urn;
+
+    @Override
+    public List<AbstractEntity> getInternalEntities() {
+        return List.of(document, language);
+    }
 }

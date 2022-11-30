@@ -4,7 +4,7 @@ import com.sun.istack.NotNull;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import ru.gold.ordance.course.base.service.core.sub.DocumentService;
-import ru.gold.ordance.course.persistence.entity.Document;
+import ru.gold.ordance.course.persistence.entity.impl.Document;
 import ru.gold.ordance.course.persistence.repository.sub.DocumentRepository;
 
 import java.util.List;

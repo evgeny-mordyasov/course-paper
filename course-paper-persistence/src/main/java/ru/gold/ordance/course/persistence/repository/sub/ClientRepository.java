@@ -1,7 +1,7 @@
 package ru.gold.ordance.course.persistence.repository.sub;
 
 import org.springframework.stereotype.Repository;
-import ru.gold.ordance.course.persistence.entity.Client;
+import ru.gold.ordance.course.persistence.entity.impl.Client;
 import ru.gold.ordance.course.persistence.repository.main.NonDuplicateEntityRepository;
 
 import java.util.Optional;

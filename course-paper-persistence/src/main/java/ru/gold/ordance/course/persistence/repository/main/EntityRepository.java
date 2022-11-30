@@ -3,6 +3,7 @@ package ru.gold.ordance.course.persistence.repository.main;
 import org.springframework.data.repository.NoRepositoryBean;
 import ru.gold.ordance.course.common.exception.EntityNotFoundException;
 import ru.gold.ordance.course.persistence.entity.AbstractEntity;
+import ru.gold.ordance.course.persistence.entity.ContainingInternalEntity;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,6 +14,10 @@ public interface EntityRepository<ENTITY extends AbstractEntity> extends Refresh
     Optional<ENTITY> findByEntityId(Long entityId);
 
     default ENTITY defaultPreserve(ENTITY entity) {
+        if (entity instanceof ContainingInternalEntity) {
+            exists(((ContainingInternalEntity) entity).getInternalEntities());
+        }
+
         ENTITY saved = saveAndFlush(entity);
         refresh(entity);
 

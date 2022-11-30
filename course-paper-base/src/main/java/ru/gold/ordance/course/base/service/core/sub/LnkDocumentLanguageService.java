@@ -1,7 +1,7 @@
 package ru.gold.ordance.course.base.service.core.sub;
 
 import ru.gold.ordance.course.base.service.core.NotUpdatableEntityService;
-import ru.gold.ordance.course.persistence.entity.LnkDocumentLanguage;
+import ru.gold.ordance.course.persistence.entity.impl.LnkDocumentLanguage;
 
 import java.util.List;
 import java.util.Optional;

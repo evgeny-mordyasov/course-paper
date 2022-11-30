@@ -3,7 +3,7 @@ package ru.gold.ordance.course.base.service.core.sub.impl;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import ru.gold.ordance.course.base.service.core.sub.EmailSenderService;
-import ru.gold.ordance.course.persistence.entity.ConfirmationToken;
+import ru.gold.ordance.course.persistence.entity.impl.ConfirmationToken;
 
 public class EmailSenderServiceImpl implements EmailSenderService {
     private final JavaMailSender mailSender;

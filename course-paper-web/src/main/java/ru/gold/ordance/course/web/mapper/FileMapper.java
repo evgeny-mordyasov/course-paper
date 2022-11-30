@@ -2,8 +2,8 @@ package ru.gold.ordance.course.web.mapper;
 
 import ru.gold.ordance.course.internal.api.dto.File;
 import ru.gold.ordance.course.internal.api.request.file.WebFile;
-import ru.gold.ordance.course.persistence.entity.Document;
-import ru.gold.ordance.course.persistence.entity.LnkDocumentLanguage;
+import ru.gold.ordance.course.persistence.entity.impl.Document;
+import ru.gold.ordance.course.persistence.entity.impl.LnkDocumentLanguage;
 
 import java.util.List;
 import java.util.Map;

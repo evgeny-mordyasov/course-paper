@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import ru.gold.ordance.course.base.service.core.sub.ClientService;
 import ru.gold.ordance.course.common.exception.EntityNotFoundException;
-import ru.gold.ordance.course.persistence.entity.Client;
+import ru.gold.ordance.course.persistence.entity.impl.Client;
 import ru.gold.ordance.course.persistence.repository.sub.ClientRepository;
 
 import java.time.LocalDateTime;

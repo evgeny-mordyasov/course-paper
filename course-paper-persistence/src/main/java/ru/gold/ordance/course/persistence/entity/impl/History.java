@@ -1,13 +1,16 @@
-package ru.gold.ordance.course.persistence.entity;
+package ru.gold.ordance.course.persistence.entity.impl;
 
 import lombok.*;
 import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
+import ru.gold.ordance.course.persistence.entity.AbstractEntity;
+import ru.gold.ordance.course.persistence.entity.ContainingInternalEntity;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "DOCUMENT_READING_HISTORY")
@@ -17,7 +20,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(force = true)
 @Builder(toBuilder = true, setterPrefix = "with")
 @ToString
-public class History implements AbstractEntity {
+public class History implements AbstractEntity, ContainingInternalEntity {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -48,4 +51,9 @@ public class History implements AbstractEntity {
     @Generated(value = GenerationTime.INSERT)
     @Column(name = "READING_TIME", insertable = false)
     private final LocalDateTime readingTime;
+
+    @Override
+    public List<AbstractEntity> getInternalEntities() {
+        return List.of(client, document, language);
+    }
 }

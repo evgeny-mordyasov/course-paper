@@ -4,7 +4,7 @@ import com.sun.istack.NotNull;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import ru.gold.ordance.course.base.service.core.sub.ClassificationService;
-import ru.gold.ordance.course.persistence.entity.Classification;
+import ru.gold.ordance.course.persistence.entity.impl.Classification;
 import ru.gold.ordance.course.persistence.repository.sub.ClassificationRepository;
 
 import java.util.List;

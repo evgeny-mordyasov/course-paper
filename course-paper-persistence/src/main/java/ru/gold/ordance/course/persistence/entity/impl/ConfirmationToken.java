@@ -1,14 +1,17 @@
-package ru.gold.ordance.course.persistence.entity;
+package ru.gold.ordance.course.persistence.entity.impl;
 
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
+import ru.gold.ordance.course.persistence.entity.AbstractEntity;
+import ru.gold.ordance.course.persistence.entity.ContainingInternalEntity;
 
 import javax.persistence.*;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -19,7 +22,7 @@ import java.util.UUID;
 @NoArgsConstructor(force = true)
 @Builder(toBuilder = true, setterPrefix = "with")
 @ToString
-public class ConfirmationToken implements AbstractEntity {
+public class ConfirmationToken implements AbstractEntity, ContainingInternalEntity {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -52,5 +55,10 @@ public class ConfirmationToken implements AbstractEntity {
 
     public boolean isExpired() {
         return expiryDate.isBefore(LocalDateTime.now());
+    }
+
+    @Override
+    public List<AbstractEntity> getInternalEntities() {
+        return List.of(client);
     }
 }

@@ -2,7 +2,7 @@ package ru.gold.ordance.course.web.service.web.client;
 
 import ru.gold.ordance.course.internal.api.request.EmptyResponse;
 import ru.gold.ordance.course.internal.api.request.client.*;
-import ru.gold.ordance.course.persistence.entity.Client;
+import ru.gold.ordance.course.persistence.entity.impl.Client;
 import ru.gold.ordance.course.base.service.core.sub.ClientService;
 import ru.gold.ordance.course.internal.api.request.Response;
 import ru.gold.ordance.course.web.mapper.ClientMapper;

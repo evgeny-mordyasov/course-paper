@@ -1,4 +1,4 @@
-package ru.gold.ordance.course.persistence.entity;
+package ru.gold.ordance.course.persistence.entity.impl;
 
 import lombok.*;
 import org.hibernate.annotations.Generated;
@@ -6,6 +6,7 @@ import org.hibernate.annotations.GenerationTime;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 import ru.gold.ordance.course.common.constants.Role;
+import ru.gold.ordance.course.persistence.entity.AbstractEntity;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;

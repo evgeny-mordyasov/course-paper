@@ -10,5 +10,4 @@ import java.util.List;
 public interface RefreshedJpaRepository<ENTITY extends AbstractEntity> extends JpaRepository<ENTITY, Long> {
     void refresh(ENTITY entity);
     <T extends AbstractEntity> void exists(List<T> entities);
-    <T extends AbstractEntity> void exists(T entity);
 }
