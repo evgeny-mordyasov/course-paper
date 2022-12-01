@@ -1,7 +1,8 @@
 package ru.gold.ordance.course.web.service.web.file;
 
 import org.springframework.core.io.Resource;
-import ru.gold.ordance.course.internal.api.request.file.*;
+import ru.gold.ordance.course.internal.api.domain.file.request.*;
+import ru.gold.ordance.course.internal.api.domain.file.response.*;
 import ru.gold.ordance.course.web.service.web.WebService;
 
 import java.io.IOException;

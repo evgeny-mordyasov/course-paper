@@ -2,11 +2,11 @@ package ru.gold.ordance.course.web.utils;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
-import ru.gold.ordance.course.internal.api.request.Response;
+import ru.gold.ordance.course.internal.api.domain.Response;
 
 import java.util.function.Supplier;
 
-import static ru.gold.ordance.course.internal.api.request.BaseErrorResponse.handleException;
+import static ru.gold.ordance.course.internal.api.domain.BaseErrorResponse.handleException;
 
 @Slf4j
 public final class RequestUtils {

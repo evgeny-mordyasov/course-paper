@@ -6,7 +6,6 @@ import java.util.stream.Collectors;
 
 import static org.apache.commons.lang3.StringUtils.SPACE;
 import static org.apache.commons.lang3.StringUtils.capitalize;
-import static ru.gold.ordance.course.common.utils.TestUtils.not;
 
 public final class StringWebLoggerUtils {
     private StringWebLoggerUtils() {
@@ -26,7 +25,7 @@ public final class StringWebLoggerUtils {
     }
 
     private static void toUpperFirstLetterOfFirstWord(List<String> words) {
-        if (not(words.isEmpty())) {
+        if (!words.isEmpty()) {
             words.set(0, capitalize(words.get(0)));
         }
     }

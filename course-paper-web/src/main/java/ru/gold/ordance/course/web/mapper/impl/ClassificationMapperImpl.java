@@ -1,8 +1,8 @@
 package ru.gold.ordance.course.web.mapper.impl;
 
-import ru.gold.ordance.course.internal.api.request.classification.ClassificationSaveRequest;
-import ru.gold.ordance.course.internal.api.request.classification.ClassificationUpdateRequest;
-import ru.gold.ordance.course.internal.api.request.classification.WebClassification;
+import ru.gold.ordance.course.internal.api.domain.classification.request.ClassificationSaveRequest;
+import ru.gold.ordance.course.internal.api.domain.classification.request.ClassificationUpdateRequest;
+import ru.gold.ordance.course.internal.api.domain.classification.model.WebClassification;
 import ru.gold.ordance.course.persistence.entity.impl.Classification;
 import ru.gold.ordance.course.web.mapper.ClassificationMapper;
 

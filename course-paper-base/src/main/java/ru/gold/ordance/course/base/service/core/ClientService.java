@@ -11,7 +11,6 @@ import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Optional;
 
-import static ru.gold.ordance.course.common.utils.TestUtils.not;
 import static ru.gold.ordance.course.persistence.repository.main.EntityRepository.getEntity;
 
 @Transactional(isolation = Isolation.READ_COMMITTED)
@@ -60,8 +59,8 @@ public class ClientService {
     }
 
     private String getNewPasswordIfChanged(Client newClient, Client fromDatabase) {
-        if (not(encoder.matches(newClient.getPassword(), fromDatabase.getPassword()))
-                && not(newClient.getPassword().equals(fromDatabase.getPassword()))) {
+        if (!encoder.matches(newClient.getPassword(), fromDatabase.getPassword())
+                && !newClient.getPassword().equals(fromDatabase.getPassword())) {
             return encoder.encode(newClient.getPassword());
         }
 

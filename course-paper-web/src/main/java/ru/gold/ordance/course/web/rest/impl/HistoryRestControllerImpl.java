@@ -1,9 +1,9 @@
 package ru.gold.ordance.course.web.rest.impl;
 
 import org.springframework.web.bind.annotation.*;
-import ru.gold.ordance.course.internal.api.request.history.HistoryGetNumberOfDownloadsRequest;
+import ru.gold.ordance.course.internal.api.domain.history.request.HistoryGetNumberOfDownloadsRequest;
 import ru.gold.ordance.course.web.service.web.authorization.jwt.rule.Endpoint;
-import ru.gold.ordance.course.internal.api.request.Response;
+import ru.gold.ordance.course.internal.api.domain.Response;
 import ru.gold.ordance.course.web.rest.HistoryRestController;
 import ru.gold.ordance.course.web.service.web.history.HistoryWebService;
 

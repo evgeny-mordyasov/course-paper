@@ -1,9 +1,9 @@
 package ru.gold.ordance.course.web.rest.impl;
 
 import org.springframework.web.bind.annotation.*;
-import ru.gold.ordance.course.internal.api.request.classification.*;
+import ru.gold.ordance.course.internal.api.domain.classification.request.*;
 import ru.gold.ordance.course.web.service.web.authorization.jwt.rule.Endpoint;
-import ru.gold.ordance.course.internal.api.request.Response;
+import ru.gold.ordance.course.internal.api.domain.Response;
 import ru.gold.ordance.course.web.rest.ClassificationRestController;
 import ru.gold.ordance.course.web.service.web.classification.ClassificationWebService;
 

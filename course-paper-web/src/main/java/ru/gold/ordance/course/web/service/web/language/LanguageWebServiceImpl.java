@@ -1,10 +1,11 @@
 package ru.gold.ordance.course.web.service.web.language;
 
 import ru.gold.ordance.course.base.service.core.LanguageService;
-import ru.gold.ordance.course.internal.api.request.EmptyResponse;
-import ru.gold.ordance.course.internal.api.request.language.*;
+import ru.gold.ordance.course.internal.api.domain.EmptySuccessfulResponse;
+import ru.gold.ordance.course.internal.api.domain.language.request.*;
+import ru.gold.ordance.course.internal.api.domain.language.response.*;
 import ru.gold.ordance.course.persistence.entity.impl.Language;
-import ru.gold.ordance.course.internal.api.request.Response;
+import ru.gold.ordance.course.internal.api.domain.Response;
 import ru.gold.ordance.course.web.mapper.LanguageMapper;
 
 import java.util.List;
@@ -68,6 +69,6 @@ public class LanguageWebServiceImpl implements LanguageWebService {
     private Response process(Optional<Language> language) {
         return language.isPresent()
                 ? LanguageGetEntityResponse.success(mapper.fromLanguage(language.get()))
-                : new EmptyResponse();
+                : new EmptySuccessfulResponse();
     }
 }

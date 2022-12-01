@@ -3,8 +3,10 @@ package ru.gold.ordance.course.web.service.web.file;
 import org.springframework.core.io.Resource;
 import org.springframework.transaction.annotation.Transactional;
 import ru.gold.ordance.course.common.exception.FileAlreadyExistsException;
+import ru.gold.ordance.course.internal.api.domain.file.model.WebFile;
+import ru.gold.ordance.course.internal.api.domain.file.request.*;
+import ru.gold.ordance.course.internal.api.domain.file.response.*;
 import ru.gold.ordance.course.internal.api.dto.File;
-import ru.gold.ordance.course.internal.api.request.file.*;
 import ru.gold.ordance.course.web.service.web.file.helper.FileDatabaseHelper;
 import ru.gold.ordance.course.web.service.web.file.helper.FileSystemHelper;
 

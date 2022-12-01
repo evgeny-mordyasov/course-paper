@@ -1,7 +1,11 @@
 package ru.gold.ordance.course.web.service.web.classification;
 
-import ru.gold.ordance.course.internal.api.request.Response;
-import ru.gold.ordance.course.internal.api.request.classification.*;
+import ru.gold.ordance.course.internal.api.domain.Response;
+import ru.gold.ordance.course.internal.api.domain.classification.request.*;
+import ru.gold.ordance.course.internal.api.domain.classification.response.ClassificationDeleteResponse;
+import ru.gold.ordance.course.internal.api.domain.classification.response.ClassificationGetListResponse;
+import ru.gold.ordance.course.internal.api.domain.classification.response.ClassificationSaveResponse;
+import ru.gold.ordance.course.internal.api.domain.classification.response.ClassificationUpdateResponse;
 import ru.gold.ordance.course.web.service.web.WebService;
 
 public interface ClassificationWebService extends WebService {

@@ -1,7 +1,11 @@
 package ru.gold.ordance.course.web.service.web.history;
 
 import ru.gold.ordance.course.base.service.core.HistoryService;
-import ru.gold.ordance.course.internal.api.request.history.*;
+import ru.gold.ordance.course.internal.api.domain.history.request.HistoryGetNumberOfDownloadsRequest;
+import ru.gold.ordance.course.internal.api.domain.history.request.HistorySaveRequest;
+import ru.gold.ordance.course.internal.api.domain.history.response.HistoryGetListResponse;
+import ru.gold.ordance.course.internal.api.domain.history.response.HistoryGetNumberOfDownloadsResponse;
+import ru.gold.ordance.course.internal.api.domain.history.response.HistorySaveResponse;
 import ru.gold.ordance.course.persistence.entity.impl.History;
 import ru.gold.ordance.course.web.mapper.HistoryMapper;
 

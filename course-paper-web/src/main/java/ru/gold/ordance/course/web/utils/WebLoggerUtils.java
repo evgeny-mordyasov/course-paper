@@ -1,7 +1,7 @@
 package ru.gold.ordance.course.web.utils;
 
 import lombok.extern.slf4j.Slf4j;
-import ru.gold.ordance.course.internal.api.request.Request;
+import ru.gold.ordance.course.internal.api.domain.Request;
 
 import static ru.gold.ordance.course.common.utils.StringWebLoggerUtils.getRequestTextFor;
 

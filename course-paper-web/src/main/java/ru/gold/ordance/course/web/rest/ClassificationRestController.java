@@ -1,8 +1,8 @@
 package ru.gold.ordance.course.web.rest;
 
-import ru.gold.ordance.course.internal.api.request.Response;
-import ru.gold.ordance.course.internal.api.request.classification.ClassificationSaveRequest;
-import ru.gold.ordance.course.internal.api.request.classification.ClassificationUpdateRequest;
+import ru.gold.ordance.course.internal.api.domain.Response;
+import ru.gold.ordance.course.internal.api.domain.classification.request.ClassificationSaveRequest;
+import ru.gold.ordance.course.internal.api.domain.classification.request.ClassificationUpdateRequest;
 
 public interface ClassificationRestController {
     Response findAll();

@@ -2,7 +2,12 @@ package ru.gold.ordance.course.web.service.web.authorization.impl;
 
 import org.springframework.transaction.annotation.Transactional;
 import ru.gold.ordance.course.base.service.core.ClientService;
-import ru.gold.ordance.course.internal.api.request.authorization.*;
+import ru.gold.ordance.course.internal.api.domain.authorization.request.AuthorizationConfirmAccountRequest;
+import ru.gold.ordance.course.internal.api.domain.authorization.request.AuthorizationSignInRequest;
+import ru.gold.ordance.course.internal.api.domain.authorization.request.AuthorizationSignUpRequest;
+import ru.gold.ordance.course.internal.api.domain.authorization.response.AuthorizationConfirmAccountResponse;
+import ru.gold.ordance.course.internal.api.domain.authorization.response.AuthorizationSignInResponse;
+import ru.gold.ordance.course.internal.api.domain.authorization.response.AuthorizationSignUpResponse;
 import ru.gold.ordance.course.persistence.entity.impl.Client;
 import ru.gold.ordance.course.persistence.entity.impl.ConfirmationToken;
 import ru.gold.ordance.course.web.mapper.ClientMapper;

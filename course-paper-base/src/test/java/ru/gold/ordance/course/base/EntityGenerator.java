@@ -3,7 +3,7 @@ package ru.gold.ordance.course.base;
 import ru.gold.ordance.course.common.constants.Role;
 import ru.gold.ordance.course.persistence.entity.impl.*;
 
-import static ru.gold.ordance.course.common.utils.TestUtils.randomString;
+import static ru.gold.ordance.course.base.utils.TestUtils.randomString;
 
 public final class EntityGenerator {
     private EntityGenerator() {

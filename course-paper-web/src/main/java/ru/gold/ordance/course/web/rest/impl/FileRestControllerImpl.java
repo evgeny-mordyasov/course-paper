@@ -5,11 +5,11 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import ru.gold.ordance.course.internal.api.domain.file.request.*;
 import ru.gold.ordance.course.internal.api.dto.CustomMultipartFile;
-import ru.gold.ordance.course.internal.api.request.file.*;
-import ru.gold.ordance.course.internal.api.request.history.HistorySaveRequest;
+import ru.gold.ordance.course.internal.api.domain.history.request.HistorySaveRequest;
 import ru.gold.ordance.course.web.service.web.authorization.jwt.rule.Endpoint;
-import ru.gold.ordance.course.internal.api.request.Response;
+import ru.gold.ordance.course.internal.api.domain.Response;
 import ru.gold.ordance.course.web.rest.FileRestController;
 import ru.gold.ordance.course.web.service.web.file.FileWebService;
 import ru.gold.ordance.course.web.service.web.history.HistoryWebService;
@@ -17,7 +17,7 @@ import ru.gold.ordance.course.web.service.web.history.HistoryWebService;
 import java.io.IOException;
 import java.util.Optional;
 
-import static ru.gold.ordance.course.internal.api.request.BaseErrorResponse.handleException;
+import static ru.gold.ordance.course.internal.api.domain.BaseErrorResponse.handleException;
 import static ru.gold.ordance.course.web.utils.RequestUtils.JSON;
 import static ru.gold.ordance.course.web.utils.RequestUtils.execute;
 

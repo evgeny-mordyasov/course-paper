@@ -1,8 +1,8 @@
 package ru.gold.ordance.course.web.rest;
 
-import ru.gold.ordance.course.internal.api.request.Response;
-import ru.gold.ordance.course.internal.api.request.authorization.AuthorizationSignInRequest;
-import ru.gold.ordance.course.internal.api.request.authorization.AuthorizationSignUpRequest;
+import ru.gold.ordance.course.internal.api.domain.Response;
+import ru.gold.ordance.course.internal.api.domain.authorization.request.AuthorizationSignInRequest;
+import ru.gold.ordance.course.internal.api.domain.authorization.request.AuthorizationSignUpRequest;
 
 public interface AuthorizationRestController {
     Response signUp(AuthorizationSignUpRequest rq);

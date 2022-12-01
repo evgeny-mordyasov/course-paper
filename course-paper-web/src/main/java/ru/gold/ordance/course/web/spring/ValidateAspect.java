@@ -5,7 +5,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
-import ru.gold.ordance.course.internal.api.request.Request;
+import ru.gold.ordance.course.internal.api.domain.Request;
 
 @Component
 @Aspect
@@ -13,7 +13,7 @@ public class ValidateAspect {
     private ValidateAspect() {
     }
 
-    @Pointcut("execution(* ru.gold.ordance.course.web.service.*..*(..)) && args(ru.gold.ordance.course.internal.api.request.Request)")
+    @Pointcut("execution(* ru.gold.ordance.course.web.service.*..*(..)) && args(ru.gold.ordance.course.internal.api.domain.Request)")
     public void webServiceMethodWithRequestArg() {
     }
 

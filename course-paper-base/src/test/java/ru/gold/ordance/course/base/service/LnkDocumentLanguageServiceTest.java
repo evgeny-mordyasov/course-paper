@@ -22,8 +22,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static ru.gold.ordance.course.base.EntityGenerator.*;
-import static ru.gold.ordance.course.common.utils.TestUtils.generateId;
-import static ru.gold.ordance.course.common.utils.TestUtils.randomString;
+import static ru.gold.ordance.course.base.utils.TestUtils.randomString;
 
 @DataJpaTest(showSql = false)
 @ContextConfiguration(classes = TestConfiguration.class)

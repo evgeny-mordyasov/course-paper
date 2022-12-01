@@ -1,8 +1,8 @@
 package ru.gold.ordance.course.web.rest;
 
-import ru.gold.ordance.course.internal.api.request.Response;
-import ru.gold.ordance.course.internal.api.request.language.LanguageSaveRequest;
-import ru.gold.ordance.course.internal.api.request.language.LanguageUpdateRequest;
+import ru.gold.ordance.course.internal.api.domain.Response;
+import ru.gold.ordance.course.internal.api.domain.language.request.LanguageSaveRequest;
+import ru.gold.ordance.course.internal.api.domain.language.request.LanguageUpdateRequest;
 
 public interface LanguageRestController {
     Response findAll();

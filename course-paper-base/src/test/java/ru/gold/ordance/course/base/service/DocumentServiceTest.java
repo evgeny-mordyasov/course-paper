@@ -13,12 +13,11 @@ import ru.gold.ordance.course.common.exception.EntityNotFoundException;
 import ru.gold.ordance.course.persistence.repository.sub.ClassificationRepository;
 import ru.gold.ordance.course.persistence.repository.sub.DocumentRepository;
 
-import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static ru.gold.ordance.course.base.EntityGenerator.*;
-import static ru.gold.ordance.course.common.utils.TestUtils.generateId;
+import static ru.gold.ordance.course.base.utils.TestUtils.generateId;
 
 @DataJpaTest(showSql = false)
 @ContextConfiguration(classes = TestConfiguration.class)

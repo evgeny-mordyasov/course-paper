@@ -2,8 +2,8 @@ package ru.gold.ordance.course.web.rest;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
-import ru.gold.ordance.course.internal.api.request.Response;
-import ru.gold.ordance.course.internal.api.request.file.FileDeleteByUrnRequest;
+import ru.gold.ordance.course.internal.api.domain.Response;
+import ru.gold.ordance.course.internal.api.domain.file.request.FileDeleteByUrnRequest;
 
 public interface FileRestController {
     Response findAll();

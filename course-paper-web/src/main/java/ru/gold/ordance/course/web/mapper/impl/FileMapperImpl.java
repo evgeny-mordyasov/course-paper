@@ -1,11 +1,11 @@
 package ru.gold.ordance.course.web.mapper.impl;
 
 import ru.gold.ordance.course.internal.api.dto.File;
-import ru.gold.ordance.course.internal.api.request.classification.WebClassification;
-import ru.gold.ordance.course.internal.api.request.file.WebDocument;
-import ru.gold.ordance.course.internal.api.request.file.WebDocumentLanguage;
-import ru.gold.ordance.course.internal.api.request.file.WebFile;
-import ru.gold.ordance.course.internal.api.request.language.WebLanguage;
+import ru.gold.ordance.course.internal.api.domain.classification.model.WebClassification;
+import ru.gold.ordance.course.internal.api.domain.file.model.WebDocument;
+import ru.gold.ordance.course.internal.api.domain.file.model.WebDocumentLanguage;
+import ru.gold.ordance.course.internal.api.domain.file.model.WebFile;
+import ru.gold.ordance.course.internal.api.domain.language.model.WebLanguage;
 import ru.gold.ordance.course.persistence.entity.impl.Classification;
 import ru.gold.ordance.course.persistence.entity.impl.Document;
 import ru.gold.ordance.course.persistence.entity.impl.Language;

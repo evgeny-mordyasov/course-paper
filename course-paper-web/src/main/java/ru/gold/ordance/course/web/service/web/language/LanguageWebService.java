@@ -1,7 +1,11 @@
 package ru.gold.ordance.course.web.service.web.language;
 
-import ru.gold.ordance.course.internal.api.request.Response;
-import ru.gold.ordance.course.internal.api.request.language.*;
+import ru.gold.ordance.course.internal.api.domain.Response;
+import ru.gold.ordance.course.internal.api.domain.language.request.*;
+import ru.gold.ordance.course.internal.api.domain.language.response.LanguageDeleteResponse;
+import ru.gold.ordance.course.internal.api.domain.language.response.LanguageGetListResponse;
+import ru.gold.ordance.course.internal.api.domain.language.response.LanguageSaveResponse;
+import ru.gold.ordance.course.internal.api.domain.language.response.LanguageUpdateResponse;
 import ru.gold.ordance.course.web.service.web.WebService;
 
 public interface LanguageWebService extends WebService {

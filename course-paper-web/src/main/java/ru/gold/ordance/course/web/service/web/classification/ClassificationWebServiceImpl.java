@@ -2,10 +2,11 @@ package ru.gold.ordance.course.web.service.web.classification;
 
 import org.springframework.transaction.annotation.Transactional;
 import ru.gold.ordance.course.base.service.core.ClassificationService;
-import ru.gold.ordance.course.internal.api.request.EmptyResponse;
-import ru.gold.ordance.course.internal.api.request.classification.*;
+import ru.gold.ordance.course.internal.api.domain.EmptySuccessfulResponse;
+import ru.gold.ordance.course.internal.api.domain.classification.request.*;
+import ru.gold.ordance.course.internal.api.domain.classification.response.*;
 import ru.gold.ordance.course.persistence.entity.impl.Classification;
-import ru.gold.ordance.course.internal.api.request.Response;
+import ru.gold.ordance.course.internal.api.domain.Response;
 import ru.gold.ordance.course.web.mapper.ClassificationMapper;
 import ru.gold.ordance.course.web.service.web.file.FileWebService;
 
@@ -76,6 +77,6 @@ public class ClassificationWebServiceImpl implements ClassificationWebService {
     private Response process(Optional<Classification> classification) {
         return classification.isPresent()
                 ? ClassificationGetEntityResponse.success(mapper.fromClassification(classification.get()))
-                : new EmptyResponse();
+                : new EmptySuccessfulResponse();
     }
 }

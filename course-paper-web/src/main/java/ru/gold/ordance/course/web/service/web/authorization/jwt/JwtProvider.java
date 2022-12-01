@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import ru.gold.ordance.course.common.exception.BannedException;
 import ru.gold.ordance.course.common.exception.UnauthorizedException;
-import ru.gold.ordance.course.internal.api.request.authorization.AuthorizationSignInRequest;
+import ru.gold.ordance.course.internal.api.domain.authorization.request.AuthorizationSignInRequest;
 import ru.gold.ordance.course.web.service.config.properties.JwtProperties;
 
 import javax.servlet.http.HttpServletRequest;

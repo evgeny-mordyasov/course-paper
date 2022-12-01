@@ -1,12 +1,12 @@
 package ru.gold.ordance.course.web.rest.impl;
 
 import org.springframework.web.bind.annotation.*;
-import ru.gold.ordance.course.internal.api.request.client.ClientDeleteByIdRequest;
-import ru.gold.ordance.course.internal.api.request.client.ClientGetByEmailRequest;
-import ru.gold.ordance.course.internal.api.request.client.ClientGetByIdRequest;
-import ru.gold.ordance.course.internal.api.request.client.ClientUpdateRequest;
+import ru.gold.ordance.course.internal.api.domain.client.request.ClientDeleteByIdRequest;
+import ru.gold.ordance.course.internal.api.domain.client.request.ClientGetByEmailRequest;
+import ru.gold.ordance.course.internal.api.domain.client.request.ClientGetByIdRequest;
+import ru.gold.ordance.course.internal.api.domain.client.request.ClientUpdateRequest;
 import ru.gold.ordance.course.web.service.web.authorization.jwt.rule.Endpoint;
-import ru.gold.ordance.course.internal.api.request.Response;
+import ru.gold.ordance.course.internal.api.domain.Response;
 import ru.gold.ordance.course.web.rest.ClientRestController;
 import ru.gold.ordance.course.web.service.web.client.ClientWebService;
 

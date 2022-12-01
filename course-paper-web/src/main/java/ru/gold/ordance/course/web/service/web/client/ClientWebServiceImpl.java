@@ -1,10 +1,17 @@
 package ru.gold.ordance.course.web.service.web.client;
 
 import ru.gold.ordance.course.base.service.core.ClientService;
-import ru.gold.ordance.course.internal.api.request.EmptyResponse;
-import ru.gold.ordance.course.internal.api.request.client.*;
+import ru.gold.ordance.course.internal.api.domain.EmptySuccessfulResponse;
+import ru.gold.ordance.course.internal.api.domain.client.request.ClientDeleteByIdRequest;
+import ru.gold.ordance.course.internal.api.domain.client.request.ClientGetByEmailRequest;
+import ru.gold.ordance.course.internal.api.domain.client.request.ClientGetByIdRequest;
+import ru.gold.ordance.course.internal.api.domain.client.request.ClientUpdateRequest;
+import ru.gold.ordance.course.internal.api.domain.client.response.ClientDeleteResponse;
+import ru.gold.ordance.course.internal.api.domain.client.response.ClientGetEntityResponse;
+import ru.gold.ordance.course.internal.api.domain.client.response.ClientGetListResponse;
+import ru.gold.ordance.course.internal.api.domain.client.response.ClientUpdateResponse;
 import ru.gold.ordance.course.persistence.entity.impl.Client;
-import ru.gold.ordance.course.internal.api.request.Response;
+import ru.gold.ordance.course.internal.api.domain.Response;
 import ru.gold.ordance.course.web.mapper.ClientMapper;
 
 import java.util.List;
@@ -61,6 +68,6 @@ public class ClientWebServiceImpl implements ClientWebService {
     private Response process(Optional<Client> client) {
         return client.isPresent()
                 ? ClientGetEntityResponse.success(mapper.fromClient(client.get()))
-                : new EmptyResponse();
+                : new EmptySuccessfulResponse();
     }
 }
