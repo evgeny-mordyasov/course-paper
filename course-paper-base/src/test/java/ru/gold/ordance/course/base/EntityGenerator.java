@@ -19,12 +19,6 @@ public final class EntityGenerator {
                 .build();
     }
 
-    public static Client createClient(String email) {
-        return createBaseClient()
-                .withEmail(email)
-                .build();
-    }
-
     private static Client.ClientBuilder createBaseClient() {
         return Client.builder()
                 .withSurname(randomString())
@@ -49,12 +43,6 @@ public final class EntityGenerator {
                 .build();
     }
 
-    public static Classification createClassification(String name) {
-        return Classification.builder()
-                .withName(name)
-                .build();
-    }
-
     public static Language createLanguage() {
         return Language.builder()
                 .withName(randomString())
@@ -68,12 +56,6 @@ public final class EntityGenerator {
                 .build();
     }
 
-    public static Language createLanguage(String name) {
-        return Language.builder()
-                .withName(name)
-                .build();
-    }
-
     public static Document createDocument(Classification classification) {
         return Document.builder()
                 .withName(randomString())
@@ -81,32 +63,8 @@ public final class EntityGenerator {
                 .build();
     }
 
-    public static Document createDocument(Classification classification, Long id) {
-        return Document.builder()
-                .withEntityId(id)
-                .withName(randomString())
-                .withClassification(classification)
-                .build();
-    }
-
-    public static Document createDocument(Classification classification, String name) {
-        return Document.builder()
-                .withName(name)
-                .withClassification(classification)
-                .build();
-    }
-
     public static LnkDocumentLanguage createLnk(Document doc, Language lang) {
         return LnkDocumentLanguage.builder()
-                .withDocument(doc)
-                .withLanguage(lang)
-                .withUrn(randomString())
-                .build();
-    }
-
-    public static LnkDocumentLanguage createLnk(Document doc, Language lang, Long id) {
-        return LnkDocumentLanguage.builder()
-                .withEntityId(id)
                 .withDocument(doc)
                 .withLanguage(lang)
                 .withUrn(randomString())

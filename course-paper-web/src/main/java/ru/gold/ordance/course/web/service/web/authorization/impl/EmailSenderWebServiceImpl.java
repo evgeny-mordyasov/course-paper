@@ -1,17 +1,18 @@
 package ru.gold.ordance.course.web.service.web.authorization.impl;
 
-import ru.gold.ordance.course.common.exception.EntityNotFoundException;
+import ru.gold.ordance.course.base.service.core.ConfirmationTokenService;
+import ru.gold.ordance.course.base.service.core.MailSenderService;
 import ru.gold.ordance.course.persistence.entity.impl.Client;
 import ru.gold.ordance.course.persistence.entity.impl.ConfirmationToken;
-import ru.gold.ordance.course.base.service.core.sub.ConfirmationTokenService;
-import ru.gold.ordance.course.base.service.core.sub.EmailSenderService;
 import ru.gold.ordance.course.web.service.web.authorization.EmailSenderWebService;
 
+import static ru.gold.ordance.course.persistence.repository.main.EntityRepository.getEntity;
+
 public class EmailSenderWebServiceImpl implements EmailSenderWebService {
-    private final EmailSenderService service;
+    private final MailSenderService service;
     private final ConfirmationTokenService confirmationTokenService;
 
-    public EmailSenderWebServiceImpl(EmailSenderService service, ConfirmationTokenService confirmationTokenService) {
+    public EmailSenderWebServiceImpl(MailSenderService service, ConfirmationTokenService confirmationTokenService) {
         this.service = service;
         this.confirmationTokenService = confirmationTokenService;
     }
@@ -34,7 +35,6 @@ public class EmailSenderWebServiceImpl implements EmailSenderWebService {
 
     @Override
     public ConfirmationToken getByToken(String token) {
-        return confirmationTokenService.findByToken(token)
-                .orElseThrow(EntityNotFoundException::new);
+        return getEntity(confirmationTokenService.findByToken(token));
     }
 }

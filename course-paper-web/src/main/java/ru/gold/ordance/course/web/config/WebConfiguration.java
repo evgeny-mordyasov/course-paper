@@ -12,7 +12,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import ru.gold.ordance.course.common.constants.Role;
 import ru.gold.ordance.course.base.service.config.ServiceConfiguration;
-import ru.gold.ordance.course.web.service.web.authorization.config.JwtConfig;
+import ru.gold.ordance.course.web.service.config.properties.JwtProperties;
 import ru.gold.ordance.course.web.service.web.authorization.jwt.rule.Authority;
 import ru.gold.ordance.course.web.service.web.authorization.jwt.rule.EndpointPermit;
 import ru.gold.ordance.course.web.service.web.authorization.jwt.JwtConfigurer;
@@ -26,11 +26,11 @@ import java.util.Arrays;
 @Import(ServiceConfiguration.class)
 public class WebConfiguration extends WebSecurityConfigurerAdapter {
     private final UserDetailsService service;
-    private final JwtConfig config;
+    private final JwtProperties jwtProp;
 
-    public WebConfiguration(UserDetailsService service, JwtConfig config) {
+    public WebConfiguration(UserDetailsService service, JwtProperties jwtProp) {
         this.service = service;
-        this.config = config;
+        this.jwtProp = jwtProp;
     }
 
     @Bean
@@ -40,15 +40,15 @@ public class WebConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public JwtProvider jwtProvider(UserDetailsService service, JwtConfig config, AuthenticationManager manager) {
-        return new JwtProvider(service, config, manager);
+    public JwtProvider jwtProvider(UserDetailsService service, JwtProperties jwtProp, AuthenticationManager manager) {
+        return new JwtProvider(service, jwtProp, manager);
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         configureBase(http);
         configureRequests(http);
-        http.apply(new JwtConfigurer(jwtProvider(service, config, authenticationManagerBean())));
+        http.apply(new JwtConfigurer(jwtProvider(service, jwtProp, authenticationManagerBean())));
     }
 
     private void configureBase(HttpSecurity http) throws Exception {

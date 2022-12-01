@@ -4,7 +4,6 @@ import ru.gold.ordance.course.common.constants.Role;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
-import java.util.stream.Stream;
 
 import static org.springframework.util.StringUtils.hasText;
 
@@ -14,7 +13,7 @@ public class RoleConverter implements AttributeConverter<Role, String> {
     @Override
     public String convertToDatabaseColumn(Role role) {
         if (role == null) {
-            throw new IllegalArgumentException("Role can't be null.");
+            return null;
         }
 
         if (role.equals(Role.ANONYMOUS)) {
@@ -27,7 +26,7 @@ public class RoleConverter implements AttributeConverter<Role, String> {
     @Override
     public Role convertToEntityAttribute(String role) {
         if (!hasText(role)) {
-            throw new IllegalArgumentException("Role can't be null or empty.");
+            return null;
         }
 
         return Role.valueOf(role);

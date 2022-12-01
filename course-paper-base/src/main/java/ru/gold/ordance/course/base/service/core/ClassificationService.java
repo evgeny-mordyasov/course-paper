@@ -1,9 +1,7 @@
-package ru.gold.ordance.course.base.service.core.sub.impl;
+package ru.gold.ordance.course.base.service.core;
 
-import com.sun.istack.NotNull;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
-import ru.gold.ordance.course.base.service.core.sub.ClassificationService;
 import ru.gold.ordance.course.persistence.entity.impl.Classification;
 import ru.gold.ordance.course.persistence.repository.sub.ClassificationRepository;
 
@@ -11,39 +9,33 @@ import java.util.List;
 import java.util.Optional;
 
 @Transactional(isolation = Isolation.READ_COMMITTED)
-public class ClassificationServiceImpl implements ClassificationService {
+public class ClassificationService {
     private final ClassificationRepository repository;
 
-    public ClassificationServiceImpl(ClassificationRepository repository) {
+    public ClassificationService(ClassificationRepository repository) {
         this.repository = repository;
     }
 
-    @Override
     public List<Classification> findAll() {
         return repository.findAll();
     }
 
-    @Override
-    public Optional<Classification> findByEntityId(@NotNull Long entityId) {
+    public Optional<Classification> findByEntityId(Long entityId) {
         return repository.findByEntityId(entityId);
     }
 
-    @Override
-    public Optional<Classification> findByName(@NotNull String name) {
+    public Optional<Classification> findByName(String name) {
         return repository.findByName(name);
     }
 
-    @Override
-    public Classification save(@NotNull Classification classification) {
-        return repository.preserve(classification);
+    public Classification save(Classification obj) {
+        return repository.preserve(obj);
     }
 
-    @Override
-    public Classification update(@NotNull Classification classification) {
-        return repository.update(classification);
+    public Classification update(Classification obj) {
+        return repository.update(obj);
     }
 
-    @Override
     public void deleteByEntityId(Long entityId) {
         repository.deleteByEntityId(entityId);
     }

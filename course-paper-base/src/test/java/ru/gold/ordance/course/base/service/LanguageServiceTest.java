@@ -5,10 +5,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ContextConfiguration;
 import ru.gold.ordance.course.base.TestConfiguration;
+import ru.gold.ordance.course.base.service.core.LanguageService;
 import ru.gold.ordance.course.persistence.entity.impl.Language;
 import ru.gold.ordance.course.common.exception.EntityNotFoundException;
 import ru.gold.ordance.course.persistence.repository.sub.LanguageRepository;
-import ru.gold.ordance.course.base.service.core.sub.LanguageService;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,6 +21,7 @@ import static ru.gold.ordance.course.common.utils.TestUtils.randomString;
 @DataJpaTest(showSql = false)
 @ContextConfiguration(classes = TestConfiguration.class)
 public class LanguageServiceTest {
+
     @Autowired
     private LanguageService service;
 

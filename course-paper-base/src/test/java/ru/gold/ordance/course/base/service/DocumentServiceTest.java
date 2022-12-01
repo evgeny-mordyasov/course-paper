@@ -6,12 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ContextConfiguration;
 import ru.gold.ordance.course.base.TestConfiguration;
+import ru.gold.ordance.course.base.service.core.DocumentService;
 import ru.gold.ordance.course.persistence.entity.impl.Classification;
 import ru.gold.ordance.course.persistence.entity.impl.Document;
 import ru.gold.ordance.course.common.exception.EntityNotFoundException;
 import ru.gold.ordance.course.persistence.repository.sub.ClassificationRepository;
 import ru.gold.ordance.course.persistence.repository.sub.DocumentRepository;
-import ru.gold.ordance.course.base.service.core.sub.DocumentService;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,6 +23,7 @@ import static ru.gold.ordance.course.common.utils.TestUtils.generateId;
 @DataJpaTest(showSql = false)
 @ContextConfiguration(classes = TestConfiguration.class)
 public class DocumentServiceTest {
+
     @Autowired
     private DocumentService service;
 
@@ -37,36 +38,6 @@ public class DocumentServiceTest {
     @BeforeEach
     public void setUp() {
         classification = classificationRepository.saveAndFlush(createClassification());
-    }
-
-    @Test
-    public void findAll_noOneHasBeenFound() {
-        int noOneHasBeenFound = 0;
-
-        List<Document> found = service.findAll();
-
-        assertEquals(noOneHasBeenFound, found.size());
-    }
-
-    @Test
-    public void findAll_foundOne() {
-        int foundOne = 1;
-        repository.preserve(createDocument(classification));
-
-        List<Document> found = service.findAll();
-
-        assertEquals(foundOne, found.size());
-    }
-
-    @Test
-    public void findAll_foundALot() {
-        int foundALot = 2;
-        repository.preserve(createDocument(classification));
-        repository.preserve(createDocument(classification));
-
-        List<Document> found = service.findAll();
-
-        assertEquals(foundALot, found.size());
     }
 
     @Test

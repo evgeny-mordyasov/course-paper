@@ -1,8 +1,8 @@
 package ru.gold.ordance.course.web.service.web.history;
 
+import ru.gold.ordance.course.base.service.core.HistoryService;
 import ru.gold.ordance.course.internal.api.request.history.*;
 import ru.gold.ordance.course.persistence.entity.impl.History;
-import ru.gold.ordance.course.base.service.core.sub.HistoryService;
 import ru.gold.ordance.course.web.mapper.HistoryMapper;
 
 import java.util.List;

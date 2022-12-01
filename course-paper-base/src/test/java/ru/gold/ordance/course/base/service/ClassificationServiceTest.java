@@ -5,10 +5,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ContextConfiguration;
 import ru.gold.ordance.course.base.TestConfiguration;
+import ru.gold.ordance.course.base.service.core.ClassificationService;
 import ru.gold.ordance.course.persistence.entity.impl.Classification;
 import ru.gold.ordance.course.common.exception.EntityNotFoundException;
 import ru.gold.ordance.course.persistence.repository.sub.ClassificationRepository;
-import ru.gold.ordance.course.base.service.core.sub.ClassificationService;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,6 +21,7 @@ import static ru.gold.ordance.course.common.utils.TestUtils.randomString;
 @DataJpaTest(showSql = false)
 @ContextConfiguration(classes = TestConfiguration.class)
 public class ClassificationServiceTest {
+
     @Autowired
     private ClassificationService service;
 

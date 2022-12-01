@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import ru.gold.ordance.course.common.exception.BannedException;
 import ru.gold.ordance.course.common.exception.UnauthorizedException;
 import ru.gold.ordance.course.internal.api.request.authorization.AuthorizationSignInRequest;
-import ru.gold.ordance.course.web.service.web.authorization.config.JwtConfig;
+import ru.gold.ordance.course.web.service.config.properties.JwtProperties;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
@@ -18,12 +18,12 @@ public class JwtProvider {
     private final static String TOKEN_PREFIX = "Bearer_";
 
     private final UserDetailsService service;
-    private final JwtConfig jwtConfig;
+    private final JwtProperties jwtProperties;
     private final AuthenticationManager manager;
 
-    public JwtProvider(UserDetailsService service, JwtConfig jwtConfig, AuthenticationManager manager) {
+    public JwtProvider(UserDetailsService service, JwtProperties jwtProperties, AuthenticationManager manager) {
         this.service = service;
-        this.jwtConfig = jwtConfig;
+        this.jwtProperties = jwtProperties;
         this.manager = manager;
     }
 
@@ -33,8 +33,8 @@ public class JwtProvider {
         return Jwts.builder()
                 .setClaims(Jwts.claims().setSubject(email))
                 .setIssuedAt(currentDate)
-                .setExpiration(new Date(currentDate.getTime() + jwtConfig.getExpirationMs()))
-                .signWith(SignatureAlgorithm.HS256, jwtConfig.getSecret())
+                .setExpiration(new Date(currentDate.getTime() + jwtProperties.getExpirationMs()))
+                .signWith(SignatureAlgorithm.HS256, jwtProperties.getSecret())
                 .compact();
     }
 
@@ -55,7 +55,7 @@ public class JwtProvider {
 
     private String getUsername(String token) {
         return Jwts.parser()
-                .setSigningKey(jwtConfig.getSecret())
+                .setSigningKey(jwtProperties.getSecret())
                 .parseClaimsJws(token)
                 .getBody()
                 .getSubject();

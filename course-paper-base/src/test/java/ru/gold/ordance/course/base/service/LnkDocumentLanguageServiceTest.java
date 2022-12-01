@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ContextConfiguration;
 import ru.gold.ordance.course.base.TestConfiguration;
+import ru.gold.ordance.course.base.service.core.LnkDocumentLanguageService;
 import ru.gold.ordance.course.persistence.entity.impl.Classification;
 import ru.gold.ordance.course.persistence.entity.impl.Document;
 import ru.gold.ordance.course.persistence.entity.impl.Language;
@@ -15,7 +16,6 @@ import ru.gold.ordance.course.persistence.repository.sub.ClassificationRepositor
 import ru.gold.ordance.course.persistence.repository.sub.DocumentRepository;
 import ru.gold.ordance.course.persistence.repository.sub.LanguageRepository;
 import ru.gold.ordance.course.persistence.repository.sub.LnkDocumentLanguageRepository;
-import ru.gold.ordance.course.base.service.core.sub.LnkDocumentLanguageService;
 
 import java.util.List;
 import java.util.Optional;
@@ -28,6 +28,7 @@ import static ru.gold.ordance.course.common.utils.TestUtils.randomString;
 @DataJpaTest(showSql = false)
 @ContextConfiguration(classes = TestConfiguration.class)
 public class LnkDocumentLanguageServiceTest {
+
     @Autowired
     private LnkDocumentLanguageService service;
 
@@ -83,24 +84,6 @@ public class LnkDocumentLanguageServiceTest {
         List<LnkDocumentLanguage> found = service.findAll();
 
         assertEquals(foundALot, found.size());
-    }
-
-    @Test
-    public void findById_notFound() {
-        long fakeId = generateId();
-
-        Optional<LnkDocumentLanguage> lnkDocumentLanguage = service.findByEntityId(fakeId);
-
-        assertTrue(lnkDocumentLanguage.isEmpty());
-    }
-
-    @Test
-    public void findById_found() {
-        LnkDocumentLanguage saved = repository.preserve(createLnk(document, language));
-
-        Optional<LnkDocumentLanguage> lnkDocumentLanguage = service.findByEntityId(saved.getEntityId());
-
-        assertTrue(lnkDocumentLanguage.isPresent());
     }
 
     @Test
@@ -169,24 +152,6 @@ public class LnkDocumentLanguageServiceTest {
 
     @Test
     public void save_urnAlreadyExists() {
-    }
-
-    @Test
-    public void deleteById_notFound() {
-        long fakeId = generateId();
-
-        assertThrows(EntityNotFoundException.class, () -> service.deleteByEntityId(fakeId));
-    }
-
-    @Test
-    public void deleteById_lnkExists() {
-        Long entityId = repository.preserve(createLnk(document, language)).getEntityId();
-
-        service.deleteByEntityId(entityId);
-
-        Optional<LnkDocumentLanguage> found = repository.findById(entityId);
-
-        assertFalse(found.isPresent());
     }
 
     @Test

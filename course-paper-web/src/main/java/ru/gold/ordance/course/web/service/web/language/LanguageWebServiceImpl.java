@@ -1,9 +1,9 @@
 package ru.gold.ordance.course.web.service.web.language;
 
+import ru.gold.ordance.course.base.service.core.LanguageService;
 import ru.gold.ordance.course.internal.api.request.EmptyResponse;
 import ru.gold.ordance.course.internal.api.request.language.*;
 import ru.gold.ordance.course.persistence.entity.impl.Language;
-import ru.gold.ordance.course.base.service.core.sub.LanguageService;
 import ru.gold.ordance.course.internal.api.request.Response;
 import ru.gold.ordance.course.web.mapper.LanguageMapper;
 

@@ -1,6 +1,9 @@
 package ru.gold.ordance.course.web.service.web.file.helper;
 
 import one.util.streamex.StreamEx;
+import ru.gold.ordance.course.base.service.core.DocumentService;
+import ru.gold.ordance.course.base.service.core.LanguageService;
+import ru.gold.ordance.course.base.service.core.LnkDocumentLanguageService;
 import ru.gold.ordance.course.common.exception.EntityNotFoundException;
 import ru.gold.ordance.course.internal.api.dto.File;
 import ru.gold.ordance.course.internal.api.request.file.*;
@@ -8,9 +11,6 @@ import ru.gold.ordance.course.internal.api.request.language.WebLanguage;
 import ru.gold.ordance.course.persistence.entity.impl.Document;
 import ru.gold.ordance.course.persistence.entity.impl.Language;
 import ru.gold.ordance.course.persistence.entity.impl.LnkDocumentLanguage;
-import ru.gold.ordance.course.base.service.core.sub.DocumentService;
-import ru.gold.ordance.course.base.service.core.sub.LanguageService;
-import ru.gold.ordance.course.base.service.core.sub.LnkDocumentLanguageService;
 import ru.gold.ordance.course.web.mapper.FileMapper;
 import ru.gold.ordance.course.web.mapper.LanguageMapper;
 
@@ -18,6 +18,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static ru.gold.ordance.course.persistence.repository.main.EntityRepository.getEntity;
 
 public class FileDatabaseHelper {
     private final DocumentService documentService;
@@ -54,8 +56,7 @@ public class FileDatabaseHelper {
 
     public WebFile findById(FileGetByIdRequest rq) {
         List<LnkDocumentLanguage> documentLanguages = lnkService.findByDocumentId(rq.getEntityId());
-        Document document = documentService.findByEntityId(rq.getEntityId())
-                .orElseThrow(EntityNotFoundException::new);
+        Document document = getEntity(documentService.findByEntityId(rq.getEntityId()));
 
         return fileMapper.toWebFile(document, documentLanguages);
     }
@@ -75,8 +76,7 @@ public class FileDatabaseHelper {
     }
 
     public String getUrn(Long documentId, Long languageId) {
-        LnkDocumentLanguage lnk = lnkService.findByDocumentIdAndLanguageId(documentId, languageId)
-                .orElseThrow(EntityNotFoundException::new);
+        LnkDocumentLanguage lnk = getEntity(lnkService.findByDocumentIdAndLanguageId(documentId, languageId));
 
         return lnk.getUrn();
     }
@@ -109,8 +109,7 @@ public class FileDatabaseHelper {
     }
 
     public WebFile patch(FilePatchRequest rq, String urn) {
-        Document document = documentService.findByEntityId(rq.getDocumentId())
-                .orElseThrow(EntityNotFoundException::new);
+        Document document = getEntity(documentService.findByEntityId(rq.getDocumentId()));
         lnkService.save(fileMapper.toLnk(rq.getDocumentId(), rq.getLanguageId(), urn));
 
         List<LnkDocumentLanguage> lnk = lnkService.findByDocumentId(document.getEntityId());
@@ -125,8 +124,7 @@ public class FileDatabaseHelper {
     }
 
     public void deleteByUrn(FileDeleteByUrnRequest rq) {
-        LnkDocumentLanguage foundLnk = lnkService.findByUrn(rq.getUrn())
-                .orElseThrow(EntityNotFoundException::new);
+        LnkDocumentLanguage foundLnk = getEntity(lnkService.findByUrn(rq.getUrn()));
 
         deleteRecordInDatabase(foundLnk);
     }

@@ -1,15 +1,14 @@
 package ru.gold.ordance.course.web.service.config;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import ru.gold.ordance.course.base.service.core.sub.*;
+import ru.gold.ordance.course.base.service.core.*;
 import ru.gold.ordance.course.web.mapper.*;
 import ru.gold.ordance.course.web.service.web.authorization.AuthorizationWebService;
 import ru.gold.ordance.course.web.service.web.authorization.EmailSenderWebService;
-import ru.gold.ordance.course.web.service.web.authorization.config.JwtConfig;
 import ru.gold.ordance.course.web.service.web.authorization.impl.AuthorizationWebServiceImpl;
 import ru.gold.ordance.course.web.service.web.authorization.impl.EmailSenderWebServiceImpl;
 import ru.gold.ordance.course.web.service.web.authorization.jwt.JwtProvider;
@@ -28,6 +27,7 @@ import ru.gold.ordance.course.web.service.web.language.LanguageWebService;
 import ru.gold.ordance.course.web.service.web.language.LanguageWebServiceImpl;
 
 @Configuration
+@ConfigurationPropertiesScan
 public class WebServiceConfiguration {
 
     @Bean
@@ -78,15 +78,9 @@ public class WebServiceConfiguration {
     }
 
     @Bean
-    public EmailSenderWebService emailSenderWebService(EmailSenderService emailSenderService,
+    public EmailSenderWebService emailSenderWebService(MailSenderService mailSenderService,
                                                        ConfirmationTokenService confirmationTokenService) {
-        return new EmailSenderWebServiceImpl(emailSenderService, confirmationTokenService);
-    }
-
-    @Bean
-    @ConfigurationProperties(prefix = "jwt")
-    public JwtConfig jwtConfig() {
-        return new JwtConfig();
+        return new EmailSenderWebServiceImpl(mailSenderService, confirmationTokenService);
     }
 
     @Bean

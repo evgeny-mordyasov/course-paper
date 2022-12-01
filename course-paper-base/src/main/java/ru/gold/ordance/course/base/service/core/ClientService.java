@@ -1,11 +1,8 @@
-package ru.gold.ordance.course.base.service.core.sub.impl;
+package ru.gold.ordance.course.base.service.core;
 
-import com.sun.istack.NotNull;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
-import ru.gold.ordance.course.base.service.core.sub.ClientService;
-import ru.gold.ordance.course.common.exception.EntityNotFoundException;
 import ru.gold.ordance.course.persistence.entity.impl.Client;
 import ru.gold.ordance.course.persistence.repository.sub.ClientRepository;
 
@@ -15,35 +12,31 @@ import java.util.List;
 import java.util.Optional;
 
 import static ru.gold.ordance.course.common.utils.TestUtils.not;
+import static ru.gold.ordance.course.persistence.repository.main.EntityRepository.getEntity;
 
 @Transactional(isolation = Isolation.READ_COMMITTED)
-public class ClientServiceImpl implements ClientService {
+public class ClientService {
     private final ClientRepository repository;
-
     private final PasswordEncoder encoder;
 
-    public ClientServiceImpl(ClientRepository repository, PasswordEncoder encoder) {
+    public ClientService(ClientRepository repository, PasswordEncoder encoder) {
         this.repository = repository;
         this.encoder = encoder;
     }
 
-    @Override
     public List<Client> findAll() {
         return repository.findAll();
     }
 
-    @Override
-    public Optional<Client> findByEntityId(@NotNull Long entityId) {
+    public Optional<Client> findByEntityId(Long entityId) {
         return repository.findByEntityId(entityId);
     }
 
-    @Override
-    public Optional<Client> findByEmail(@NotNull String email) {
+    public Optional<Client> findByEmail(String email) {
         return repository.findByEmail(email);
     }
 
-    @Override
-    public Client save(@NotNull Client client) {
+    public Client save(Client client) {
         Client fullClient = client.toBuilder()
                 .withPassword(encoder.encode(client.getPassword()))
                 .build();
@@ -51,10 +44,8 @@ public class ClientServiceImpl implements ClientService {
         return repository.preserve(fullClient);
     }
 
-    @Override
-    public Client update(@NotNull Client client) {
-        Client clientFromDb = repository.findByEntityId(client.getEntityId())
-                .orElseThrow(EntityNotFoundException::new);
+    public Client update(Client client) {
+        Client clientFromDb = getEntity(repository.findByEntityId(client.getEntityId()));
 
         Client updatedClient = clientFromDb.toBuilder()
                 .withSurname(client.getSurname())
@@ -77,10 +68,8 @@ public class ClientServiceImpl implements ClientService {
         return fromDatabase.getPassword();
     }
 
-    @Override
-    public void deleteByEntityId(@NotNull Long entityId) {
-        Client clientFromDb = repository.findByEntityId(entityId)
-                .orElseThrow(EntityNotFoundException::new);
+    public void deleteByEntityId(Long entityId) {
+        Client clientFromDb = getEntity(repository.findByEntityId(entityId));
 
         Client updatedClient = clientFromDb.toBuilder()
                 .withLastModifiedDate(LocalDateTime.now(ZoneOffset.UTC))

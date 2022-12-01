@@ -3,15 +3,14 @@ package ru.gold.ordance.course.web.service.web.authorization.userdetails;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import ru.gold.ordance.course.common.exception.EntityNotFoundException;
+import ru.gold.ordance.course.base.service.core.ClientService;
 import ru.gold.ordance.course.persistence.entity.impl.Client;
-import ru.gold.ordance.course.base.service.core.sub.ClientService;
 
 import java.util.Collections;
 
-public class UserDetailsServiceImpl implements UserDetailsService {
+import static ru.gold.ordance.course.persistence.repository.main.EntityRepository.getEntity;
 
+public class UserDetailsServiceImpl implements UserDetailsService {
     private final ClientService service;
 
     public UserDetailsServiceImpl(ClientService service) {
@@ -19,9 +18,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Client client = service.findByEmail(email)
-                .orElseThrow(EntityNotFoundException::new);
+    public UserDetails loadUserByUsername(String email) {
+        Client client = getEntity(service.findByEmail(email));
 
         return new UserDetailsImpl(
                 client.getEntityId(),

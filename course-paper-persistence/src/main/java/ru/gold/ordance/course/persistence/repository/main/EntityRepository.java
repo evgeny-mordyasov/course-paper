@@ -13,6 +13,10 @@ public interface EntityRepository<ENTITY extends AbstractEntity> extends Refresh
     List<ENTITY> findAll();
     Optional<ENTITY> findByEntityId(Long entityId);
 
+    static <T> T getEntity(Optional<T> entity) {
+        return entity.orElseThrow(EntityNotFoundException::new);
+    }
+
     default ENTITY defaultPreserve(ENTITY entity) {
         if (entity instanceof ContainingInternalEntity) {
             exists(((ContainingInternalEntity) entity).getInternalEntities());
