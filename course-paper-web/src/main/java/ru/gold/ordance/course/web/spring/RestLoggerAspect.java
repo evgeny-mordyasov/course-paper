@@ -15,11 +15,11 @@ public class RestLoggerAspect {
     private RestLoggerAspect() {
     }
 
-    @Pointcut("target(ru.gold.ordance.course.web.service.web.WebService)")
+    @Pointcut("target(ru.gold.ordance.course.web.service.WebService)")
     public void classesThatAreWebService() {
     }
 
-    @Pointcut("target(ru.gold.ordance.course.web.service.web.WebService) && args(rq)")
+    @Pointcut("target(ru.gold.ordance.course.web.service.WebService) && args(rq)")
     public void classesThatAreWebServiceWithArg(Request rq) {
     }
 

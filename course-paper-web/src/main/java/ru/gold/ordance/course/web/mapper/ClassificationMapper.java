@@ -5,10 +5,33 @@ import ru.gold.ordance.course.internal.api.domain.classification.request.Classif
 import ru.gold.ordance.course.internal.api.domain.classification.model.WebClassification;
 import ru.gold.ordance.course.persistence.entity.impl.Classification;
 
-public interface ClassificationMapper {
-    Classification toClassification(ClassificationSaveRequest rq);
+public final class ClassificationMapper {
+    private static final ClassificationMapper INSTANCE = new ClassificationMapper();
 
-    Classification toClassification(ClassificationUpdateRequest rq);
+    private ClassificationMapper() {
+    }
 
-    WebClassification fromClassification(Classification classification);
+    public static ClassificationMapper instance() {
+        return INSTANCE;
+    }
+
+    public Classification toClassification(ClassificationSaveRequest rq) {
+        return Classification.builder()
+                .withName(rq.getName())
+                .build();
+    }
+
+    public Classification toClassification(ClassificationUpdateRequest rq) {
+        return Classification.builder()
+                .withEntityId(rq.getEntityId())
+                .withName(rq.getName())
+                .build();
+    }
+
+    public WebClassification fromClassification(Classification classification) {
+        return WebClassification.builder()
+                .withEntityId(classification.getEntityId())
+                .withName(classification.getName())
+                .build();
+    }
 }

@@ -22,7 +22,19 @@ public class Status {
         return new Status(StatusCode.CALL_ERROR, msg);
     }
 
+    public StatusCode getCode() {
+        return code;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    @Override
     public String toString() {
-        return "Status{code=" + this.code + ", description='" + this.description + '\'' + '}';
+        return "Status{" +
+                "code=" + code +
+                ", description='" + description + '\'' +
+                '}';
     }
 }
