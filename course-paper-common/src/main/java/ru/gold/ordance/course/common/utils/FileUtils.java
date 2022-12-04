@@ -13,8 +13,4 @@ public final class FileUtils {
     public static String getFileName(String fullFileName) {
         return fullFileName.substring(0, fullFileName.indexOf("."));
     }
-
-    public static String randomFileName() {
-        return "" + Instant.now().toEpochMilli();
-    }
 }

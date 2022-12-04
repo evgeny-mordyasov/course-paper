@@ -12,21 +12,10 @@ import java.util.Optional;
 public interface LnkDocumentLanguageRepository extends EntityRepository<LnkDocumentLanguage> {
     List<LnkDocumentLanguage> findByDocument_EntityId(Long documentId);
     List<LnkDocumentLanguage> findByDocument_Classification_EntityId(Long classificationId);
-    Optional<LnkDocumentLanguage> findByUrn(String URN);
     Optional<LnkDocumentLanguage> findByDocument_EntityIdAndLanguage_EntityId(Long documentId, Long languageId);
     Long countLnkDocumentLanguagesByDocument_EntityId(Long documentId);
 
     default LnkDocumentLanguage preserve(LnkDocumentLanguage lnkDocumentLanguage) {
         return defaultPreserve(lnkDocumentLanguage);
-    }
-
-    default void deleteByUrn(String urn) {
-        Optional<LnkDocumentLanguage> lnk = findByUrn(urn);
-
-        if (lnk.isEmpty()) {
-            throw new EntityNotFoundException();
-        }
-
-        deleteById(lnk.get().getEntityId());
     }
 }

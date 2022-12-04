@@ -14,6 +14,5 @@ public class WebDocumentLanguage implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private final WebLanguage language;
-    private final String urn;
-    private final String url;
+    private final String resource;
 }

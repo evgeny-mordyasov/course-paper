@@ -1,6 +1,5 @@
 package ru.gold.ordance.course.persistence.repository.main.impl;
 
-import lombok.NonNull;
 import org.springframework.data.jpa.repository.support.JpaEntityInformation;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import ru.gold.ordance.course.common.exception.EntityNotFoundException;

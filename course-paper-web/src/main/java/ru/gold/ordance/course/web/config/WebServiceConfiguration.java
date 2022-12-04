@@ -1,6 +1,5 @@
 package ru.gold.ordance.course.web.config;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,8 +14,6 @@ import ru.gold.ordance.course.web.service.authorization.userdetails.UserDetailsS
 import ru.gold.ordance.course.web.service.ClassificationWebService;
 import ru.gold.ordance.course.web.service.ClientWebService;
 import ru.gold.ordance.course.web.service.FileWebService;
-import ru.gold.ordance.course.web.service.helper.FileDatabaseHelper;
-import ru.gold.ordance.course.web.service.helper.FileSystemHelper;
 import ru.gold.ordance.course.web.service.HistoryWebService;
 import ru.gold.ordance.course.web.service.LanguageWebService;
 
@@ -31,8 +28,8 @@ public class WebServiceConfiguration {
     }
 
     @Bean
-    public ClassificationWebService classificationWebService(ClassificationService service, FileWebService fileService) {
-        return new ClassificationWebService(service, fileService);
+    public ClassificationWebService classificationWebService(ClassificationService service) {
+        return new ClassificationWebService(service);
     }
 
     @Bean
@@ -41,20 +38,10 @@ public class WebServiceConfiguration {
     }
 
     @Bean
-    public FileDatabaseHelper fileDatabaseHelper(DocumentService documentService,
-                                                 LnkDocumentLanguageService lnkService,
-                                                 LanguageService languageService) {
-        return new FileDatabaseHelper(documentService, lnkService, languageService);
-    }
-
-    @Bean
-    public FileSystemHelper fileSystemHelper(@Value("${spring.servlet.multipart.location}") String storagePath) {
-        return new FileSystemHelper(storagePath);
-    }
-
-    @Bean
-    public FileWebService fileWebService(FileDatabaseHelper databaseHelper, FileSystemHelper systemHelper) {
-        return new FileWebService(databaseHelper, systemHelper);
+    public FileWebService fileWebService(DocumentService documentService,
+                                         LnkDocumentLanguageService lnkService,
+                                         LanguageService languageService) {
+        return new FileWebService(documentService, lnkService, languageService);
     }
 
     @Bean

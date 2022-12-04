@@ -1,96 +1,159 @@
 package ru.gold.ordance.course.web.service;
 
-import org.springframework.core.io.Resource;
+import one.util.streamex.StreamEx;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.transaction.annotation.Transactional;
+import ru.gold.ordance.course.base.service.core.DocumentService;
+import ru.gold.ordance.course.base.service.core.LanguageService;
+import ru.gold.ordance.course.base.service.core.LnkDocumentLanguageService;
+import ru.gold.ordance.course.common.exception.EntityNotFoundException;
 import ru.gold.ordance.course.common.exception.FileAlreadyExistsException;
+import ru.gold.ordance.course.internal.api.domain.EmptySuccessfulResponse;
+import ru.gold.ordance.course.internal.api.domain.Response;
 import ru.gold.ordance.course.internal.api.domain.file.model.WebFile;
 import ru.gold.ordance.course.internal.api.domain.file.request.*;
 import ru.gold.ordance.course.internal.api.domain.file.response.*;
-import ru.gold.ordance.course.internal.api.dto.File;
-import ru.gold.ordance.course.web.service.helper.FileDatabaseHelper;
-import ru.gold.ordance.course.web.service.helper.FileSystemHelper;
+import ru.gold.ordance.course.persistence.entity.impl.Document;
+import ru.gold.ordance.course.persistence.entity.impl.Language;
+import ru.gold.ordance.course.persistence.entity.impl.LnkDocumentLanguage;
+import ru.gold.ordance.course.web.dto.FileResource;
+import ru.gold.ordance.course.web.mapper.FileMapper;
+import ru.gold.ordance.course.web.mapper.LanguageMapper;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import static ru.gold.ordance.course.persistence.repository.main.EntityRepository.getEntity;
 
 public class FileWebService implements WebService {
-    private final FileDatabaseHelper databaseHelper;
-    private final FileSystemHelper fileSystemHelper;
+    private final DocumentService documentService;
+    private final LnkDocumentLanguageService lnkService;
+    private final LanguageService languageService;
+    private final FileMapper fileMapper;
+    private final LanguageMapper languageMapper;
 
-    public FileWebService(FileDatabaseHelper databaseHelper,
-                          FileSystemHelper fileSystemHelper) {
-        this.databaseHelper = databaseHelper;
-        this.fileSystemHelper = fileSystemHelper;
+    public FileWebService(DocumentService documentService, LnkDocumentLanguageService lnkService, LanguageService languageService) {
+        this.documentService = documentService;
+        this.lnkService = lnkService;
+        this.languageService = languageService;
+        this.fileMapper = FileMapper.instance();
+        this.languageMapper = LanguageMapper.instance();
     }
 
     public FileGetListResponse findAll() {
-        return FileGetListResponse.success(databaseHelper.findAll());
+        List<LnkDocumentLanguage> allFiles = lnkService.findAll();
+
+        return FileGetListResponse.success(getFiles(allFiles));
     }
 
-    public FileGetEntityResponse findById(FileGetByIdRequest rq) {
-        return FileGetEntityResponse.success(databaseHelper.findById(rq));
+    private List<WebFile> getFiles(List<LnkDocumentLanguage> files) {
+        var documentAndLanguages = StreamEx.of(files)
+                .groupingBy(LnkDocumentLanguage::getDocument)
+                .entrySet();
+
+        return fileMapper.toWebFile(documentAndLanguages);
+    }
+
+    public Response findById(FileGetByIdRequest rq) {
+        List<LnkDocumentLanguage> documentLanguages = lnkService.findByDocumentId(rq.getEntityId());
+
+        if (documentLanguages.isEmpty()) {
+            return new EmptySuccessfulResponse();
+        }
+
+        return FileGetEntityResponse.success(fileMapper.toWebFile(documentLanguages.get(0).getDocument(), documentLanguages));
+    }
+
+    public FileGetListResponse getFilesByClassificationId(FileGetByClassificationIdRequest rq) {
+        List<LnkDocumentLanguage> list = lnkService.findByClassificationId(rq.getClassificationId());
+
+        return FileGetListResponse.success(getFiles(list));
     }
 
     public FileGetFreeLanguagesByIdResponse getFreeLanguages(FileGetFreeLanguagesByIdRequest rq) {
-        return FileGetFreeLanguagesByIdResponse.success(databaseHelper.getFreeLanguages(rq));
+        List<Language> languagesDocument =
+                lnkService.findByDocumentId(rq.getEntityId())
+                        .stream()
+                        .map(LnkDocumentLanguage::getLanguage)
+                        .collect(Collectors.toList());
+
+        if (languagesDocument.isEmpty()) {
+            throw new EntityNotFoundException();
+        }
+
+        List<Language> allLanguages = languageService.findAll();
+        allLanguages.removeAll(languagesDocument);
+
+        return FileGetFreeLanguagesByIdResponse.success(
+                allLanguages.stream()
+                        .map(languageMapper::fromLanguage)
+                        .collect(Collectors.toList()));
     }
 
     @Transactional
     public FileSaveResponse save(FileSaveRequest rq) throws IOException {
-        File stored = fileSystemHelper.getFile(rq.getFile());
+        Document document = documentService.save(fileMapper.toDocument(rq.getFile(), rq.getClassificationId()));
+        LnkDocumentLanguage lnk = lnkService.save(
+                fileMapper.toLnk(document.getEntityId(), rq.getLanguageId(), rq.getFile().getInputStream().readAllBytes()));
 
-        WebFile webFile = databaseHelper.save(stored, rq.getClassificationId(), rq.getLanguageId());
-        fileSystemHelper.save(rq.getFile(), stored);
-
-        return FileSaveResponse.success(webFile);
+        return FileSaveResponse.success(fileMapper.toWebFile(document, Collections.singletonList(lnk)));
     }
 
     @Transactional
     public FileSaveResponse patch(FilePatchRequest rq) throws IOException {
-        if (databaseHelper.isExistsLanguageForDocument(rq.getLanguageId(), rq.getDocumentId())) {
+        if (isExistsLanguageForDocument(rq.getLanguageId(), rq.getDocumentId())) {
             throw new FileAlreadyExistsException("The language of the file already exists.");
         }
 
-        File stored = fileSystemHelper.getFile(rq.getFile());
+        Document document = getEntity(documentService.findByEntityId(rq.getDocumentId()));
+        lnkService.save(fileMapper.toLnk(rq.getDocumentId(), rq.getLanguageId(), rq.getFile().getInputStream().readAllBytes()));
 
-        WebFile webFile = databaseHelper.patch(rq, stored.getUrn());
-        fileSystemHelper.save(rq.getFile(), stored);
+        List<LnkDocumentLanguage> lnk = lnkService.findByDocumentId(document.getEntityId());
 
-        return FileSaveResponse.success(webFile);
+        return FileSaveResponse.success(fileMapper.toWebFile(document, lnk));
     }
 
-    public Resource load(FileGetByIdAndLanguageIdRequest rq) throws Exception {
-        String urn = databaseHelper.getUrn(rq.getDocumentId(), rq.getLanguageId());
-
-        return fileSystemHelper.getResource(urn);
+    private boolean isExistsLanguageForDocument(Long languageId, Long documentId) {
+        Optional<LnkDocumentLanguage> lnk = lnkService.findByDocumentIdAndLanguageId(documentId, languageId);
+        return lnk.isPresent();
     }
 
-    @Transactional
-    public FileDeleteResponse deleteByUrn(FileDeleteByUrnRequest rq) throws IOException {
-        databaseHelper.deleteByUrn(rq);
-        fileSystemHelper.deleteByUrn(rq.getUrn());
+    public FileResource load(FileGetByIdAndLanguageIdRequest rq) {
+        LnkDocumentLanguage lnk = getEntity(lnkService.findByDocumentIdAndLanguageId(rq.getDocumentId(), rq.getLanguageId()));
+
+        return FileResource.builder()
+                .withData(new ByteArrayResource(lnk.getData()))
+                .withFullFileName(lnk.getDocument().getFullName())
+                .build();
+    }
+
+    public FileDeleteResponse deleteById(FileDeleteByIdRequest rq) {
+        documentService.deleteByEntityId(rq.getEntityId());
 
         return FileDeleteResponse.success();
     }
 
-    public FileDeleteResponse deleteById(FileDeleteByIdRequest rq) throws IOException {
-        List<String> urns = databaseHelper.deleteById(rq);
-        fileSystemHelper.deleteByUrn(urns);
+    public FileDeleteResponse deleteByDocumentIdAndLanguageId(FileDeleteByIdAndLanguageIdRequest rq) {
+        LnkDocumentLanguage lnk = getEntity(lnkService.findByDocumentIdAndLanguageId(rq.getDocumentId(), rq.getLanguageId()));
+        deleteRecordInDatabase(lnk);
 
         return FileDeleteResponse.success();
     }
 
-    public List<String> getFilesByClassificationId(Long classificationId) {
-        return databaseHelper.getUrns(classificationId);
+    private void deleteRecordInDatabase(LnkDocumentLanguage lnk) {
+        if (isOneRecordByDocumentId(lnk.getDocument().getEntityId())) {
+            documentService.deleteByEntityId(lnk.getDocument().getEntityId());
+        } else {
+            lnkService.deleteByEntityId(lnk.getEntityId());
+        }
     }
 
-    public FileGetListResponse getFilesByClassificationId(FileGetByClassificationIdRequest rq) {
-        return FileGetListResponse.success(databaseHelper.findByClassificationId(rq.getClassificationId()));
+    private boolean isOneRecordByDocumentId(Long documentId) {
+        Long quantityByDocumentId = lnkService.getQuantityByDocumentId(documentId);
+        return quantityByDocumentId == 1;
     }
 
-    public void deleteSystemFiles(List<String> urns) {
-        try {
-            fileSystemHelper.deleteByUrn(urns);
-        } catch (Exception ignored) {}
-    }
 }

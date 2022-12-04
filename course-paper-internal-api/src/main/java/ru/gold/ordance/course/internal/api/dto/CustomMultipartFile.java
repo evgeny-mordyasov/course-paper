@@ -10,7 +10,9 @@ import java.io.InputStream;
 @Getter
 @ToString
 public class CustomMultipartFile {
-    private final String originalFilename;
+    private final String fullFileName;
+    private final String fileName;
+    private final String extension;
     private final InputStream inputStream;
     private final boolean isEmpty;
     private final long size;

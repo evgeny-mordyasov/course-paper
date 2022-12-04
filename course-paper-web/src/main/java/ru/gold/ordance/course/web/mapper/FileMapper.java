@@ -1,6 +1,6 @@
 package ru.gold.ordance.course.web.mapper;
 
-import ru.gold.ordance.course.internal.api.dto.File;
+import ru.gold.ordance.course.internal.api.dto.CustomMultipartFile;
 import ru.gold.ordance.course.internal.api.domain.classification.model.WebClassification;
 import ru.gold.ordance.course.internal.api.domain.file.model.WebDocument;
 import ru.gold.ordance.course.internal.api.domain.file.model.WebDocumentLanguage;
@@ -17,8 +17,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public final class FileMapper {
-    private static final FileMapper INSTANCE = new FileMapper();
     private static final String RESOURCE_URL = "http://localhost:8090/api/v1/files/resource?documentId=%s&languageId=%s";
+    private static final FileMapper INSTANCE = new FileMapper();
 
     private FileMapper() {
     }
@@ -27,33 +27,18 @@ public final class FileMapper {
         return INSTANCE;
     }
 
-    public Document toDocument(File stored, Long classificationId) {
+    public Document toDocument(CustomMultipartFile file, Long classificationId) {
         return Document.builder()
                 .withClassification(Classification.builder()
                         .withEntityId(classificationId)
                         .build())
-                .withFullName(stored.getFullFileName())
-                .withName(stored.getFileName())
-                .withExtension(stored.getExtension())
+                .withFullName(file.getFullFileName())
+                .withName(file.getFileName())
+                .withExtension(file.getExtension())
                 .build();
     }
 
-    public LnkDocumentLanguage toLnk(Document document, Long languageId, String urn) {
-        return LnkDocumentLanguage.builder()
-                .withDocument(Document.builder()
-                        .withEntityId(document.getEntityId())
-                        .withClassification(Classification.builder()
-                                .withEntityId(document.getClassification().getEntityId())
-                                .build())
-                        .build())
-                .withLanguage(Language.builder()
-                        .withEntityId(languageId)
-                        .build())
-                .withUrn(urn)
-                .build();
-    }
-
-    public LnkDocumentLanguage toLnk(Long documentId, Long languageId, String urn) {
+    public LnkDocumentLanguage toLnk(Long documentId, Long languageId, byte[] data) {
         return LnkDocumentLanguage.builder()
                 .withDocument(Document.builder()
                         .withEntityId(documentId)
@@ -62,7 +47,7 @@ public final class FileMapper {
                 .withLanguage(Language.builder()
                         .withEntityId(languageId)
                         .build())
-                .withUrn(urn)
+                .withData(data)
                 .build();
     }
 
@@ -86,16 +71,15 @@ public final class FileMapper {
                                         .withEntityId(lnk.getLanguage().getEntityId())
                                         .withName(lnk.getLanguage().getName())
                                         .build())
-                                .withUrn(lnk.getUrn())
-                                .withUrl(String.format(RESOURCE_URL, lnk.getDocument().getEntityId(), lnk.getLanguage().getEntityId()))
+                                .withResource(String.format(RESOURCE_URL, lnk.getDocument().getEntityId(), lnk.getLanguage().getEntityId()))
                                 .build())
                         .collect(Collectors.toList()))
                 .build();
     }
 
-    public List<WebFile> toWebFile(Set<Map.Entry<Long, List<LnkDocumentLanguage>>> set) {
+    public List<WebFile> toWebFile(Set<Map.Entry<Document, List<LnkDocumentLanguage>>> set) {
         return set.stream()
-                .map(e -> toWebFile(e.getValue().get(0).getDocument(), e.getValue()))
+                .map(e -> toWebFile(e.getKey(), e.getValue()))
                 .collect(Collectors.toList());
     }
 }

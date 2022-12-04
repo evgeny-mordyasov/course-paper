@@ -86,26 +86,6 @@ public class LnkDocumentLanguageServiceTest {
     }
 
     @Test
-    public void findByUrn_notFound() {
-        String fakeURN = randomString();
-
-        Optional<LnkDocumentLanguage> lnkDocumentLanguage = service.findByUrn(fakeURN);
-
-        assertTrue(lnkDocumentLanguage.isEmpty());
-    }
-
-    @Test
-    public void findByUrn_found() {
-        final String URN = randomString();
-
-        LnkDocumentLanguage saved = repository.preserve(createLnk(document, language, URN));
-
-        Optional<LnkDocumentLanguage> lnkDocumentLanguage = service.findByUrn(saved.getUrn());
-
-        assertTrue(lnkDocumentLanguage.isPresent());
-    }
-
-    @Test
     public void findQuantityByDocumentId_noOneHasBeenFound() {
         Long noOneHasBeenFound = 0L;
         Long fakeDocumentId = 999L;
@@ -146,29 +126,9 @@ public class LnkDocumentLanguageServiceTest {
         assertTrue(found.isPresent());
         assertEquals(saved.getDocument(), found.get().getDocument());
         assertEquals(saved.getLanguage(), found.get().getLanguage());
-        assertEquals(saved.getUrn(), found.get().getUrn());
     }
 
     @Test
     public void save_urnAlreadyExists() {
-    }
-
-    @Test
-    public void deleteByUrn_notFound() {
-        String fakeUrn = randomString();
-
-        assertThrows(EntityNotFoundException.class, () -> service.deleteByUrn(fakeUrn));
-    }
-
-    @Test
-    public void deleteByUrn_lnkExists() {
-        final String URN = randomString();
-
-        repository.preserve(createLnk(document, language, URN));
-        service.deleteByUrn(URN);
-
-        Optional<LnkDocumentLanguage> found = repository.findByUrn(URN);
-
-        assertFalse(found.isPresent());
     }
 }

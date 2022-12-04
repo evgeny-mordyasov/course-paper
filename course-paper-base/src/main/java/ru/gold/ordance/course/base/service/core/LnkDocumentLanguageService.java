@@ -24,10 +24,6 @@ public class LnkDocumentLanguageService {
         return repository.findByDocument_EntityId(documentId);
     }
 
-    public Optional<LnkDocumentLanguage> findByUrn(String urn) {
-        return repository.findByUrn(urn);
-    }
-
     public Optional<LnkDocumentLanguage> findByDocumentIdAndLanguageId(Long documentId, Long languageId) {
         return repository.findByDocument_EntityIdAndLanguage_EntityId(documentId, languageId);
     }
@@ -44,7 +40,7 @@ public class LnkDocumentLanguageService {
         return repository.preserve(obj);
     }
 
-    public void deleteByUrn(String urn) {
-        repository.deleteByUrn(urn);
+    public void deleteByEntityId(Long entityId) {
+        repository.deleteByEntityId(entityId);
     }
 }

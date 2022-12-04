@@ -41,8 +41,9 @@ public class LnkDocumentLanguage implements AbstractEntity, ContainingInternalEn
     @JoinColumn(name = "LANGUAGE_ID")
     private final Language language;
 
-    @Column(name = "URN")
-    private final String urn;
+    @Column(name = "DATA")
+    @ToString.Exclude
+    private byte[] data;
 
     @Override
     public List<AbstractEntity> getInternalEntities() {

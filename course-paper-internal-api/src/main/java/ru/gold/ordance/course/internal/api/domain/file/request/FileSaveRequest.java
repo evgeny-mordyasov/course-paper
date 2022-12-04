@@ -5,7 +5,6 @@ import ru.gold.ordance.course.internal.api.domain.Request;
 import ru.gold.ordance.course.internal.api.dto.CustomMultipartFile;
 
 import static ru.gold.ordance.course.common.constants.FileExtension.isFromWhitelist;
-import static ru.gold.ordance.course.common.utils.FileUtils.getFileExtension;
 import static ru.gold.ordance.course.internal.api.utils.ValidatorUtils.*;
 
 @Builder(toBuilder = true)
@@ -25,8 +24,8 @@ public class FileSaveRequest implements Request {
         errorObjectId(getClassificationId(), "classificationId");
         errorObjectId(getLanguageId(), "languageId");
         errorTrue(getFile().isEmpty(), "The file is missing.");
-        errorString(getFile().getOriginalFilename(), "fileName");
-        errorFalse(isFromWhitelist(getFileExtension(getFile().getOriginalFilename())), "The file extension not supported.");
+        errorString(getFile().getFullFileName(), "fileName");
+        errorFalse(isFromWhitelist(getFile().getExtension()), "The file extension not supported.");
         errorFalse(getFile().getSize() <= 1024 * 1024 * 5, "The file size exceeds 5 MB.");
     }
 }

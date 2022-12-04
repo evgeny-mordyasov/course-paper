@@ -11,16 +11,20 @@ spring:
       mode: never
   servlet:
     multipart:
-      location: /usr/local/storage
       max-file-size: -1
 
-jwt:
-  secret: ru.gold.ordance
-  expirationMs: 1200000
-
-
-persistence:
-  postgres:
-    url: jdbc:postgresql://docs_db:5432/docs
-    username: docs
-    password: qwe123
+module-properties:
+  mail:
+    sender: course.paper.asu@mail.ru
+    password: vXX6Aas5ErCy9ndrTVPU
+    host: smtp.mail.ru
+    port: 465
+    protocol: smtps
+  jwt:
+    secret: ru.gold.ordance
+    expirationMs: 1200000
+  persistence:
+    postgres:
+      url: jdbc:postgresql://docs_db:5432/docs
+      username: docs
+      password: qwe123

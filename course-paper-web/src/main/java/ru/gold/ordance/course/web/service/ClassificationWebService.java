@@ -16,12 +16,10 @@ import java.util.stream.Collectors;
 public class ClassificationWebService implements WebService {
     private final ClassificationService service;
     private final ClassificationMapper mapper;
-    private final FileWebService fileService;
 
-    public ClassificationWebService(ClassificationService service, FileWebService fileService) {
+    public ClassificationWebService(ClassificationService service) {
         this.service = service;
         this.mapper = ClassificationMapper.instance();
-        this.fileService = fileService;
     }
 
     public ClassificationGetListResponse findAll() {
@@ -59,10 +57,7 @@ public class ClassificationWebService implements WebService {
 
     @Transactional
     public ClassificationDeleteResponse deleteById(ClassificationDeleteByIdRequest rq) {
-        List<String> urns = fileService.getFilesByClassificationId(rq.getEntityId());
-
         service.deleteByEntityId(rq.getEntityId());
-        fileService.deleteSystemFiles(urns);
 
         return ClassificationDeleteResponse.success();
     }

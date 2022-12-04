@@ -67,15 +67,6 @@ public final class EntityGenerator {
         return LnkDocumentLanguage.builder()
                 .withDocument(doc)
                 .withLanguage(lang)
-                .withUrn(randomString())
-                .build();
-    }
-
-    public static LnkDocumentLanguage createLnk(Document doc, Language lang, String urn) {
-        return LnkDocumentLanguage.builder()
-                .withDocument(doc)
-                .withLanguage(lang)
-                .withUrn(urn)
                 .build();
     }
 }

@@ -25,8 +25,8 @@ public class FilePatchRequest implements Request {
         errorObjectId(getDocumentId(), "classificationId");
         errorObjectId(getLanguageId(), "languageId");
         errorTrue(getFile().isEmpty(), "The file is missing.");
-        errorString(getFile().getOriginalFilename(), "fileName");
-        errorFalse(isFromWhitelist(getFileExtension(getFile().getOriginalFilename())), "The file extension not supported.");
+        errorString(getFile().getFullFileName(), "fileName");
+        errorFalse(isFromWhitelist(getFile().getExtension()), "The file extension not supported.");
         errorFalse(getFile().getSize() <= 1024 * 1024 * 5, "The file size exceeds 5 MB.");
     }
 }
