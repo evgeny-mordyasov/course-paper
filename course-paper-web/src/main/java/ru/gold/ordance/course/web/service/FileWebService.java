@@ -121,6 +121,7 @@ public class FileWebService implements WebService {
         return lnk.isPresent();
     }
 
+    @Transactional
     public FileResource load(FileGetByIdAndLanguageIdRequest rq) {
         LnkDocumentLanguage lnk = getEntity(lnkService.findByDocumentIdAndLanguageId(rq.getDocumentId(), rq.getLanguageId()));
 

@@ -42,6 +42,7 @@ public class LnkDocumentLanguage implements AbstractEntity, ContainingInternalEn
     private final Language language;
 
     @Column(name = "DATA")
+    @Basic(fetch = FetchType.LAZY)
     @ToString.Exclude
     private byte[] data;
 
