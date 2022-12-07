@@ -1,7 +1,10 @@
 package ru.gold.ordance.course.web.service;
 
+import org.springframework.security.authentication.*;
 import org.springframework.transaction.annotation.Transactional;
 import ru.gold.ordance.course.base.service.core.ClientService;
+import ru.gold.ordance.course.common.exception.BannedException;
+import ru.gold.ordance.course.common.exception.UnauthorizedException;
 import ru.gold.ordance.course.internal.api.domain.authorization.request.AuthorizationConfirmAccountRequest;
 import ru.gold.ordance.course.internal.api.domain.authorization.request.AuthorizationSignInRequest;
 import ru.gold.ordance.course.internal.api.domain.authorization.request.AuthorizationSignUpRequest;
@@ -20,17 +23,19 @@ public class AuthorizationWebService implements WebService {
     private final ClientMapper mapper;
     private final JwtProvider provider;
     private final EmailSenderWebService emailSenderService;
+    private final AuthenticationManager authenticationManager;
 
     public AuthorizationWebService(ClientService clientService,
                                    JwtProvider provider,
-                                   EmailSenderWebService emailSenderService) {
+                                   EmailSenderWebService emailSenderService,
+                                   AuthenticationManager authenticationManager) {
         this.clientService = clientService;
         this.mapper = ClientMapper.instance();
         this.provider = provider;
         this.emailSenderService = emailSenderService;
+        this.authenticationManager = authenticationManager;
     }
 
-    @Transactional
     public AuthorizationSignUpResponse signUp(AuthorizationSignUpRequest rq) {
         Client savedClient = clientService.save(mapper.toClient(rq));
         emailSenderService.send(savedClient);
@@ -39,10 +44,22 @@ public class AuthorizationWebService implements WebService {
     }
 
     public AuthorizationSignInResponse signIn(AuthorizationSignInRequest rq) {
-        provider.authenticate(rq);
+        authenticate(rq);
         Client client = getEntity(clientService.findByEmail(rq.getEmail()));
 
         return AuthorizationSignInResponse.success(mapper.fromClient(client), provider.createToken(rq.getEmail()));
+    }
+
+    private void authenticate(AuthorizationSignInRequest rq) {
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(rq.getEmail(), rq.getPassword()));
+
+        } catch (BadCredentialsException | InternalAuthenticationServiceException e) {
+            throw new UnauthorizedException();
+        } catch (LockedException e) {
+            throw new BannedException();
+        }
     }
 
     public AuthorizationConfirmAccountResponse confirmAccount(AuthorizationConfirmAccountRequest rq) {

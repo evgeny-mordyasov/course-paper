@@ -4,9 +4,11 @@ import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import ru.gold.ordance.course.base.service.config.ServiceConfiguration;
 import ru.gold.ordance.course.base.service.core.*;
+import ru.gold.ordance.course.web.config.properties.JwtProperties;
 import ru.gold.ordance.course.web.service.AuthorizationWebService;
 import ru.gold.ordance.course.web.service.EmailSenderWebService;
 import ru.gold.ordance.course.web.service.authorization.jwt.JwtProvider;
@@ -52,8 +54,9 @@ public class WebServiceConfiguration {
     @Bean
     public AuthorizationWebService authorizationWebService(ClientService clientService,
                                                            JwtProvider jwtProvider,
-                                                           EmailSenderWebService emailSenderService) {
-        return new AuthorizationWebService(clientService, jwtProvider, emailSenderService);
+                                                           EmailSenderWebService emailSenderService,
+                                                           AuthenticationManager authenticationManager) {
+        return new AuthorizationWebService(clientService, jwtProvider, emailSenderService, authenticationManager);
     }
 
     @Bean
@@ -65,5 +68,10 @@ public class WebServiceConfiguration {
     @Bean
     public UserDetailsService userDetailsService(ClientService service) {
         return new UserDetailsServiceImpl(service);
+    }
+
+    @Bean
+    public JwtProvider jwtProvider(UserDetailsService service, JwtProperties jwtProp) {
+        return new JwtProvider(service, jwtProp);
     }
 }

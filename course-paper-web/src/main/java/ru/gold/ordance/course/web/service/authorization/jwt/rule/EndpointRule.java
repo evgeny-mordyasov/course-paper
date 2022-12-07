@@ -6,29 +6,37 @@ public class EndpointRule {
     private final EndpointMethod endpointMethod;
     private final String url;
 
-    public EndpointRule(EndpointMethod endpointMethod, String url) {
+    private EndpointRule(EndpointMethod endpointMethod, String url) {
         this.endpointMethod = endpointMethod;
         this.url = url;
     }
 
     public static EndpointRule all(String url) {
-        return new EndpointRule(new EndpointMethod(), url + "/**");
+        return method(null, url);
+    }
+
+    public static EndpointRule get(String url) {
+        return method(HttpMethod.GET, url);
     }
 
     public static EndpointRule post(String url) {
-        return new EndpointRule(new EndpointMethod(HttpMethod.POST), url);
+        return method(HttpMethod.POST, url);
     }
 
     public static EndpointRule put(String url) {
-        return new EndpointRule(new EndpointMethod(HttpMethod.PUT), url);
+        return method(HttpMethod.PUT, url);
     }
 
     public static EndpointRule patch(String url) {
-        return new EndpointRule(new EndpointMethod(HttpMethod.PATCH), url);
+        return method(HttpMethod.PATCH, url);
     }
 
     public static EndpointRule delete(String url) {
-        return new EndpointRule(new EndpointMethod(HttpMethod.DELETE), url);
+        return method(HttpMethod.DELETE, url);
+    }
+
+    private static EndpointRule method(HttpMethod method, String url) {
+        return new EndpointRule(new EndpointMethod(method), url);
     }
 
     public boolean isAllMethods() {

@@ -9,10 +9,6 @@ public class EndpointMethod {
         this.httpMethod = httpMethod;
     }
 
-    public EndpointMethod() {
-        httpMethod = null;
-    }
-
     public HttpMethod getHttpMethod() {
         return httpMethod;
     }
