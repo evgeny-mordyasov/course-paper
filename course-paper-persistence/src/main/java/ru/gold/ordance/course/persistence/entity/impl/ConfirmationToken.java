@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
-import java.util.UUID;
+import java.util.concurrent.ThreadLocalRandom;
 
 @Entity
 @Table(name = "CONFIRMATION_TOKEN")
@@ -24,6 +24,9 @@ import java.util.UUID;
 @ToString
 public class ConfirmationToken implements AbstractEntity, ContainingInternalEntity {
     private static final long serialVersionUID = 1L;
+
+    private static final int MIN_TOKEN_VALUE = 100000;
+    private static final int MAX_TOKEN_VALUE = 999999;
 
     @Id
     @Column(name = "ENTITY_ID")
@@ -39,7 +42,7 @@ public class ConfirmationToken implements AbstractEntity, ContainingInternalEnti
     private final Long entityId;
 
     @Column(name = "TOKEN")
-    private final String token = UUID.randomUUID().toString();
+    private final String token = generateToken();
 
     @Column(name = "EXPIRY_DATE")
     private final LocalDateTime expiryDate = calculateExpiryDate();
@@ -49,7 +52,7 @@ public class ConfirmationToken implements AbstractEntity, ContainingInternalEnti
     private final Client client;
 
     private LocalDateTime calculateExpiryDate() {
-        Instant instant = Instant.now().plus(24, ChronoUnit.HOURS);
+        Instant instant = Instant.now().plus(1, ChronoUnit.HOURS);
         return LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
     }
 
@@ -60,5 +63,9 @@ public class ConfirmationToken implements AbstractEntity, ContainingInternalEnti
     @Override
     public List<AbstractEntity> getInternalEntities() {
         return List.of(client);
+    }
+
+    private static String generateToken() {
+        return String.valueOf(ThreadLocalRandom.current().nextInt(MIN_TOKEN_VALUE, MAX_TOKEN_VALUE + 1));
     }
 }

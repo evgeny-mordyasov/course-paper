@@ -1,7 +1,6 @@
 package ru.gold.ordance.course.web.service;
 
 import org.springframework.security.authentication.*;
-import org.springframework.transaction.annotation.Transactional;
 import ru.gold.ordance.course.base.service.core.ClientService;
 import ru.gold.ordance.course.common.exception.BannedException;
 import ru.gold.ordance.course.common.exception.UnauthorizedException;
@@ -63,7 +62,7 @@ public class AuthorizationWebService implements WebService {
     }
 
     public AuthorizationConfirmAccountResponse confirmAccount(AuthorizationConfirmAccountRequest rq) {
-        ConfirmationToken confirmationToken = emailSenderService.getByToken(rq.getToken());
+        ConfirmationToken confirmationToken = emailSenderService.getByToken(rq.getClientId(), rq.getToken());
 
         if (confirmationToken.isExpired()) {
             return AuthorizationConfirmAccountResponse.banned();

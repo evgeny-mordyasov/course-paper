@@ -8,7 +8,7 @@ import java.util.Optional;
 
 @Repository
 public interface ConfirmationTokenRepository extends EntityRepository<ConfirmationToken> {
-    Optional<ConfirmationToken> findByToken(String token);
+    Optional<ConfirmationToken> findByClient_EntityIdAndAndToken(Long clientId, String token);
 
     default ConfirmationToken preserve(ConfirmationToken confirmationToken) {
         return defaultPreserve(confirmationToken);

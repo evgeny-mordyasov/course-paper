@@ -30,8 +30,9 @@ public class AuthorizationRestController {
         return execute(() -> service.signIn(rq));
     }
 
-    @GetMapping(value = Endpoint.Authorization.CONFIRM_ACCOUNT, params = "token", produces = JSON)
-    public Response confirmAccount(@RequestParam("token") String token) {
-        return execute(() -> service.confirmAccount(new AuthorizationConfirmAccountRequest(token)));
+    @PostMapping(value = Endpoint.Authorization.CONFIRM_ACCOUNT, produces = JSON)
+    public Response confirmAccount(@RequestParam("clientId") Long clientId,
+                                   @RequestParam("token") String token) {
+        return execute(() -> service.confirmAccount(new AuthorizationConfirmAccountRequest(clientId, token)));
     }
 }

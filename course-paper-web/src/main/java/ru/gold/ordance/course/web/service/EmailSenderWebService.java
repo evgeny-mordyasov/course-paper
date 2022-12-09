@@ -31,7 +31,7 @@ public class EmailSenderWebService implements WebService {
         return token;
     }
 
-    public ConfirmationToken getByToken(String token) {
-        return getEntity(confirmationTokenService.findByToken(token));
+    public ConfirmationToken getByToken(Long clientId, String token) {
+        return getEntity(confirmationTokenService.findByClientIdAndToken(clientId, token));
     }
 }

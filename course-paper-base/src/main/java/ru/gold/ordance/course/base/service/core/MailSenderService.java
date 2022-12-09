@@ -7,7 +7,7 @@ import ru.gold.ordance.course.persistence.entity.impl.ConfirmationToken;
 
 public class MailSenderService {
     private final static String SUBJECT = "Complete registration";
-    private final static String TEXT = "To confirm your account, please click here: http://localhost:8090/api/v1/authorizations/confirm-account?token=";
+    private final static String TEXT = "To confirm your account, please enter the code in the registration field: ";
 
     private final JavaMailSender jms;
     private final String sender;

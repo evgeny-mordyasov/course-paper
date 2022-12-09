@@ -15,8 +15,8 @@ public class ConfirmationTokenService {
         this.repository = repository;
     }
 
-    public Optional<ConfirmationToken> findByToken(String token) {
-        return repository.findByToken(token);
+    public Optional<ConfirmationToken> findByClientIdAndToken(Long clientId, String token) {
+        return repository.findByClient_EntityIdAndAndToken(clientId, token);
     }
 
     public ConfirmationToken save(ConfirmationToken obj) {
