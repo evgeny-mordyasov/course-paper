@@ -16,7 +16,8 @@ public final class EndpointPermitConstant {
             all(Endpoint.Authorization.BASE_URL + "/**"),
             all(Endpoint.History.BASE_URL + "/**"),
             get(Endpoint.Classification.BASE_URL + "/**"),
-            get(Endpoint.File.BASE_URL + "/**")
+            get(Endpoint.File.BASE_URL + "/**"),
+            get(Endpoint.Language.BASE_URL + "/**")
     );
 
     private static final List<EndpointRule> ADMIN_RULES = List.of(
