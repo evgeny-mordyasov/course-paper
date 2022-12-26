@@ -15,6 +15,7 @@ public final class EndpointPermitConstant {
     private static final List<EndpointRule> ANONYMOUS_RULES = List.of(
             all(Endpoint.Authorization.BASE_URL + "/**"),
             all(Endpoint.History.BASE_URL + "/**"),
+            all("/api/v1/me/**"),
             get(Endpoint.Classification.BASE_URL + "/**"),
             get(Endpoint.File.BASE_URL + "/**"),
             get(Endpoint.Language.BASE_URL + "/**")
